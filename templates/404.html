@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}404 - Không tìm thấy trang{% endblock %}
+
+{% block content %}
+
+<section class="min-h-screen bg-[#f6f1ea] flex items-center justify-center px-6 py-20">
+
+    <div class="max-w-6xl w-full grid lg:grid-cols-2 rounded-[40px] overflow-hidden shadow-2xl">
+
+        <!-- LEFT -->
+        <div class="relative bg-black text-white p-14 lg:p-20 overflow-hidden">
+
+            <!-- background image -->
+            <img src="{{ url_for('uploaded_file', filename='fashion-model.png') }}"
+                 class="absolute inset-0 w-full h-full object-cover opacity-25"
+                 alt="Fashion">
+
+            <!-- overlay -->
+            <div class="absolute inset-0 bg-black/75"></div>
+
+            <!-- circles -->
+            <div class="absolute -bottom-32 -right-32 w-[420px] h-[420px] border border-[#d8b46c]/20 rounded-full"></div>
+            <div class="absolute -bottom-20 -right-20 w-[280px] h-[280px] border border-[#d8b46c]/20 rounded-full"></div>
+
+            <!-- stars -->
+            <div class="absolute top-20 left-20 w-1 h-1 bg-white rounded-full opacity-70"></div>
+            <div class="absolute top-40 right-32 w-1.5 h-1.5 bg-[#d8b46c] rounded-full opacity-70"></div>
+            <div class="absolute bottom-40 left-32 w-1 h-1 bg-white rounded-full opacity-60"></div>
+
+            <div class="relative z-10">
+
+                <p class="uppercase tracking-[0.35em] text-sm text-[#d8b46c] mb-6">
+                    ERROR PAGE
+                </p>
+
+                <h1 class="text-6xl md:text-7xl font-serif font-black leading-tight text-white mb-6">
+                    404
+                </h1>
+
+                <div class="w-32 h-[2px] bg-[#d8b46c] mb-8"></div>
+
+                <p class="text-xl text-gray-300 leading-9 mb-10">
+                    Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.
+                </p>
+
+                <div class="space-y-5">
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full border border-[#d8b46c] flex items-center justify-center text-[#d8b46c]">
+                            <i class="fas fa-star"></i>
+                        </div>
+
+                        <span class="text-lg">
+                            Trải nghiệm thời trang cao cấp
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full border border-[#d8b46c] flex items-center justify-center text-[#d8b46c]">
+                            <i class="fas fa-gem"></i>
+                        </div>
+
+                        <span class="text-lg">
+                            Bộ sưu tập sang trọng mới nhất
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="bg-white p-14 lg:p-20 flex flex-col justify-center">
+
+            <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
+                PAGE NOT FOUND
+            </p>
+
+            <h2 class="text-5xl md:text-6xl font-serif font-black text-black leading-tight mb-6">
+                Không tìm thấy trang
+            </h2>
+
+            <div class="w-32 h-[2px] bg-[#d8b46c] mb-10"></div>
+
+            <p class="text-lg text-gray-500 leading-8 mb-12">
+                Có thể đường dẫn đã thay đổi hoặc trang không còn tồn tại trong hệ thống.
+            </p>
+
+            <div class="space-y-5">
+
+                <a href="{{ url_for('home') }}"
+                   class="w-full bg-black hover:bg-[#1a1a1a] text-white py-5 rounded-2xl text-center font-semibold tracking-[0.2em] uppercase transition shadow-xl">
+                    <i class="fas fa-home mr-2"></i>
+                    Về trang chủ
+                </a>
+
+                <a href="{{ url_for('products') }}"
+                   class="w-full border border-black py-5 rounded-2xl text-center font-semibold uppercase hover:bg-black hover:text-white transition">
+                    <i class="fas fa-shopping-bag mr-2"></i>
+                    Tiếp tục mua sắm
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

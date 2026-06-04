@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}Thanh toán đơn hàng - Fashion Store{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-[#f6f1ea] py-16 px-4">
+
+    <div class="max-w-6xl mx-auto">
+
+        <!-- TITLE -->
+        <div class="text-center mb-14">
+
+            <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
+                Payment
+            </p>
+
+            <h1 class="text-5xl font-serif font-black text-black">
+                Thanh toán đơn hàng
+            </h1>
+
+            <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
+
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-10">
+
+            <!-- LEFT -->
+            <div class="bg-white rounded-[32px] shadow-2xl border border-[#eadcc3] overflow-hidden">
+
+                <div class="bg-black text-white px-8 py-8">
+
+                    <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-3">
+                        ORDER SUMMARY
+                    </p>
+
+                    <h2 class="text-4xl font-serif font-black">
+                        Thông tin đơn hàng
+                    </h2>
+
+                </div>
+
+                <div class="p-8">
+
+                    <div class="space-y-5">
+
+                        <div class="flex justify-between border-b border-gray-200 pb-4">
+                            <span class="text-gray-500">
+                                Mã đơn hàng
+                            </span>
+
+                            <span class="font-bold text-black">
+                                #{{ order.id[:8] }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between border-b border-gray-200 pb-4">
+                            <span class="text-gray-500">
+                                Tổng thanh toán
+                            </span>
+
+                            <span class="font-bold text-2xl text-[#b08a3c]">
+                                {{ format_price(order.total) }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between border-b border-gray-200 pb-4">
+                            <span class="text-gray-500">
+                                Phương thức
+                            </span>
+
+                            <span class="font-semibold text-black">
+                                {% if order.payment_method == 'banking' %}
+                                Chuyển khoản ngân hàng
+                                {% elif order.payment_method == 'momo' %}
+                                Ví MoMo
+                                {% else %}
+                                {{ order.payment_method }}
+                                {% endif %}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <!-- GUIDE -->
+                    <div class="mt-8 bg-[#faf7f2] rounded-2xl p-6 border border-[#eadcc3]">
+
+                        <h3 class="text-2xl font-serif font-bold mb-5 text-black">
+                            Hướng dẫn thanh toán
+                        </h3>
+
+                        <div class="space-y-4 text-gray-700">
+
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-600 mt-1 mr-3"></i>
+
+                                <p>
+                                    Chuyển đúng số tiền:
+                                    <strong class="text-red-600">
+                                        {{ format_price(order.total) }}
+                                    </strong>
+                                </p>
+                            </div>
+
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-600 mt-1 mr-3"></i>
+
+                                <p>
+                                    Nội dung:
+                                    <strong>
+                                        ORDER{{ order.id[:8] }}
+                                    </strong>
+                                </p>
+                            </div>
+
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-600 mt-1 mr-3"></i>
+
+                                <p>
+                                    Hệ thống xác nhận tự động sau vài phút
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+            <div class="bg-white rounded-[32px] shadow-2xl border border-[#eadcc3] overflow-hidden">
+
+                <div class="bg-black text-white px-8 py-8 text-center">
+
+                    <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-3">
+                        QR PAYMENT
+                    </p>
+
+                    <h2 class="text-4xl font-serif font-black">
+                        Quét mã thanh toán
+                    </h2>
+
+                </div>
+
+                <div class="p-10 text-center">
+
+                    {% if order.payment_method == 'banking' and bank_info %}
+
+                    <div class="bg-[#faf7f2] rounded-3xl border border-[#eadcc3] p-6 inline-block">
+
+                        <img src="{{ bank_info.qr }}"
+                             alt="QR Payment"
+                             class="w-72 h-72 object-contain mx-auto mb-5 rounded-2xl">
+
+                        <p class="text-sm text-gray-500 mb-3">
+                            Quét mã bằng ứng dụng ngân hàng
+                        </p>
+
+                        <p class="font-bold text-xl text-[#b08a3c]">
+                            {{ format_price(order.total) }}
+                        </p>
+
+                    </div>
+
+                    {% elif order.payment_method == 'momo' %}
+
+                    <div class="bg-pink-50 rounded-3xl border border-pink-200 p-10">
+
+                        <div class="w-72 h-72 mx-auto bg-white rounded-3xl flex items-center justify-center mb-6">
+
+                            <i class="fas fa-mobile-alt text-7xl text-pink-400"></i>
+
+                        </div>
+
+                        <p class="text-gray-600 mb-3">
+                            Thanh toán bằng ứng dụng MoMo
+                        </p>
+
+                        <p class="font-bold text-2xl text-pink-600">
+                            {{ format_price(order.total) }}
+                        </p>
+
+                    </div>
+
+                    {% endif %}
+
+                    <!-- BUTTONS -->
+                    <div class="mt-10 space-y-4">
+
+                        <a href="{{ url_for('order_detail', order_id=order.id) }}"
+                           class="block w-full bg-black hover:bg-[#1a1a1a] text-white py-4 rounded-2xl transition font-bold">
+
+                            <i class="fas fa-check mr-2"></i>
+                            Đã thanh toán
+
+                        </a>
+
+                        <a href="{{ url_for('my_orders') }}"
+                           class="block w-full border border-black py-4 rounded-2xl hover:bg-black hover:text-white transition font-semibold">
+
+                            <i class="fas fa-list mr-2"></i>
+                            Xem đơn hàng
+
+                        </a>
+
+                    </div>
+
+                    <p class="text-sm text-gray-500 mt-8">
+                        Sau khi thanh toán, hệ thống sẽ xử lý đơn hàng trong vòng 5-10 phút.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

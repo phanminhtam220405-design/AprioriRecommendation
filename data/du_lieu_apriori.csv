@@ -1,0 +1,56 @@
+﻿InvoiceID,ProductID,ProductName,Category,Size,Color,Quantity,Price,OrderDate
+HD001,SP001,Áo thun nam basic,Áo thun,M,Đen,2,199000,1/1/2025
+HD001,SP002,Quần jean nam slimfit,Quần jean,32,Xanh,1,499000,1/1/2025
+HD002,SP003,Áo hoodie unisex,Hoodie,L,Trắng,1,450000,1/2/2025
+HD002,SP004,Nón lưỡi trai,Nón,FreeSize,Đen,1,120000,1/2/2025
+HD003,SP005,Áo sơ mi nữ,Sơ mi,S,Hồng,2,350000,1/3/2025
+HD003,SP006,Chân váy tennis,Váy,M,Trắng,1,280000,1/3/2025
+HD004,SP007,Áo khoác bomber,Áo khoác,XL,Xám,1,650000,1/4/2025
+HD004,SP008,Quần jogger,Quần jogger,L,Đen,2,320000,1/4/2025
+HD005,SP009,Áo croptop nữ,Croptop,S,Trắng,1,180000,1/5/2025
+HD005,SP010,Quần short jean,Quần short,M,Xanh,1,250000,1/5/2025
+HD006,SP011,Áo polo nam,Áo polo,L,Trắng,2,320000,1/6/2025
+HD006,SP012,Quần kaki nam,Quần kaki,31,Kem,1,420000,1/6/2025
+HD007,SP013,Áo len cổ lọ,Áo len,M,Nâu,1,390000,1/7/2025
+HD007,SP014,Khăn choàng cổ,Phụ kiện,FreeSize,Be,1,150000,1/7/2025
+HD008,SP015,Đầm nữ công sở,Đầm,M,Đỏ,1,550000,1/8/2025
+HD008,SP016,Giày cao gót,Giày,37,Đen,1,620000,1/8/2025
+HD009,SP017,Áo blazer nữ,Blazer,L,Kem,1,720000,1/9/2025
+HD009,SP018,Quần tây nữ,Quần tây,M,Đen,1,410000,1/9/2025
+HD010,SP019,Áo sweater unisex,Sweater,XL,Xám,2,360000,1/10/2025
+HD010,SP020,Quần cargo,Quần cargo,32,Rêu,1,450000,1/10/2025
+HD011,SP021,Áo ba lỗ nam,Áo tanktop,L,Trắng,3,150000,1/11/2025
+HD011,SP022,Quần short thể thao,Quần short,L,Đen,2,220000,1/11/2025
+HD012,SP023,Áo cardigan nữ,Cardigan,M,Hồng,1,430000,1/12/2025
+HD012,SP024,Chân váy chữ A,Váy,S,Đen,1,290000,1/12/2025
+HD013,SP025,Áo sơ mi caro,Sơ mi,XL,Xanh,2,340000,1/13/2025
+HD013,SP026,Quần jean rách,Quần jean,33,Xanh,1,530000,1/13/2025
+HD014,SP027,Áo thun oversize,Áo thun,XL,Trắng,1,260000,1/14/2025
+HD014,SP028,Túi tote,Phụ kiện,FreeSize,Kem,1,180000,1/14/2025
+HD015,SP029,Áo vest nam,Vest,L,Đen,1,950000,1/15/2025
+HD015,SP030,Cà vạt,Phụ kiện,FreeSize,Đỏ,1,120000,1/15/2025
+HD016,SP031,Áo khoác jean,Áo khoác,M,Xanh,1,580000,1/16/2025
+HD016,SP032,Quần baggy nữ,Quần baggy,M,Đen,1,320000,1/16/2025
+HD017,SP033,Áo giữ nhiệt,Áo giữ nhiệt,L,Đen,2,270000,1/17/2025
+HD017,SP034,Quần legging,Legging,M,Đen,2,210000,1/17/2025
+HD018,SP035,Áo sơ mi trắng,Sơ mi,M,Trắng,2,350000,1/18/2025
+HD018,SP036,Chân váy bút chì,Váy,M,Đen,1,310000,1/18/2025
+HD019,SP037,Áo hoodie zip,Hoodie,XL,Đen,1,490000,1/19/2025
+HD019,SP038,Quần jogger túi hộp,Jogger,XL,Xám,1,390000,1/19/2025
+HD020,SP039,Áo polo nữ,Áo polo,S,Hồng,1,280000,1/20/2025
+HD020,SP040,Quần short kaki,Quần short,S,Kem,1,240000,1/20/2025
+HD001,SP001,Áo thun nam basic,Áo thun,M,Đen,2,199000,1/1/2025
+HD021,SP041,NULL,Áo thun,M,Đen,1,220000,1/21/2025
+HD022,SP042,Quần jean baggy,Quần jean,NULL,Xanh,1,450000,1/22/2025
+HD023,SP001,ao thun nam basic,Áo thun,M,Đen,1,199000,1/23/2025
+HD024,SP001,ÁO THUN NAM BASIC,Áo thun,L,Trắng,1,199000,1/24/2025
+HD100,SP001,Áo thun Basic,Áo thun,M,Đen,1,199000,1/1/2025
+HD100,SP002,Quần Jeans Nam,Quần,30,Xanh đậm,1,549000,1/1/2025
+HD101,SP001,Áo thun Basic,Áo thun,L,Trắng,1,199000,1/2/2025
+HD101,SP002,Quần Jeans Nam,Quần,31,Đen,1,549000,1/2/2025
+HD102,SP003,Áo khoác Hoodie,Áo khoác,M,Xám,1,399000,1/3/2025
+HD102,SP006,Quần short Nam,Quần,L,Đen,1,189000,1/3/2025
+HD103,SP003,Áo khoác Hoodie,Áo khoác,L,Nâu,1,399000,1/4/2025
+HD103,SP006,Quần short Nam,Quần,M,Xanh,1,189000,1/4/2025
+HD104,SP003,Áo khoác Hoodie,Áo khoác,XL,Xám,1,399000,1/5/2025
+HD104,SP001,Áo thun Basic,Áo thun,M,Trắng,1,199000,1/5/2025

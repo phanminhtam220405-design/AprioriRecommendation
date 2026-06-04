@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-[#f6f1ea] flex items-center justify-center px-6 py-16">
+
+    <div class="w-full max-w-6xl bg-white rounded-[2rem] shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+
+       <!-- LEFT -->
+<div class="relative hidden md:flex flex-col justify-between overflow-hidden bg-black text-white p-14">
+
+    <!-- Background -->
+    <img src="{{ url_for('uploaded_file', filename='fashion-model.png') }}"
+         class="absolute inset-0 w-full h-full object-cover opacity-35"
+         alt="Fashion">
+
+    <div class="absolute inset-0 bg-black/75"></div>
+
+    <!-- Stars -->
+    <div class="absolute inset-0">
+        <div class="absolute top-10 left-16 w-1 h-1 bg-white rounded-full opacity-80"></div>
+        <div class="absolute top-24 left-40 w-1.5 h-1.5 bg-[#d8b46c] rounded-full opacity-70"></div>
+        <div class="absolute top-40 right-24 w-1 h-1 bg-white rounded-full opacity-60"></div>
+        <div class="absolute bottom-40 right-32 w-1 h-1 bg-white rounded-full"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10">
+
+        <p class="uppercase tracking-[0.35em] text-sm text-[#d8b46c] mb-6">
+            New Member
+        </p>
+
+        <h2 class="text-4xl md:text-5xl font-serif font-black text-white leading-tight">
+            Hành trình
+            <br>
+            thời trang
+        </h2>
+
+        <div class="w-28 h-[2px] bg-[#d8b46c] mt-6 mb-8"></div>
+
+        <p class="text-gray-300 text-lg leading-8">
+            Tạo tài khoản để khám phá bộ sưu tập thời trang cao cấp và ưu đãi độc quyền.
+        </p>
+
+        <!-- Fashion image -->
+        <div class="mt-10 relative">
+
+            <img src="{{ url_for('uploaded_file', filename='fashion.png') }}"
+                 class="w-full h-[240px] object-cover rounded-3xl shadow-2xl"
+                 alt="Fashion">
+
+            <div class="absolute inset-0 rounded-3xl bg-gradient-to-t from-black/70 to-transparent"></div>
+
+            <div class="absolute bottom-6 left-6 z-10">
+            
+               
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Features -->
+    <div class="relative z-10 space-y-5 mt-10">
+
+        <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-full border border-[#d8b46c] flex items-center justify-center text-[#d8b46c]">
+                ✓
+            </div>
+            <span>Mua sắm nhanh chóng</span>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-full border border-[#d8b46c] flex items-center justify-center text-[#d8b46c]">
+                ✓
+            </div>
+            <span>Ưu đãi thành viên VIP</span>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-full border border-[#d8b46c] flex items-center justify-center text-[#d8b46c]">
+                ✓
+            </div>
+            <span>Theo dõi đơn hàng dễ dàng</span>
+        </div>
+
+    </div>
+
+</div>
+        <!-- RIGHT -->
+        <div class="p-10 md:p-16">
+
+            <div class="mb-10 text-center">
+                <p class="uppercase tracking-[0.3em] text-xs text-[#b08a3c] mb-4">
+                    Create Account
+                </p>
+
+                <h2 class="text-5xl md:text-6xl font-serif font-black text-black leading-none">
+                    Đăng ký
+                </h2>
+
+                <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5 mb-6"></div>
+
+                <p class="text-gray-500">
+                    Tạo tài khoản để bắt đầu mua sắm
+                </p>
+            </div>
+
+            <form method="post" class="space-y-5">
+
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700">
+                        Họ và tên
+                    </label>
+
+                    <input type="text"
+                           name="name"
+                           required
+                           placeholder="Nhập họ và tên"
+                           class="w-full rounded-xl border border-gray-300 px-5 py-4 focus:outline-none focus:border-[#b08a3c] focus:ring-2 focus:ring-[#d8b46c]/30">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700">
+                        Email
+                    </label>
+
+                    <input type="email"
+                           name="email"
+                           required
+                           placeholder="Nhập email"
+                           class="w-full rounded-xl border border-gray-300 px-5 py-4 focus:outline-none focus:border-[#b08a3c] focus:ring-2 focus:ring-[#d8b46c]/30">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700">
+                        Số điện thoại
+                    </label>
+
+                    <input type="tel"
+                           name="phone"
+                           placeholder="Nhập số điện thoại"
+                           class="w-full rounded-xl border border-gray-300 px-5 py-4 focus:outline-none focus:border-[#b08a3c] focus:ring-2 focus:ring-[#d8b46c]/30">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700">
+                        Mật khẩu
+                    </label>
+
+                    <input type="password"
+                           name="password"
+                           required
+                           placeholder="Nhập mật khẩu"
+                           class="w-full rounded-xl border border-gray-300 px-5 py-4 focus:outline-none focus:border-[#b08a3c] focus:ring-2 focus:ring-[#d8b46c]/30">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700">
+                        Xác nhận mật khẩu
+                    </label>
+
+                    <input type="password"
+                           name="confirm_password"
+                           required
+                           placeholder="Nhập lại mật khẩu"
+                           class="w-full rounded-xl border border-gray-300 px-5 py-4 focus:outline-none focus:border-[#b08a3c] focus:ring-2 focus:ring-[#d8b46c]/30">
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-black text-white py-4 rounded-xl text-lg tracking-[0.15em] uppercase border border-[#d8b46c]/30 hover:bg-[#1c1c1c] transition shadow-2xl">
+                    Đăng ký
+                </button>
+
+            </form>
+
+            <div class="mt-8 text-center text-gray-600">
+                Đã có tài khoản?
+                <a href="{{ url_for('login') }}"
+                   class="text-[#9a742d] font-bold hover:underline">
+                    Đăng nhập
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

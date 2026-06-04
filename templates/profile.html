@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-screen bg-[#f6f1ea] py-16 px-6">
+
+    <div class="container mx-auto">
+
+        <!-- TITLE -->
+        <div class="text-center mb-14">
+
+            <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
+                My Profile
+            </p>
+
+            <h1 class="text-5xl font-serif font-black text-black">
+                Thông tin tài khoản
+            </h1>
+
+            <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
+
+        </div>
+
+        <!-- PROFILE CARD -->
+        <div class="max-w-3xl mx-auto bg-white rounded-[2rem] shadow-2xl border border-[#eadcc3] overflow-hidden">
+
+            <!-- HEADER -->
+            <div class="bg-black text-white px-10 py-10 text-center">
+
+                <div class="w-28 h-28 rounded-full bg-[#d8b46c]/10 border border-[#d8b46c]/30 mx-auto flex items-center justify-center mb-6">
+
+                    <i class="fas fa-user text-4xl text-[#d8b46c]"></i>
+
+                </div>
+
+                <p class="uppercase tracking-[0.35em] text-xs text-[#d8b46c] mb-3">
+                    Account Information
+                </p>
+
+                <h2 class="text-4xl font-serif font-black">
+                    Hồ sơ cá nhân
+                </h2>
+
+            </div>
+
+            <!-- FORM -->
+            <div class="p-10">
+
+                <form method="post" class="space-y-7">
+
+                    <!-- NAME -->
+                    <div>
+
+                        <label class="block mb-3 font-semibold text-gray-800">
+                            Họ và tên
+                        </label>
+
+                        <input type="text"
+                               name="name"
+                               value="{{ user.name }}"
+                               required
+                               class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c] focus:ring-2 focus:ring-[#d8b46c]/20 transition">
+
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div>
+
+                        <label class="block mb-3 font-semibold text-gray-800">
+                            Email
+                        </label>
+
+                        <input type="email"
+                               value="{{ session.user.email }}"
+                               disabled
+                               class="w-full border border-gray-200 rounded-2xl px-5 py-4 bg-[#f8f5ef] text-gray-500">
+
+                    </div>
+
+                    <!-- PHONE -->
+                    <div>
+
+                        <label class="block mb-3 font-semibold text-gray-800">
+                            Số điện thoại
+                        </label>
+
+                        <input type="tel"
+                               name="phone"
+                               value="{{ user.phone }}"
+                               class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c] focus:ring-2 focus:ring-[#d8b46c]/20 transition">
+
+                    </div>
+
+                    <!-- ADDRESS -->
+                    <div>
+
+                        <label class="block mb-3 font-semibold text-gray-800">
+                            Địa chỉ
+                        </label>
+
+                        <textarea name="address"
+                                  rows="5"
+                                  class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c] focus:ring-2 focus:ring-[#d8b46c]/20 transition resize-none">{{ user.address }}</textarea>
+
+                    </div>
+
+                    <!-- BUTTON -->
+                    <button type="submit"
+                            class="w-full bg-black hover:bg-[#1c1c1c] text-white py-5 rounded-2xl text-lg font-bold tracking-wide transition shadow-xl">
+
+                        <i class="fas fa-save mr-2"></i>
+                        Cập nhật thông tin
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

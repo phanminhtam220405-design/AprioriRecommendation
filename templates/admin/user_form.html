@@ -1,0 +1,264 @@
+```html
+{% extends "admin/base_admin.html" %}
+
+{% block title %}
+{% if user %}
+Sửa tài khoản - Admin
+{% else %}
+Thêm tài khoản - Admin
+{% endif %}
+{% endblock %}
+
+{% block page_title %}
+{% if user %}
+Sửa tài khoản
+{% else %}
+Thêm tài khoản
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <!-- HEADER -->
+    <div class="bg-black text-white rounded-[2rem] shadow-2xl p-8 mb-8">
+
+        <p class="uppercase tracking-[0.3em] text-xs text-[#d8b46c] mb-3">
+            User Management
+        </p>
+
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+
+            <div>
+                <h1 class="text-4xl font-serif font-black">
+                    {% if user %}
+                    Chỉnh sửa tài khoản
+                    {% else %}
+                    Thêm tài khoản mới
+                    {% endif %}
+                </h1>
+
+                <p class="text-gray-300 mt-3">
+                    {% if user %}
+                    Cập nhật thông tin và quyền truy cập người dùng.
+                    {% else %}
+                    Tạo tài khoản mới cho hệ thống quản trị.
+                    {% endif %}
+                </p>
+            </div>
+
+            {% if user %}
+            <div class="bg-[#d8b46c] text-black px-6 py-4 rounded-2xl font-bold shadow-xl">
+                {{ user.role|capitalize }}
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <form method="POST"
+          class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] overflow-hidden">
+
+        <!-- TOP -->
+        <div class="bg-black text-white px-8 py-6">
+
+            <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-2">
+                Account Information
+            </p>
+
+            <h3 class="text-3xl font-serif font-black">
+                Thông tin tài khoản
+            </h3>
+
+        </div>
+
+        <div class="p-8">
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+                <!-- LEFT -->
+                <div class="space-y-6">
+
+                    <!-- EMAIL -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            Email *
+                        </label>
+
+                        <input type="email"
+                               name="email"
+                               value="{{ user.email if user else '' }}"
+                               {% if user %}readonly{% endif %}
+                               required
+                               class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c] {% if user %}bg-[#faf7f2] text-gray-500{% endif %}">
+                    </div>
+
+                    <!-- NAME -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            Họ và tên *
+                        </label>
+
+                        <input type="text"
+                               name="name"
+                               value="{{ user.name if user else '' }}"
+                               required
+                               class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                    </div>
+
+                    <!-- PHONE -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            Số điện thoại
+                        </label>
+
+                        <input type="tel"
+                               name="phone"
+                               value="{{ user.phone if user else '' }}"
+                               class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                    </div>
+
+                    <!-- ADDRESS -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            Địa chỉ
+                        </label>
+
+                        <textarea name="address"
+                                  rows="4"
+                                  class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 resize-none focus:outline-none focus:border-[#d8b46c]">{{ user.address if user else '' }}</textarea>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="space-y-6">
+
+                    <!-- ROLE -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            Vai trò *
+                        </label>
+
+                        <select name="role"
+                                required
+                                class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 bg-white focus:outline-none focus:border-[#d8b46c]">
+
+                            <option value="user"
+                                {% if user and user.role == 'user' %}selected{% endif %}>
+                                Khách hàng
+                            </option>
+
+                            <option value="staff"
+                                {% if user and user.role == 'staff' %}selected{% endif %}>
+                                Nhân viên
+                            </option>
+
+                            <option value="admin"
+                                {% if user and user.role == 'admin' %}selected{% endif %}>
+                                Admin
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    {% if not user %}
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            Mật khẩu *
+                        </label>
+
+                        <input type="password"
+                               name="password"
+                               required
+                               class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Mật khẩu dùng để đăng nhập tài khoản mới.
+                        </p>
+                    </div>
+
+                    {% else %}
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            Mật khẩu mới
+                        </label>
+
+                        <input type="password"
+                               name="new_password"
+                               class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Để trống nếu không muốn thay đổi mật khẩu.
+                        </p>
+                    </div>
+
+                    {% endif %}
+
+                    <!-- INFO BOX -->
+                    <div class="bg-[#faf7f2] border border-[#eadcc3] rounded-[2rem] p-6">
+
+                        <div class="flex items-start gap-4">
+
+                            <div class="w-12 h-12 rounded-full bg-black text-[#d8b46c] flex items-center justify-center shrink-0">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+
+                            <div>
+                                <h4 class="font-bold text-black mb-2">
+                                    Quyền truy cập
+                                </h4>
+
+                                <p class="text-sm text-gray-600 leading-7">
+                                    Admin có toàn quyền quản lý hệ thống.
+                                    Nhân viên chỉ quản lý đơn hàng và sản phẩm.
+                                    Khách hàng chỉ truy cập tài khoản cá nhân.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="flex flex-col md:flex-row gap-4 mt-10">
+
+                <button type="submit"
+                        class="flex-1 bg-black text-white py-4 rounded-2xl hover:bg-[#1c1c1c] transition font-bold shadow-xl">
+
+                    <i class="fas fa-save mr-2"></i>
+
+                    {% if user %}
+                    Cập nhật tài khoản
+                    {% else %}
+                    Thêm tài khoản
+                    {% endif %}
+
+                </button>
+
+                <a href="/admin/users"
+                   class="flex-1 border border-black text-black py-4 rounded-2xl hover:bg-black hover:text-white transition font-semibold text-center">
+
+                    <i class="fas fa-times mr-2"></i>
+
+                    Hủy
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}
+```

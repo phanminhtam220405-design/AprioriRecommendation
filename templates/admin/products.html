@@ -1,0 +1,213 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Quản lý sản phẩm - Fashion Store{% endblock %}
+{% block page_title %}Quản lý sản phẩm{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <!-- HEADER -->
+    <div class="bg-black text-white rounded-[2rem] shadow-2xl p-8 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+
+            <div>
+                <p class="uppercase tracking-[0.3em] text-xs text-[#d8b46c] mb-3">
+                    Product Management
+                </p>
+
+                <h1 class="text-4xl font-serif font-black">
+                    Quản lý sản phẩm
+                </h1>
+
+                <p class="text-gray-300 mt-3">
+                    Theo dõi, chỉnh sửa và quản lý danh sách sản phẩm trong cửa hàng.
+                </p>
+            </div>
+
+            <a href="{{ url_for('admin_add_product') }}"
+               class="inline-flex items-center justify-center bg-[#d8b46c] text-black px-7 py-4 rounded-2xl font-bold hover:bg-[#c8a25c] transition shadow-xl">
+                <i class="fas fa-plus mr-2"></i>
+                Thêm sản phẩm
+            </a>
+
+        </div>
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] overflow-hidden">
+
+        <div class="px-8 py-6 border-b border-[#eadcc3] flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+            <div>
+                <p class="uppercase tracking-[0.25em] text-xs text-[#b08a3c] mb-2">
+                    Product List
+                </p>
+
+                <h2 class="text-3xl font-serif font-black text-black">
+                    Danh sách sản phẩm
+                </h2>
+            </div>
+
+            <div class="bg-[#faf7f2] border border-[#eadcc3] rounded-2xl px-5 py-3 text-sm text-gray-600">
+                Tổng sản phẩm:
+                <span class="font-bold text-black">
+                    {{ products|length }}
+                </span>
+            </div>
+
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full">
+
+                <thead class="bg-[#faf7f2]">
+                    <tr>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">
+                            Sản phẩm
+                        </th>
+
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">
+                            Danh mục
+                        </th>
+
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">
+                            Giá
+                        </th>
+
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">
+                            Tồn kho
+                        </th>
+
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">
+                            Đã bán
+                        </th>
+
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for product in products %}
+                    <tr class="border-t border-[#f1e7d5] hover:bg-[#faf7f2] transition">
+
+                        <td class="py-5 px-6">
+                            <div class="flex items-center gap-4">
+
+                                <img src="{{ product.image }}"
+                                     alt="{{ product.name }}"
+                                     class="w-16 h-16 object-cover rounded-2xl border border-[#eadcc3]">
+
+                                <div>
+                                    <div class="font-bold text-black">
+                                        {{ product.name }}
+                                    </div>
+
+                                    <div class="text-sm text-gray-500 mt-1">
+                                        ID: {{ product.id[:8] }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td class="py-5 px-6">
+                            <span class="inline-flex px-4 py-2 rounded-full bg-[#f8f5ef] text-[#9a742d] font-semibold text-sm border border-[#eadcc3]">
+                                {{ product.category }}
+                            </span>
+                        </td>
+
+                        <td class="py-5 px-6">
+                            <div class="font-bold text-[#9a742d]">
+                                {{ format_price(product.price) }}
+                            </div>
+
+                            {% if product.old_price > product.price %}
+                            <div class="text-sm text-gray-400 line-through">
+                                {{ format_price(product.old_price) }}
+                            </div>
+                            {% endif %}
+                        </td>
+
+                        <td class="py-5 px-6">
+                            {% if product.stock > 10 %}
+                            <span class="text-green-600 font-bold">
+                                {{ product.stock }}
+                            </span>
+                            {% elif product.stock > 0 %}
+                            <span class="text-yellow-600 font-bold">
+                                {{ product.stock }}
+                            </span>
+                            {% else %}
+                            <span class="text-red-600 font-bold">
+                                Hết hàng
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="py-5 px-6 font-semibold text-gray-700">
+                            {{ product.sold }}
+                        </td>
+
+                        <td class="py-5 px-6">
+                            <div class="flex items-center gap-3">
+
+                                <a href="{{ url_for('admin_edit_product', product_id=product.id) }}"
+                                   class="w-10 h-10 rounded-full bg-[#f8f5ef] text-[#9a742d] flex items-center justify-center hover:bg-[#d8b46c] hover:text-black transition"
+                                   title="Chỉnh sửa">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <form method="POST"
+                                      action="{{ url_for('admin_delete_product') }}"
+                                      onsubmit="return confirm('Xác nhận xóa sản phẩm này?')">
+
+                                    <input type="hidden"
+                                           name="product_id"
+                                           value="{{ product.id }}">
+
+                                    <button type="submit"
+                                            class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition"
+                                            title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+
+                                </form>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        {% if not products %}
+        <div class="text-center py-16">
+            <div class="w-24 h-24 mx-auto rounded-full bg-[#f8f5ef] flex items-center justify-center mb-6">
+                <i class="fas fa-box-open text-4xl text-[#b08a3c]"></i>
+            </div>
+
+            <h3 class="text-2xl font-serif font-black text-black mb-3">
+                Chưa có sản phẩm nào
+            </h3>
+
+            <p class="text-gray-500 mb-8">
+                Hãy thêm sản phẩm đầu tiên cho cửa hàng.
+            </p>
+
+            <a href="{{ url_for('admin_add_product') }}"
+               class="inline-flex items-center bg-black text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#1c1c1c] transition">
+                <i class="fas fa-plus mr-2"></i>
+                Thêm sản phẩm
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock %}

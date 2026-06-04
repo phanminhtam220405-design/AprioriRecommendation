@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+{% block content %}
+<section class="min-h-screen bg-[#f6f1ea] py-16 px-6">
+    <div class="container mx-auto">
+        <div class="text-center mb-14">
+            <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">Checkout</p>
+            <h1 class="text-5xl font-serif font-black text-black">Thanh toán</h1>
+            <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
+        </div>
+
+        <form method="post" class="max-w-3xl mx-auto bg-white rounded-[2rem] shadow-2xl border border-[#eadcc3] overflow-hidden">
+            <div class="bg-black px-10 py-8 text-white">
+                <p class="uppercase tracking-[0.3em] text-xs text-[#d8b46c] mb-3">Shipping Information</p>
+                <h2 class="text-4xl font-serif font-black">Thông tin giao hàng</h2>
+            </div>
+
+            <div class="p-10 space-y-6">
+                <input type="text" name="name" value="{{ user_info.name }}" placeholder="Họ tên" required
+                       class="w-full border border-gray-200 rounded-2xl px-5 py-4">
+
+                <input type="tel" name="phone" value="{{ user_info.phone }}" placeholder="Số điện thoại" required
+                       class="w-full border border-gray-200 rounded-2xl px-5 py-4">
+
+                <textarea name="address" rows="5" placeholder="Địa chỉ" required
+                          class="w-full border border-gray-200 rounded-2xl px-5 py-4">{{ user_info.address }}</textarea>
+
+                <button type="submit"
+                        class="w-full bg-black text-white py-5 rounded-2xl text-lg font-bold hover:bg-[#1c1c1c] transition">
+                    Hoàn tất đơn hàng
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-[#f6f1ea] flex items-center justify-center px-6 py-16">
+    <div class="w-full max-w-6xl bg-white rounded-[2rem] shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+
+        <!-- LEFT -->
+        <div class="relative hidden md:flex flex-col justify-between overflow-hidden bg-black text-white p-14">
+    
+    <!-- Ảnh nền bên trái -->
+    <img src="{{ url_for('static', filename='login-fashion.jpg') }}"
+         class="absolute inset-0 w-full h-full object-cover opacity-45"
+         alt="Fashion background">
+
+    <!-- Lớp phủ đen để chữ dễ đọc -->
+    <div class="absolute inset-0 bg-black/60"></div>
+
+            <!-- Stars -->
+            <div class="absolute inset-0">
+                <div class="absolute top-10 left-16 w-1 h-1 bg-white rounded-full opacity-80"></div>
+                <div class="absolute top-24 left-40 w-1.5 h-1.5 bg-[#d8b46c] rounded-full opacity-70"></div>
+                <div class="absolute top-40 right-24 w-1 h-1 bg-white rounded-full opacity-60"></div>
+                <div class="absolute top-72 left-24 w-2 h-2 bg-[#d8b46c] rounded-full blur-[1px]"></div>
+                <div class="absolute bottom-40 right-32 w-1 h-1 bg-white rounded-full"></div>
+                <div class="absolute bottom-20 left-40 w-1.5 h-1.5 bg-[#d8b46c] rounded-full"></div>
+            </div>
+
+            <!-- Glow -->
+            <div class="absolute -top-20 -left-20 w-72 h-72 bg-[#d8b46c]/10 blur-3xl rounded-full"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-[#d8b46c]/10 blur-3xl rounded-full"></div>
+
+            <div class="relative z-10">
+                <p class="uppercase tracking-[0.35em] text-sm text-[#d8b46c] mb-6">
+                    Fashion Store
+                </p>
+
+                <h1 class="text-5xl font-serif font-bold leading-tight mb-6">
+                    Thanh lịch trong từng lựa chọn
+                </h1>
+
+                <p class="text-gray-300 text-lg leading-8">
+                    Khám phá phong cách thời trang hiện đại, sang trọng và tinh tế dành riêng cho bạn.
+                </p>
+                <!-- Fashion image -->
+<div class="mt-10 relative">
+    
+   <img src="{{ url_for('uploaded_file', filename='fashion.png') }}"
+     class="w-full h-[320px] object-cover rounded-3xl opacity-90 shadow-2xl"
+     alt="Fashion">
+         <class="w-full h-[320px] object-cover rounded-3xl opacity-90 shadow-2xl"
+         alt="Fashion">
+
+    <!-- overlay -->
+    <div class="absolute inset-0 rounded-3xl bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+
+    <!-- text on image -->
+    
+</div>
+            </div>
+
+            <div class="relative z-10 space-y-5">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-full border border-[#d8b46c] flex items-center justify-center text-[#d8b46c]">✓</div>
+                    <span>Sản phẩm chọn lọc cao cấp</span>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-full border border-[#d8b46c] flex items-center justify-center text-[#d8b46c]">✓</div>
+                    <span>Trải nghiệm mua sắm tinh tế</span>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-full border border-[#d8b46c] flex items-center justify-center text-[#d8b46c]">✓</div>
+                    <span>Ưu đãi độc quyền mỗi tuần</span>
+                </div>
+            </div>
+
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 rounded-full border border-[#d8b46c]/30"></div>
+            <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full border border-[#d8b46c]/20"></div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="p-10 md:p-16">
+            <div class="mb-10 text-center">
+                <p class="uppercase tracking-[0.3em] text-xs text-[#b08a3c] mb-4">
+                    Member Access
+                </p>
+
+                <h2 class="text-6xl md:text-7xl font-serif font-black tracking-wide text-black leading-none drop-shadow-sm">
+                    Đăng nhập
+                </h2>
+
+                <div class="w-32 h-[2px] bg-[#d8b46c] mx-auto mt-5 mb-6"></div>
+
+                <p class="text-gray-500 mt-3">
+                    Tiếp tục hành trình mua sắm của bạn
+                </p>
+            </div>
+
+            <form method="post" class="space-y-6">
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700">Email</label>
+                    <input type="email" name="email" required
+                           placeholder="admin@example.com"
+                           class="w-full rounded-xl border border-gray-300 px-5 py-4 focus:outline-none focus:border-[#b08a3c] focus:ring-2 focus:ring-[#d8b46c]/30">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700">Mật khẩu</label>
+                    <input type="password" name="password" required
+                           placeholder="Nhập mật khẩu"
+                           class="w-full rounded-xl border border-gray-300 px-5 py-4 focus:outline-none focus:border-[#b08a3c] focus:ring-2 focus:ring-[#d8b46c]/30">
+                </div>
+
+                <div class="flex items-center justify-between text-sm">
+                    <label class="flex items-center gap-2 text-gray-600">
+                        <input type="checkbox" name="remember" class="accent-[#111111]">
+                        Ghi nhớ đăng nhập
+                    </label>
+
+                    <a href="{{ url_for('forgot_password') }}" class="text-[#9a742d] font-semibold hover:underline">
+                        Quên mật khẩu?
+                    </a>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-black text-white py-4 rounded-xl text-lg tracking-[0.15em] uppercase border border-[#d8b46c]/30 hover:bg-[#1c1c1c] transition shadow-2xl">
+                    Đăng nhập
+                </button>
+            </form>
+
+            <div class="mt-8 text-center text-gray-600">
+                Chưa có tài khoản?
+                <a href="{{ url_for('register') }}" class="text-[#9a742d] font-bold hover:underline">
+                    Đăng ký ngay
+                </a>
+            </div>
+
+           
+        </div>
+
+    </div>
+</div>
+{% endblock %}

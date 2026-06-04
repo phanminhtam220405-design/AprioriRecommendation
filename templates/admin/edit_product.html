@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Chỉnh sửa sản phẩm</h1>
+    
+    <form method="post" class="max-w-2xl bg-white rounded-lg shadow p-8">
+        <div class="space-y-4">
+            <div>
+                <label class="block mb-2 font-semibold">Tên sản phẩm:</label>
+                <input type="text" name="name" value="{{ product.name }}" required class="w-full border rounded-lg px-4 py-2">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-2 font-semibold">Giá bán:</label>
+                    <input type="number" name="price" value="{{ product.price }}" required class="w-full border rounded-lg px-4 py-2">
+                </div>
+                <div>
+                    <label class="block mb-2 font-semibold">Giá gốc:</label>
+                    <input type="number" name="old_price" value="{{ product.old_price }}" class="w-full border rounded-lg px-4 py-2">
+                </div>
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Danh mục:</label>
+                <input type="text" name="category" value="{{ product.category }}" required class="w-full border rounded-lg px-4 py-2">
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">URL hình ảnh:</label>
+                <input type="text" name="image" value="{{ product.image }}" class="w-full border rounded-lg px-4 py-2">
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Mô tả:</label>
+                <textarea name="description" rows="3" class="w-full border rounded-lg px-4 py-2">{{ product.description }}</textarea>
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Kho:</label>
+                <input type="number" name="stock" value="{{ product.stock }}" required class="w-full border rounded-lg px-4 py-2">
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Sizes (phân cách bởi dấu phẩy):</label>
+                <input type="text" name="sizes" value="{{ product.sizes|join(',') }}" class="w-full border rounded-lg px-4 py-2">
+            </div>
+            <div>
+                <label class="block mb-2 font-semibold">Màu sắc (phân cách bởi dấu phẩy):</label>
+                <input type="text" name="colors" value="{{ product.colors|join(',') }}" class="w-full border rounded-lg px-4 py-2">
+            </div>
+            <div>
+                <label class="flex items-center">
+                    <input type="checkbox" name="featured" {% if product.featured %}checked{% endif %} class="mr-2">
+                    <span>Sản phẩm nổi bật</span>
+                </label>
+            </div>
+            <div class="flex space-x-4">
+                <button type="submit" class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700">
+                    Cập nhật
+                </button>
+                <a href="{{ url_for('admin_products') }}" class="bg-gray-600 text-white px-8 py-3 rounded-lg hover:bg-gray-700">
+                    Hủy
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

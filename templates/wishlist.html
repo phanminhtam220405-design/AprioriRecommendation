@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-screen bg-[#f6f1ea] py-16 px-6">
+
+    <div class="container mx-auto">
+
+        <!-- TITLE -->
+        <div class="text-center mb-14">
+
+            <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
+                Wishlist
+            </p>
+
+            <h1 class="text-5xl font-serif font-black text-black">
+                Sản phẩm yêu thích
+            </h1>
+
+            <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
+
+        </div>
+
+        {% if wishlist_products %}
+
+        <!-- PRODUCTS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+            {% for product in wishlist_products %}
+
+            <div class="group bg-white rounded-3xl shadow-lg overflow-hidden border border-[#eadcc3] hover:shadow-2xl transition duration-300">
+
+                <!-- IMAGE -->
+                <div class="relative overflow-hidden">
+
+                    <button onclick="removeFromWishlist('{{ product.id }}')"
+                            class="absolute top-4 right-4 z-10 w-11 h-11 bg-white/90 rounded-full shadow-lg flex items-center justify-center hover:bg-[#f8f5ef] transition">
+
+                        <i class="fas fa-heart text-red-500"></i>
+
+                    </button>
+
+                    <a href="{{ url_for('product_detail', pid=product.id) }}">
+
+                        <img src="{{ product.image }}"
+                             alt="{{ product.name }}"
+                             class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
+
+                    </a>
+
+                </div>
+
+                <!-- CONTENT -->
+                <div class="p-6">
+
+                    <p class="text-xs uppercase tracking-[0.2em] text-[#b08a3c] font-bold mb-3">
+                        {{ product.category }}
+                    </p>
+
+                    <h3 class="text-xl font-serif font-bold text-black mb-4 line-clamp-2">
+                        {{ product.name }}
+                    </h3>
+
+                    <div class="mb-5">
+
+                        <span class="text-2xl font-bold text-[#9a742d]">
+                            {{ format_price(product.price) }}
+                        </span>
+
+                    </div>
+
+                    <a href="{{ url_for('product_detail', pid=product.id) }}"
+                       class="block w-full bg-black text-white text-center py-3 rounded-xl font-semibold hover:bg-[#1c1c1c] transition">
+
+                        Xem chi tiết
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <!-- EMPTY -->
+        <div class="max-w-xl mx-auto bg-white rounded-[2rem] shadow-2xl p-12 text-center border border-[#eadcc3]">
+
+            <div class="w-24 h-24 mx-auto rounded-full bg-[#f8f5ef] flex items-center justify-center mb-6">
+
+                <i class="fas fa-heart text-4xl text-[#b08a3c]"></i>
+
+            </div>
+
+            <h2 class="text-3xl font-serif font-black text-black mb-4">
+                Chưa có sản phẩm yêu thích
+            </h2>
+
+            <p class="text-gray-500 mb-8">
+                Hãy thêm những sản phẩm bạn yêu thích để quay lại xem sau.
+            </p>
+
+            <a href="{{ url_for('products') }}"
+               class="inline-block bg-black text-white px-10 py-4 rounded-xl font-semibold hover:bg-[#1c1c1c] transition">
+
+                Mua sắm ngay
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+<script>
+function removeFromWishlist(pid) {
+
+    fetch('/remove-from-wishlist', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            pid: pid
+        })
+
+    }).then(r => r.json())
+      .then(data => {
+
+        if (data.success) {
+
+            location.reload();
+
+        }
+
+    });
+
+}
+</script>
+
+{% endblock %}

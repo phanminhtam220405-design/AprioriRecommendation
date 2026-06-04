@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-screen bg-[#f6f1ea] py-16 px-6">
+    <div class="container mx-auto">
+        <div class="max-w-5xl mx-auto bg-white rounded-[2rem] shadow-2xl border border-[#eadcc3] overflow-hidden">
+
+            <div class="bg-black text-white px-10 py-10">
+                <p class="uppercase tracking-[0.3em] text-xs text-[#d8b46c] mb-3">
+                    Order Detail
+                </p>
+
+                <h1 class="text-4xl font-serif font-black">
+                    Đơn hàng #{{ order.id[:8] }}
+                </h1>
+
+                <p class="text-gray-300 mt-4">
+                    Ngày đặt: {{ order.created_at }}
+                </p>
+            </div>
+
+            <div class="p-10">
+                <div class="mb-10">
+                    <h2 class="text-3xl font-serif font-black text-black mb-6">
+                        Thông tin giao hàng
+                    </h2>
+
+                    <div class="bg-[#f8f5ef] rounded-3xl p-6 border border-[#eadcc3]">
+                        <p class="font-bold text-black">{{ order.shipping_info.name }}</p>
+                        <p class="text-gray-600">{{ order.shipping_info.phone }}</p>
+                        <p class="text-gray-600">{{ order.shipping_info.address }}</p>
+                    </div>
+                </div>
+
+                <div class="mb-10">
+                    <h2 class="text-3xl font-serif font-black text-black mb-6">
+                        Sản phẩm
+                    </h2>
+
+                    <div class="space-y-5">
+                        {% for item in order['items'] %}
+                        <div class="flex items-center gap-5 bg-[#faf7f2] border border-[#eadcc3] rounded-3xl p-5">
+                            <img src="{{ item.image }}" class="w-24 h-24 object-cover rounded-2xl" alt="{{ item.name }}">
+
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-black">{{ item.name }}</h3>
+                                <p class="text-gray-500">{{ item.color }} / {{ item.size }}</p>
+                                <p class="text-gray-500">Số lượng: {{ item.qty }}</p>
+                            </div>
+
+                            <p class="text-xl font-bold text-black">
+                                {{ format_price(item.price * item.qty) }}
+                            </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="bg-black rounded-[2rem] p-8 text-white">
+                    <h2 class="text-3xl font-serif font-black mb-8">
+                        Tổng thanh toán
+                    </h2>
+
+                    <div class="space-y-4 text-lg">
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Tạm tính</span>
+                            <span>{{ format_price(order.subtotal) }}</span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Phí vận chuyển</span>
+                            <span>{{ format_price(order.shipping) }}</span>
+                        </div>
+
+                        <div class="border-t border-white/20 pt-5 flex justify-between text-2xl font-black">
+                            <span>Tổng cộng</span>
+                            <span class="text-[#d8b46c]">{{ format_price(order.total) }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10 text-center">
+                    <a href="{{ url_for('my_orders') }}"
+                       class="inline-block border border-black px-10 py-4 rounded-xl font-semibold hover:bg-black hover:text-white transition">
+                        ← Quay lại đơn hàng
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

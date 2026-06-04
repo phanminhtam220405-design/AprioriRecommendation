@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Fashion Store{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen bg-[#f8f5ef] py-10">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <!-- HEADER -->
+        <div class="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+
+            <div>
+                <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-3">
+                    Fashion Store Admin
+                </p>
+
+                <h1 class="text-5xl font-serif font-black text-black">
+                    Dashboard Quản trị
+                </h1>
+            </div>
+
+            <div class="bg-black text-white px-6 py-4 rounded-2xl shadow-xl">
+                <p class="text-sm text-gray-300">
+                    Xin chào Admin 👋
+                </p>
+
+                <p class="text-xl font-bold text-[#d8b46c]">
+                    Quản lý hệ thống
+                </p>
+            </div>
+
+        </div>
+
+        <!-- STATS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-7 mb-12">
+
+            <!-- ORDERS -->
+            <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] p-7 hover:-translate-y-1 transition">
+
+                <div class="flex items-center justify-between">
+
+                    <div>
+                        <p class="uppercase tracking-[0.25em] text-xs text-[#b08a3c] mb-3">
+                            Orders
+                        </p>
+
+                        <h3 class="text-4xl font-black text-black">
+                            {{ total_orders }}
+                        </h3>
+
+                        <p class="text-gray-500 mt-2">
+                            Tổng đơn hàng
+                        </p>
+                    </div>
+
+                    <div class="w-16 h-16 rounded-2xl bg-black text-[#d8b46c] flex items-center justify-center shadow-lg">
+                        <i class="fas fa-shopping-bag text-2xl"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PRODUCTS -->
+            <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] p-7 hover:-translate-y-1 transition">
+
+                <div class="flex items-center justify-between">
+
+                    <div>
+                        <p class="uppercase tracking-[0.25em] text-xs text-[#b08a3c] mb-3">
+                            Products
+                        </p>
+
+                        <h3 class="text-4xl font-black text-black">
+                            {{ total_products }}
+                        </h3>
+
+                        <p class="text-gray-500 mt-2">
+                            Sản phẩm
+                        </p>
+                    </div>
+
+                    <div class="w-16 h-16 rounded-2xl bg-[#d8b46c] text-black flex items-center justify-center shadow-lg">
+                        <i class="fas fa-box text-2xl"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- USERS -->
+            <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] p-7 hover:-translate-y-1 transition">
+
+                <div class="flex items-center justify-between">
+
+                    <div>
+                        <p class="uppercase tracking-[0.25em] text-xs text-[#b08a3c] mb-3">
+                            Customers
+                        </p>
+
+                        <h3 class="text-4xl font-black text-black">
+                            {{ total_users }}
+                        </h3>
+
+                        <p class="text-gray-500 mt-2">
+                            Khách hàng
+                        </p>
+                    </div>
+
+                    <div class="w-16 h-16 rounded-2xl bg-black text-white flex items-center justify-center shadow-lg">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- REVENUE -->
+            <div class="bg-gradient-to-br from-black to-[#1f1f1f] rounded-[2rem] shadow-2xl p-7 text-white hover:-translate-y-1 transition">
+
+                <div class="flex items-center justify-between">
+
+                    <div>
+                        <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-3">
+                            Revenue
+                        </p>
+
+                        <h3 class="text-3xl font-black text-[#d8b46c]">
+                            {{ format_price(revenue) }}
+                        </h3>
+
+                        <p class="text-gray-400 mt-2">
+                            Doanh thu
+                        </p>
+                    </div>
+
+                    <div class="w-16 h-16 rounded-2xl bg-[#d8b46c] text-black flex items-center justify-center shadow-lg">
+                        <i class="fas fa-wallet text-2xl"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- QUICK ACTION -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-7 mb-12">
+
+            <a href="{{ url_for('admin_products') }}"
+               class="group bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] p-8 hover:bg-black transition">
+
+                <div class="w-16 h-16 rounded-2xl bg-[#f8f5ef] flex items-center justify-center mb-6 group-hover:bg-[#d8b46c] transition">
+                    <i class="fas fa-box text-2xl text-black"></i>
+                </div>
+
+                <h3 class="text-2xl font-bold text-black group-hover:text-white transition mb-3">
+                    Quản lý sản phẩm
+                </h3>
+
+                <p class="text-gray-500 group-hover:text-gray-300 transition">
+                    Thêm, sửa và quản lý toàn bộ sản phẩm.
+                </p>
+
+            </a>
+
+            <a href="{{ url_for('admin_orders') }}"
+               class="group bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] p-8 hover:bg-black transition">
+
+                <div class="w-16 h-16 rounded-2xl bg-[#f8f5ef] flex items-center justify-center mb-6 group-hover:bg-[#d8b46c] transition">
+                    <i class="fas fa-shopping-cart text-2xl text-black"></i>
+                </div>
+
+                <h3 class="text-2xl font-bold text-black group-hover:text-white transition mb-3">
+                    Quản lý đơn hàng
+                </h3>
+
+                <p class="text-gray-500 group-hover:text-gray-300 transition">
+                    Theo dõi và xử lý đơn hàng khách hàng.
+                </p>
+
+            </a>
+
+            <a href="{{ url_for('admin_users') }}"
+               class="group bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] p-8 hover:bg-black transition">
+
+                <div class="w-16 h-16 rounded-2xl bg-[#f8f5ef] flex items-center justify-center mb-6 group-hover:bg-[#d8b46c] transition">
+                    <i class="fas fa-user-friends text-2xl text-black"></i>
+                </div>
+
+                <h3 class="text-2xl font-bold text-black group-hover:text-white transition mb-3">
+                    Quản lý khách hàng
+                </h3>
+
+                <p class="text-gray-500 group-hover:text-gray-300 transition">
+                    Xem thông tin và hoạt động khách hàng.
+                </p>
+
+            </a>
+
+        </div>
+
+        <!-- RECENT ORDERS -->
+        <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] overflow-hidden">
+
+            <div class="bg-black text-white px-8 py-7 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                <div>
+                    <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-2">
+                        Recent Orders
+                    </p>
+
+                    <h2 class="text-3xl font-serif font-black">
+                        Đơn hàng gần đây
+                    </h2>
+                </div>
+
+                <a href="{{ url_for('admin_orders') }}"
+                   class="text-[#d8b46c] hover:text-white font-semibold transition">
+                    Xem tất cả →
+                </a>
+
+            </div>
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full">
+
+                    <thead class="bg-[#f8f5ef]">
+
+                        <tr>
+
+                            <th class="text-left px-6 py-5 text-sm uppercase tracking-[0.15em] text-gray-500">
+                                Mã đơn
+                            </th>
+
+                            <th class="text-left px-6 py-5 text-sm uppercase tracking-[0.15em] text-gray-500">
+                                Khách hàng
+                            </th>
+
+                            <th class="text-left px-6 py-5 text-sm uppercase tracking-[0.15em] text-gray-500">
+                                Ngày đặt
+                            </th>
+
+                            <th class="text-left px-6 py-5 text-sm uppercase tracking-[0.15em] text-gray-500">
+                                Tổng tiền
+                            </th>
+
+                            <th class="text-left px-6 py-5 text-sm uppercase tracking-[0.15em] text-gray-500">
+                                Trạng thái
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for order in recent_orders %}
+
+                        <tr class="border-t border-[#f1e7d5] hover:bg-[#faf7f2] transition">
+
+                            <td class="px-6 py-5 font-bold text-black">
+                                #{{ order.id[:8] }}
+                            </td>
+
+                            <td class="px-6 py-5 text-gray-700">
+                                {{ order.user_email }}
+                            </td>
+
+                            <td class="px-6 py-5 text-gray-500">
+                                {{ order.created_at }}
+                            </td>
+
+                            <td class="px-6 py-5 font-bold text-[#9a742d]">
+                                {{ format_price(order.total) }}
+                            </td>
+
+                            <td class="px-6 py-5">
+
+                                {% if order.status == 'completed' %}
+                                <span class="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">
+                                    Hoàn thành
+                                </span>
+
+                                {% elif order.status == 'pending' %}
+                                <span class="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full text-sm font-semibold">
+                                    Chờ xử lý
+                                </span>
+
+                                {% elif order.status == 'shipping' %}
+                                <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
+                                    Đang giao
+                                </span>
+
+                                {% else %}
+                                <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold">
+                                    {{ order.status }}
+                                </span>
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Quản lý đơn hàng - Fashion Store{% endblock %}
+{% block page_title %}Quản lý đơn hàng{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <div class="bg-black text-white rounded-[2rem] shadow-2xl p-8 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+            <div>
+                <p class="uppercase tracking-[0.3em] text-xs text-[#d8b46c] mb-3">
+                    Order Management
+                </p>
+
+                <h1 class="text-4xl font-serif font-black">
+                    Quản lý đơn hàng
+                </h1>
+
+                <p class="text-gray-300 mt-3">
+                    Theo dõi, chỉnh sửa và cập nhật trạng thái đơn hàng.
+                </p>
+            </div>
+
+            <a href="{{ url_for('admin_create_order') }}"
+               class="inline-flex items-center justify-center bg-[#d8b46c] text-black px-7 py-4 rounded-2xl font-bold hover:bg-[#c8a25c] transition shadow-xl">
+                <i class="fas fa-plus mr-2"></i>
+                Tạo đơn hàng
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] overflow-hidden">
+
+        <div class="px-8 py-6 border-b border-[#eadcc3] flex justify-between items-center">
+            <div>
+                <p class="uppercase tracking-[0.25em] text-xs text-[#b08a3c] mb-2">
+                    Order List
+                </p>
+
+                <h2 class="text-3xl font-serif font-black text-black">
+                    Danh sách đơn hàng
+                </h2>
+            </div>
+
+            <div class="bg-[#faf7f2] border border-[#eadcc3] rounded-2xl px-5 py-3 text-sm text-gray-600">
+                Tổng đơn:
+                <span class="font-bold text-black">{{ orders|length }}</span>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-[#faf7f2]">
+                    <tr>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Mã đơn</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Khách hàng</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Ngày đặt</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Tổng tiền</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Thanh toán</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Trạng thái</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for order in orders %}
+                    <tr class="border-t border-[#f1e7d5] hover:bg-[#faf7f2] transition">
+
+                        <td class="py-5 px-6 font-bold text-black">
+                            #{{ order.id[:8] }}
+                        </td>
+
+                        <td class="py-5 px-6">
+                            <div class="font-semibold text-black">
+                                {{ order.shipping_info.name if order.shipping_info.name else order.user_email }}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                {{ order.user_email }}
+                            </div>
+                        </td>
+
+                        <td class="py-5 px-6 text-gray-600">
+                            {{ order.created_at }}
+                        </td>
+
+                        <td class="py-5 px-6 font-bold text-[#9a742d]">
+                            {{ format_price(order.total) }}
+                        </td>
+
+                        <td class="py-5 px-6">
+                            <span class="inline-flex px-4 py-2 rounded-full bg-[#f8f5ef] text-[#9a742d] border border-[#eadcc3] font-semibold text-sm">
+                                {{ order.payment_status }}
+                            </span>
+                        </td>
+
+                        <td class="py-5 px-6">
+                            {% if order.status == 'completed' %}
+                            <span class="inline-flex px-4 py-2 rounded-full bg-green-100 text-green-700 font-semibold text-sm">
+                                Hoàn thành
+                            </span>
+                            {% elif order.status == 'shipping' %}
+                            <span class="inline-flex px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm">
+                                Đang giao
+                            </span>
+                            {% elif order.status == 'cancelled' %}
+                            <span class="inline-flex px-4 py-2 rounded-full bg-red-100 text-red-700 font-semibold text-sm">
+                                Đã hủy
+                            </span>
+                            {% else %}
+                            <span class="inline-flex px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 font-semibold text-sm">
+                                Chờ xử lý
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="py-5 px-6">
+                            <div class="flex items-center gap-3">
+
+                                <a href="{{ url_for('order_detail', order_id=order.id) }}"
+                                   class="w-10 h-10 rounded-full bg-[#f8f5ef] text-[#9a742d] flex items-center justify-center hover:bg-[#d8b46c] hover:text-black transition"
+                                   title="Xem">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+
+                                <a href="{{ url_for('admin_edit_order', order_id=order.id) }}"
+                                   class="w-10 h-10 rounded-full bg-[#f8f5ef] text-[#9a742d] flex items-center justify-center hover:bg-[#d8b46c] hover:text-black transition"
+                                   title="Sửa">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <form method="POST"
+                                      action="{{ url_for('admin_delete_order') }}"
+                                      onsubmit="return confirm('Xác nhận xóa đơn hàng này?')">
+                                    <input type="hidden" name="order_id" value="{{ order.id }}">
+
+                                    <button type="submit"
+                                            class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition"
+                                            title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if not orders %}
+        <div class="text-center py-16">
+            <div class="w-24 h-24 mx-auto rounded-full bg-[#f8f5ef] flex items-center justify-center mb-6">
+                <i class="fas fa-shopping-cart text-4xl text-[#b08a3c]"></i>
+            </div>
+
+            <h3 class="text-2xl font-serif font-black text-black mb-3">
+                Chưa có đơn hàng nào
+            </h3>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock %}

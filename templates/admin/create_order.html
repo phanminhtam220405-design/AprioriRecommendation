@@ -1,0 +1,450 @@
+{% extends "admin/base_admin.html" %}
+
+{% block page_title %}Tạo đơn hàng{% endblock %}
+{% block title %}Tạo đơn hàng mới - Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <div class="mb-8">
+        <a href="/admin/orders"
+           class="inline-flex items-center text-[#9a742d] hover:text-black font-semibold transition">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Quay lại danh sách đơn hàng
+        </a>
+    </div>
+
+    <form method="POST" id="create-order-form" class="space-y-8">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <!-- CUSTOMER INFO -->
+            <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] overflow-hidden">
+
+                <div class="bg-black text-white px-8 py-6">
+                    <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-2">
+                        Customer
+                    </p>
+                    <h3 class="text-3xl font-serif font-black">
+                        Thông tin khách hàng
+                    </h3>
+                </div>
+
+                <div class="p-8 space-y-5">
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Chọn khách hàng có sẵn
+                        </label>
+
+                        <select id="customer_select"
+                                class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 bg-[#faf7f2] focus:outline-none focus:border-[#d8b46c]">
+                            <option value="">-- Chọn khách hàng hoặc nhập thủ công --</option>
+
+                            {% for customer in customers %}
+                            <option value="{{ customer.email }}"
+                                    data-name="{{ customer.name }}"
+                                    data-phone="{{ customer.phone or '' }}"
+                                    data-address="{{ customer.address or '' }}">
+                                {{ customer.name }} - {{ customer.email }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="border-t border-[#eadcc3] pt-5">
+                        <p class="text-sm text-gray-500">
+                            Hoặc nhập thông tin thủ công:
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Email khách hàng *
+                        </label>
+                        <input type="email" name="customer_email" id="customer_email" required
+                               class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Họ và tên *
+                        </label>
+                        <input type="text" name="customer_name" id="customer_name" required
+                               class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Số điện thoại *
+                        </label>
+                        <input type="tel" name="customer_phone" id="customer_phone" required
+                               class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Địa chỉ giao hàng *
+                        </label>
+                        <textarea name="customer_address" id="customer_address" rows="4" required
+                                  class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 resize-none focus:outline-none focus:border-[#d8b46c]"></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PAYMENT INFO -->
+            <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] overflow-hidden">
+
+                <div class="bg-black text-white px-8 py-6">
+                    <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-2">
+                        Payment
+                    </p>
+                    <h3 class="text-3xl font-serif font-black">
+                        Thông tin thanh toán
+                    </h3>
+                </div>
+
+                <div class="p-8 space-y-5">
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Phương thức thanh toán *
+                        </label>
+                        <select name="payment_method" required
+                                class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 bg-white focus:outline-none focus:border-[#d8b46c]">
+                            <option value="cod">COD - Thanh toán khi nhận hàng</option>
+                            <option value="banking">Chuyển khoản ngân hàng</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Trạng thái thanh toán *
+                        </label>
+                        <select name="payment_status" required
+                                class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 bg-white focus:outline-none focus:border-[#d8b46c]">
+                            <option value="pending">Chưa thanh toán</option>
+                            <option value="paid">Đã thanh toán</option>
+                            <option value="cod">COD</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Ghi chú
+                        </label>
+                        <textarea name="notes" rows="4"
+                                  placeholder="Ghi chú về đơn hàng..."
+                                  class="w-full border border-[#eadcc3] rounded-2xl px-5 py-4 resize-none focus:outline-none focus:border-[#d8b46c]"></textarea>
+                    </div>
+
+                    <div class="bg-[#faf7f2] border border-[#eadcc3] rounded-2xl p-5">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-black text-[#d8b46c] flex items-center justify-center">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-black">
+                                    Đơn hàng được tạo bởi quản trị viên
+                                </p>
+                                <p class="text-sm text-gray-500">
+                                    Vui lòng kiểm tra kỹ thông tin trước khi tạo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PRODUCTS -->
+        <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] overflow-hidden">
+
+            <div class="bg-black text-white px-8 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                <div>
+                    <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-2">
+                        Products
+                    </p>
+                    <h3 class="text-3xl font-serif font-black">
+                        Sản phẩm
+                    </h3>
+                </div>
+
+                <button type="button"
+                        onclick="openProductModal()"
+                        class="bg-[#d8b46c] text-black px-6 py-3 rounded-2xl font-bold hover:bg-[#c8a25c] transition">
+                    <i class="fas fa-plus mr-2"></i>
+                    Thêm sản phẩm
+                </button>
+            </div>
+
+            <div class="p-8">
+
+                <div id="selected-products" class="space-y-4">
+                    <div class="text-center py-12 bg-[#faf7f2] rounded-3xl border border-dashed border-[#d8b46c]">
+                        <i class="fas fa-box-open text-5xl text-[#b08a3c] mb-4"></i>
+                        <p class="text-gray-500">
+                            Chưa có sản phẩm nào. Nhấn "Thêm sản phẩm" để chọn.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- SUMMARY -->
+                <div class="bg-black text-white rounded-[2rem] mt-8 p-8">
+
+                    <h3 class="text-3xl font-serif font-black mb-6">
+                        Tổng đơn hàng
+                    </h3>
+
+                    <div class="space-y-4">
+
+                        <div class="flex justify-between text-gray-300">
+                            <span>Tạm tính</span>
+                            <span id="subtotal">0đ</span>
+                        </div>
+
+                        <div class="flex justify-between text-gray-300">
+                            <span>Phí vận chuyển</span>
+                            <span id="shipping">30.000đ</span>
+                        </div>
+
+                        <div class="border-t border-white/20 pt-5 flex justify-between text-2xl font-black">
+                            <span>Tổng cộng</span>
+                            <span id="total" class="text-[#d8b46c]">30.000đ</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <input type="hidden" name="products" id="products-json" value="">
+
+        <!-- ACTIONS -->
+        <div class="flex justify-end gap-4">
+
+            <a href="/admin/orders"
+               class="px-8 py-4 border border-black rounded-2xl font-semibold hover:bg-black hover:text-white transition">
+                Hủy
+            </a>
+
+            <button type="submit"
+                    class="bg-black text-white px-8 py-4 rounded-2xl font-bold hover:bg-[#1c1c1c] transition shadow-xl">
+                <i class="fas fa-check mr-2"></i>
+                Tạo đơn hàng
+            </button>
+
+        </div>
+
+    </form>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div id="product-modal"
+     class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+
+    <div class="bg-white rounded-[2rem] max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-[#eadcc3]">
+
+        <div class="bg-black text-white p-7 flex justify-between items-center">
+
+            <div>
+                <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-2">
+                    Select Product
+                </p>
+                <h3 class="text-3xl font-serif font-black">
+                    Chọn sản phẩm
+                </h3>
+            </div>
+
+            <button type="button"
+                    onclick="closeProductModal()"
+                    class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+
+        </div>
+
+        <div class="p-7 overflow-y-auto max-h-[70vh]">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                {% for product in products %}
+                <div class="border border-[#eadcc3] rounded-3xl p-4 hover:border-[#d8b46c] hover:shadow-lg transition cursor-pointer bg-[#faf7f2]"
+                     onclick="selectProduct('{{ product.id }}', '{{ product.name }}', '{{ product.price }}', '{{ product.image }}')">
+
+                    <div class="flex items-center gap-4">
+
+                        <img src="{{ product.image }}"
+                             alt="{{ product.name }}"
+                             class="w-24 h-24 object-cover rounded-2xl">
+
+                        <div class="flex-1">
+                            <h4 class="font-bold text-black">
+                                {{ product.name }}
+                            </h4>
+
+                            <p class="text-[#9a742d] font-bold mt-1">
+                                {{ format_price(product.price) }}
+                            </p>
+
+                            <p class="text-sm text-gray-500">
+                                Kho: {{ product.stock }}
+                            </p>
+                        </div>
+
+                        <button type="button"
+                                class="bg-black text-white px-5 py-3 rounded-xl hover:bg-[#1c1c1c] transition">
+                            Chọn
+                        </button>
+
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+let selectedProducts = [];
+
+function openProductModal() {
+    document.getElementById('product-modal').classList.remove('hidden');
+}
+
+function closeProductModal() {
+    document.getElementById('product-modal').classList.add('hidden');
+}
+
+function selectProduct(id, name, price, image) {
+    const existingIndex = selectedProducts.findIndex(p => p.id === id);
+
+    if (existingIndex >= 0) {
+        selectedProducts[existingIndex].qty++;
+    } else {
+        selectedProducts.push({
+            id: id,
+            name: name,
+            price: price,
+            image: image,
+            qty: 1,
+            color: 'Mặc định',
+            size: 'M'
+        });
+    }
+
+    updateProductList();
+    closeProductModal();
+}
+
+function removeProduct(index) {
+    selectedProducts.splice(index, 1);
+    updateProductList();
+}
+
+function updateQuantity(index, delta) {
+    selectedProducts[index].qty += delta;
+
+    if (selectedProducts[index].qty < 1) {
+        selectedProducts[index].qty = 1;
+    }
+
+    updateProductList();
+}
+
+function updateProductList() {
+    const container = document.getElementById('selected-products');
+
+    if (selectedProducts.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-12 bg-[#faf7f2] rounded-3xl border border-dashed border-[#d8b46c]">
+                <i class="fas fa-box-open text-5xl text-[#b08a3c] mb-4"></i>
+                <p class="text-gray-500">
+                    Chưa có sản phẩm nào. Nhấn "Thêm sản phẩm" để chọn.
+                </p>
+            </div>
+        `;
+    } else {
+        container.innerHTML = selectedProducts.map((product, index) => `
+            <div class="flex items-center gap-5 border border-[#eadcc3] rounded-3xl p-5 bg-[#faf7f2]">
+                <img src="${product.image}" alt="${product.name}" class="w-20 h-20 object-cover rounded-2xl">
+
+                <div class="flex-1">
+                    <h4 class="font-bold text-black">${product.name}</h4>
+                    <p class="text-[#9a742d] font-bold">${formatPrice(product.price)}</p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="updateQuantity(${index}, -1)"
+                            class="w-9 h-9 bg-white border border-[#eadcc3] rounded-xl hover:bg-[#f0e5d2]">-</button>
+
+                    <span class="w-12 text-center font-bold">${product.qty}</span>
+
+                    <button type="button" onclick="updateQuantity(${index}, 1)"
+                            class="w-9 h-9 bg-white border border-[#eadcc3] rounded-xl hover:bg-[#f0e5d2]">+</button>
+                </div>
+
+                <div class="font-bold text-black">
+                    ${formatPrice(product.price * product.qty)}
+                </div>
+
+                <button type="button" onclick="removeProduct(${index})"
+                        class="w-10 h-10 rounded-full bg-red-50 text-red-500 hover:bg-red-100">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `).join('');
+    }
+
+    updateTotals();
+}
+
+function updateTotals() {
+    const subtotal = selectedProducts.reduce((sum, p) => sum + (p.price * p.qty), 0);
+    const shipping = subtotal >= 500000 ? 0 : 30000;
+    const total = subtotal + shipping;
+
+    document.getElementById('subtotal').textContent = formatPrice(subtotal);
+    document.getElementById('shipping').textContent = formatPrice(shipping);
+    document.getElementById('total').textContent = formatPrice(total);
+    document.getElementById('products-json').value = JSON.stringify(selectedProducts);
+}
+
+function formatPrice(price) {
+    return new Intl.NumberFormat('vi-VN').format(price) + 'đ';
+}
+
+document.getElementById('customer_select').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+
+    if (selectedOption.value) {
+        document.getElementById('customer_email').value = selectedOption.value;
+        document.getElementById('customer_name').value = selectedOption.dataset.name || '';
+        document.getElementById('customer_phone').value = selectedOption.dataset.phone || '';
+        document.getElementById('customer_address').value = selectedOption.dataset.address || '';
+    } else {
+        document.getElementById('customer_email').value = '';
+        document.getElementById('customer_name').value = '';
+        document.getElementById('customer_phone').value = '';
+        document.getElementById('customer_address').value = '';
+    }
+});
+
+document.getElementById('create-order-form').addEventListener('submit', function(e) {
+    if (selectedProducts.length === 0) {
+        e.preventDefault();
+        alert('Vui lòng thêm ít nhất 1 sản phẩm vào đơn hàng');
+        return false;
+    }
+});
+</script>
+{% endblock %}

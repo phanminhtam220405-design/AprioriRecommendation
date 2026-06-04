@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+{% block content %}
+<section class="min-h-screen bg-[#f6f1ea] py-16 px-6">
+    <div class="container mx-auto">
+
+        <div class="text-center mb-14">
+            <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
+                Admin Product
+            </p>
+
+            <h1 class="text-5xl font-serif font-black text-black">
+                Thêm sản phẩm mới
+            </h1>
+
+            <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
+        </div>
+
+        <form method="post"
+              enctype="multipart/form-data"
+              class="max-w-4xl mx-auto bg-white rounded-[2rem] shadow-2xl border border-[#eadcc3] overflow-hidden">
+
+            <div class="bg-black text-white px-10 py-8">
+                <p class="uppercase tracking-[0.3em] text-xs text-[#d8b46c] mb-3">
+                    Product Information
+                </p>
+
+                <h2 class="text-4xl font-serif font-black">
+                    Thông tin sản phẩm
+                </h2>
+            </div>
+
+            <div class="p-10 space-y-7">
+
+                <div>
+                    <label class="block mb-3 font-semibold text-gray-800">
+                        Tên sản phẩm
+                    </label>
+                    <input type="text" name="name" required
+                           class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block mb-3 font-semibold text-gray-800">
+                            Giá bán
+                        </label>
+                        <input type="number" name="price" required
+                               class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                    </div>
+
+                    <div>
+                        <label class="block mb-3 font-semibold text-gray-800">
+                            Giá gốc
+                        </label>
+                        <input type="number" name="old_price"
+                               class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block mb-3 font-semibold text-gray-800">
+                        Danh mục
+                    </label>
+                    <input type="text" name="category" required
+                           placeholder="Ví dụ: Áo thun, Áo khoác, Quần..."
+                           class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                </div>
+
+                <div>
+                    <label class="block mb-3 font-semibold text-gray-800">
+                        Tải ảnh sản phẩm
+                    </label>
+                    <input type="file" name="image_file" accept="image/*"
+                           class="w-full border border-gray-200 rounded-2xl px-5 py-4 bg-[#faf7f2]">
+                </div>
+
+                <div>
+                    <label class="block mb-3 font-semibold text-gray-800">
+                        Hoặc URL hình ảnh
+                    </label>
+                    <input type="text" name="image"
+                           placeholder="/Images/ten_anh.png"
+                           class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                </div>
+
+                <div>
+                    <label class="block mb-3 font-semibold text-gray-800">
+                        Mô tả
+                    </label>
+                    <textarea name="description" rows="4"
+                              class="w-full border border-gray-200 rounded-2xl px-5 py-4 resize-none focus:outline-none focus:border-[#d8b46c]"></textarea>
+                </div>
+
+                <div>
+                    <label class="block mb-3 font-semibold text-gray-800">
+                        Kho
+                    </label>
+                    <input type="number" name="stock" required
+                           class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                </div>
+
+                <div>
+                    <label class="block mb-3 font-semibold text-gray-800">
+                        Sizes
+                    </label>
+                    <input type="text" name="sizes" placeholder="S,M,L,XL"
+                           class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                </div>
+
+                <div>
+                    <label class="block mb-3 font-semibold text-gray-800">
+                        Màu sắc
+                    </label>
+                    <input type="text" name="colors" placeholder="Trắng,Đen,Xám"
+                           class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
+                </div>
+
+                <label class="flex items-center gap-3 bg-[#faf7f2] border border-[#eadcc3] rounded-2xl p-5">
+                    <input type="checkbox" name="featured" class="w-5 h-5">
+                    <span class="font-semibold text-gray-800">
+                        Sản phẩm nổi bật
+                    </span>
+                </label>
+
+                <div class="flex flex-col md:flex-row gap-4 pt-4">
+                    <button type="submit"
+                            class="flex-1 bg-black text-white py-4 rounded-2xl font-bold hover:bg-[#1c1c1c] transition">
+                        Thêm sản phẩm
+                    </button>
+
+                    <a href="{{ url_for('admin_products') }}"
+                       class="flex-1 border border-black text-center py-4 rounded-2xl font-semibold hover:bg-black hover:text-white transition">
+                        Hủy
+                    </a>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</section>
+{% endblock %}

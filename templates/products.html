@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-screen bg-[#f6f1ea] py-16 px-6">
+    <div class="container mx-auto">
+
+        <!-- TITLE -->
+        <div class="text-center mb-12">
+            <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
+                Collection
+            </p>
+
+            <h1 class="text-5xl font-serif font-black text-black">
+                Sản phẩm
+            </h1>
+
+            <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
+        </div>
+
+        <!-- CATEGORY FILTER -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+            <a href="{{ url_for('products') }}"
+               class="px-6 py-3 rounded-full border transition font-semibold
+               {% if not category %}
+               bg-black text-white border-black
+               {% else %}
+               bg-white text-black border-[#eadcc3] hover:bg-black hover:text-white
+               {% endif %}">
+                Tất cả
+            </a>
+
+            {% for cat in get_categories() %}
+            <a href="{{ url_for('products') }}?category={{ cat }}"
+               class="px-6 py-3 rounded-full border transition font-semibold
+               {% if category == cat %}
+               bg-black text-white border-black
+               {% else %}
+               bg-white text-black border-[#eadcc3] hover:bg-black hover:text-white
+               {% endif %}">
+                {{ cat }}
+            </a>
+            {% endfor %}
+        </div>
+
+        {% if products %}
+
+        <!-- PRODUCTS GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for product in products %}
+
+            <div class="group bg-white rounded-3xl shadow-lg overflow-hidden border border-[#eadcc3] hover:shadow-2xl transition duration-300">
+
+                <div class="relative overflow-hidden">
+
+                    {% if product.old_price > product.price %}
+                    <span class="absolute top-4 left-4 z-10 bg-black text-[#d8b46c] px-4 py-1 rounded-full text-xs font-bold uppercase">
+                        Sale
+                    </span>
+                    {% endif %}
+
+                    {% if session.user %}
+                    <button onclick="addToWishlist('{{ product.id }}')"
+                            class="absolute top-4 right-4 z-10 w-11 h-11 bg-white/90 rounded-full shadow-lg flex items-center justify-center hover:bg-[#f8f5ef] transition">
+                        <i class="far fa-heart text-[#b08a3c]"></i>
+                    </button>
+                    {% endif %}
+
+                    <a href="{{ url_for('product_detail', pid=product.id) }}">
+                        <img src="{{ product.image }}"
+                             alt="{{ product.name }}"
+                             class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
+                    </a>
+                </div>
+
+                <div class="p-6">
+                    <p class="text-xs uppercase tracking-[0.2em] text-[#b08a3c] font-bold mb-3">
+                        {{ product.category }}
+                    </p>
+
+                    <h3 class="text-xl font-serif font-bold text-black mb-4 line-clamp-2">
+                        {{ product.name }}
+                    </h3>
+
+                    <div class="flex items-center gap-3 mb-5">
+                        <span class="text-2xl font-bold text-[#9a742d]">
+                            {{ format_price(product.price) }}
+                        </span>
+
+                        {% if product.old_price > product.price %}
+                        <span class="text-sm line-through text-gray-400">
+                            {{ format_price(product.old_price) }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <a href="{{ url_for('product_detail', pid=product.id) }}"
+                       class="block w-full bg-black text-white text-center py-3 rounded-xl font-semibold hover:bg-[#1c1c1c] transition">
+                        Xem chi tiết
+                    </a>
+                </div>
+
+            </div>
+
+            {% endfor %}
+        </div>
+
+        {% else %}
+
+        <!-- EMPTY -->
+        <div class="max-w-xl mx-auto bg-white rounded-[2rem] shadow-2xl p-12 text-center border border-[#eadcc3]">
+            <div class="w-24 h-24 mx-auto rounded-full bg-[#f8f5ef] flex items-center justify-center mb-6">
+                <i class="fas fa-search text-4xl text-[#b08a3c]"></i>
+            </div>
+
+            <h2 class="text-3xl font-serif font-black text-black mb-4">
+                Không tìm thấy sản phẩm
+            </h2>
+
+            <p class="text-gray-500 mb-8">
+                Hãy thử tìm kiếm bằng từ khóa khác hoặc quay lại danh sách sản phẩm.
+            </p>
+
+            <a href="{{ url_for('products') }}"
+               class="inline-block bg-black text-white px-10 py-4 rounded-xl font-semibold hover:bg-[#1c1c1c] transition">
+                Xem tất cả sản phẩm
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}

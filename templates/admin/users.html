@@ -1,0 +1,155 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Quản lý khách hàng - Admin{% endblock %}
+{% block page_title %}Quản lý khách hàng{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+
+    <div class="bg-black text-white rounded-[2rem] shadow-2xl p-8 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+            <div>
+                <p class="uppercase tracking-[0.3em] text-xs text-[#d8b46c] mb-3">
+                    User Management
+                </p>
+
+                <h1 class="text-4xl font-serif font-black">
+                    Quản lý khách hàng
+                </h1>
+
+                <p class="text-gray-300 mt-3">
+                    Theo dõi tài khoản, vai trò và thông tin khách hàng trong hệ thống.
+                </p>
+            </div>
+
+            <a href="{{ url_for('admin_add_user') }}"
+               class="inline-flex items-center justify-center bg-[#d8b46c] text-black px-7 py-4 rounded-2xl font-bold hover:bg-[#c8a25c] transition shadow-xl">
+                <i class="fas fa-user-plus mr-2"></i>
+                Thêm tài khoản
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-[2rem] shadow-xl border border-[#eadcc3] overflow-hidden">
+
+        <div class="px-8 py-6 border-b border-[#eadcc3] flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <p class="uppercase tracking-[0.25em] text-xs text-[#b08a3c] mb-2">
+                    Customer List
+                </p>
+
+                <h2 class="text-3xl font-serif font-black text-black">
+                    Danh sách tài khoản
+                </h2>
+            </div>
+
+            <div class="bg-[#faf7f2] border border-[#eadcc3] rounded-2xl px-5 py-3 text-sm text-gray-600">
+                Tổng tài khoản:
+                <span class="font-bold text-black">{{ users|length }}</span>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full">
+
+                <thead class="bg-[#faf7f2]">
+                    <tr>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Email</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Tên</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">SĐT</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Vai trò</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Đơn hàng</th>
+                        <th class="text-left py-5 px-6 text-sm uppercase tracking-[0.15em] text-gray-500">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for user in users %}
+                    <tr class="border-t border-[#f1e7d5] hover:bg-[#faf7f2] transition">
+
+                        <td class="py-5 px-6 font-semibold text-black">
+                            {{ user.email }}
+                        </td>
+
+                        <td class="py-5 px-6 text-gray-700">
+                            {{ user.name }}
+                        </td>
+
+                        <td class="py-5 px-6 text-gray-600">
+                            {{ user.phone }}
+                        </td>
+
+                        <td class="py-5 px-6">
+                            {% if user.role == 'admin' %}
+                            <span class="inline-flex px-4 py-2 rounded-full bg-black text-[#d8b46c] font-semibold text-sm">
+                                Admin
+                            </span>
+                            {% elif user.role == 'staff' %}
+                            <span class="inline-flex px-4 py-2 rounded-full bg-[#d8b46c] text-black font-semibold text-sm">
+                                Nhân viên
+                            </span>
+                            {% else %}
+                            <span class="inline-flex px-4 py-2 rounded-full bg-[#f8f5ef] text-[#9a742d] border border-[#eadcc3] font-semibold text-sm">
+                                Khách hàng
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="py-5 px-6 font-bold text-[#9a742d]">
+                            0
+                        </td>
+
+                        <td class="py-5 px-6">
+                            <div class="flex items-center gap-3">
+
+                                <a href="{{ url_for('admin_edit_user', email=user.email) }}"
+                                   class="w-10 h-10 rounded-full bg-[#f8f5ef] text-[#9a742d] flex items-center justify-center hover:bg-[#d8b46c] hover:text-black transition"
+                                   title="Sửa tài khoản">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                {% if user.email != session.user.email %}
+                                <form method="POST"
+                                      action="{{ url_for('admin_delete_user') }}"
+                                      onsubmit="return confirm('Xác nhận xóa tài khoản này?')">
+
+                                    <input type="hidden" name="email" value="{{ user.email }}">
+
+                                    <button type="submit"
+                                            class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition"
+                                            title="Xóa tài khoản">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                {% endif %}
+
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        {% if not users %}
+        <div class="text-center py-16">
+            <div class="w-24 h-24 mx-auto rounded-full bg-[#f8f5ef] flex items-center justify-center mb-6">
+                <i class="fas fa-users text-4xl text-[#b08a3c]"></i>
+            </div>
+
+            <h3 class="text-2xl font-serif font-black text-black mb-3">
+                Chưa có tài khoản nào
+            </h3>
+
+            <p class="text-gray-500 mb-8">
+                Hãy thêm tài khoản đầu tiên cho hệ thống.
+            </p>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock %}

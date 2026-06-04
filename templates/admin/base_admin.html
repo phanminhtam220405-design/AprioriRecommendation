@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Quản trị{% endblock %} - Fashion Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+
+        body{
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .sidebar-link{
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link:hover{
+            background-color: rgba(216, 180, 108, 0.08);
+            border-left: 4px solid #d8b46c;
+            color: #d8b46c;
+        }
+
+        .sidebar-link.active{
+            background-color: rgba(216, 180, 108, 0.12);
+            border-left: 4px solid #d8b46c;
+            color: #d8b46c;
+        }
+
+        .sidebar{
+            box-shadow: 2px 0 20px rgba(0,0,0,0.15);
+        }
+
+    </style>
+</head>
+
+<body class="bg-[#f6f1ea]">
+
+<div class="flex h-screen overflow-hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar w-64 bg-black text-white flex-shrink-0 hidden lg:block">
+
+        <div class="p-6">
+
+            <!-- LOGO -->
+            <div class="flex items-center space-x-3 mb-10">
+
+                <div class="w-11 h-11 bg-[#d8b46c] rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-store text-black text-xl"></i>
+                </div>
+
+                <div>
+                    <h1 class="font-black text-xl tracking-wide">
+                        Fashion Store
+                    </h1>
+
+                    <p class="text-xs text-[#d8b46c] tracking-[0.2em] uppercase">
+                        Admin Panel
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- USER -->
+            <div class="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-4 mb-8">
+
+                <div class="flex items-center space-x-3">
+
+                    <div class="w-11 h-11 bg-[#d8b46c]/20 rounded-full flex items-center justify-center border border-[#d8b46c]/30">
+                        <i class="fas fa-user text-[#d8b46c]"></i>
+                    </div>
+
+                    <div class="flex-1 min-w-0">
+
+                        <p class="font-semibold text-sm truncate">
+                            {{ session.user.email }}
+                        </p>
+
+                        <p class="text-xs text-gray-400 capitalize">
+                            {{ session.user.role }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- MENU -->
+            <nav class="space-y-2">
+
+                <a href="{{ url_for('admin_statistics') }}"
+                class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm {% if request.endpoint == 'admin_statistics' %}active{% endif %}">
+
+                    <i class="fas fa-chart-pie w-5"></i>
+                    <span>Thống kê</span>
+
+                </a>
+
+        
+                <a href="{{ url_for('admin_orders') }}"
+                   class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm {% if request.endpoint == 'admin_orders' %}active{% endif %}">
+
+                    <i class="fas fa-shopping-cart w-5"></i>
+                    <span>Đơn hàng</span>
+
+                </a>
+
+                <a href="{{ url_for('admin_products') }}"
+                   class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm {% if request.endpoint in ['admin_products', 'admin_add_product', 'admin_edit_product'] %}active{% endif %}">
+
+                    <i class="fas fa-box w-5"></i>
+                    <span>Sản phẩm</span>
+
+                </a>
+
+                {% if session.user.role == 'admin' %}
+
+                <a href="{{ url_for('admin_users') }}"
+                   class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm {% if request.endpoint in ['admin_users', 'admin_add_user', 'admin_edit_user'] %}active{% endif %}">
+
+                    <i class="fas fa-users w-5"></i>
+                    <span>Tài khoản</span>
+
+                </a>
+
+                {% endif %}
+
+                <div class="border-t border-[#2a2a2a] my-5"></div>
+
+                <a href="{{ url_for('home') }}"
+                   class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm">
+
+                    <i class="fas fa-home w-5"></i>
+                    <span>Trang chủ</span>
+
+                </a>
+
+                <a href="{{ url_for('logout') }}"
+                   class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm text-red-400">
+
+                    <i class="fas fa-sign-out-alt w-5"></i>
+                    <span>Đăng xuất</span>
+
+                </a>
+
+            </nav>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+
+        <!-- HEADER -->
+        <header class="bg-white border-b border-[#eadcc3] z-10">
+
+            <div class="px-8 py-5 flex items-center justify-between">
+
+                <div class="flex items-center space-x-4">
+
+                    <button class="lg:hidden text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+
+                    <div>
+
+                        <p class="uppercase tracking-[0.25em] text-xs text-[#b08a3c] mb-1">
+                            Dashboard
+                        </p>
+
+                        <h2 class="text-3xl font-serif font-black text-black">
+                            {% block page_title %}Quản trị{% endblock %}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <!-- SEARCH -->
+                <div class="flex items-center space-x-5">
+                    <a href="{{ url_for('admin_dashboard') }}"
+                    class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm {% if request.endpoint == 'admin_dashboard' %}active{% endif %}">
+
+                        <div class="w-9 h-9 rounded-xl bg-[#d8b46c]/15 flex items-center justify-center">
+                            <i class="fas fa-chart-line text-[#d8b46c]"></i>
+                        </div>
+
+                        <div>
+                            <span class="block font-semibold">Dashboard</span>
+                            <span class="block text-[11px] text-gray-400">Tổng quan hệ thống</span>
+                        </div>
+
+                    </a>
+                    <div class="relative hidden md:block">
+
+                        <input type="text"
+                               placeholder="Tìm kiếm..."
+                               class="pl-12 pr-5 py-3 bg-[#f8f5ef] border border-[#eadcc3] rounded-2xl focus:outline-none focus:border-[#d8b46c] w-72">
+
+                        <i class="fas fa-search absolute left-4 top-4 text-[#b08a3c]"></i>
+
+                    </div>
+
+                    <!-- NOTIFICATION -->
+                    <button class="relative w-11 h-11 rounded-full bg-[#f8f5ef] border border-[#eadcc3] flex items-center justify-center hover:bg-[#efe7d8] transition">
+
+                        <i class="fas fa-bell text-[#9a742d]"></i>
+
+                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-[10px] text-white flex items-center justify-center">
+                            3
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+        <main class="flex-1 overflow-y-auto bg-[#f6f1ea] p-8">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                    <div class="mb-5 p-5 rounded-2xl border shadow-sm
+                        {% if category == 'error' %}
+                            bg-red-50 text-red-700 border-red-200
+                        {% else %}
+                            bg-green-50 text-green-700 border-green-200
+                        {% endif %}
+                    ">
+
+                        <i class="fas
+                            {% if category == 'error' %}
+                                fa-exclamation-circle
+                            {% else %}
+                                fa-check-circle
+                            {% endif %}
+                            mr-2"></i>
+
+                        {{ message }}
+
+                    </div>
+
+                    {% endfor %}
+
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+
+        </main>
+
+    </div>
+
+</div>
+
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

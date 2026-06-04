@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-screen bg-[#f6f1ea] py-16 px-6">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <div class="container mx-auto">
+
+        <!-- TITLE -->
+        <div class="text-center mb-14">
+
+            <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
+                Shopping Cart
+            </p>
+
+            <h1 class="text-5xl font-serif font-black text-black">
+                Giỏ hàng của bạn
+            </h1>
+
+            <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
+
+        </div>
+
+        {% if cart %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+            <!-- LEFT -->
+            <div class="lg:col-span-2 space-y-5">
+
+                {% for item in cart %}
+
+                <div class="bg-white rounded-3xl shadow-lg p-6 flex items-center gap-6 border border-[#eadcc3]">
+
+                    <!-- IMAGE -->
+                    <img src="{{ item.image }}"
+                         alt="{{ item.name }}"
+                         class="w-28 h-28 object-cover rounded-2xl">
+
+                    <!-- INFO -->
+                    <div class="flex-1">
+
+                        <h3 class="text-xl font-serif font-bold text-black">
+                            {{ item.name }}
+                        </h3>
+
+                        <p class="text-gray-500 mt-2">
+                            {{ item.color }} / {{ item.size }}
+                        </p>
+
+                        <p class="text-2xl font-bold text-[#9a742d] mt-3">
+                            {{ format_price(item.price) }}
+                        </p>
+
+                    </div>
+
+                    <!-- QUANTITY -->
+                    <div class="text-center">
+
+                        <p class="text-sm text-gray-500 mb-2">
+                            Số lượng
+                        </p>
+
+                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#f8f5ef] font-bold">
+                            {{ item.qty }}
+                        </span>
+
+                    </div>
+
+                    <!-- DELETE -->
+                    <form method="post"
+                          action="{{ url_for('remove_from_cart') }}">
+
+                        <input type="hidden"
+                               name="pid"
+                               value="{{ item.id }}">
+
+                        <button class="w-11 h-11 rounded-full bg-red-50 text-red-500 hover:bg-red-100 transition">
+
+                            <i class="fas fa-trash"></i>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- RIGHT -->
+            <div>
+
+                <div class="bg-black text-white rounded-3xl shadow-2xl p-8 sticky top-28">
+
+                    <p class="uppercase tracking-[0.25em] text-xs text-[#d8b46c] mb-3">
+                        Order Summary
+                    </p>
+
+                    <h3 class="text-3xl font-serif font-black mb-8">
+                        Tóm tắt đơn hàng
+                    </h3>
+
+                    <div class="space-y-5 mb-8">
+
+                        <div class="flex justify-between text-gray-300">
+
+                            <span>Tạm tính</span>
+
+                            <span>{{ format_price(subtotal) }}</span>
+
+                        </div>
+
+                        <div class="flex justify-between text-gray-300">
+
+                            <span>Phí vận chuyển</span>
+
+                            <span>{{ format_price(shipping) }}</span>
+
+                        </div>
+
+                        <div class="border-t border-white/20 pt-5 flex justify-between text-xl font-bold">
+
+                            <span>Tổng</span>
+
+                            <span class="text-[#d8b46c]">
+                                {{ format_price(total) }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- CHECKOUT -->
+                    <a href="{{ url_for('checkout') }}"
+                       class="block w-full bg-[#d8b46c] text-black text-center py-4 rounded-2xl font-bold hover:bg-[#c8a25c] transition shadow-xl">
+
+                        Thanh toán
+
+                    </a>
+
+                    <!-- CONTINUE -->
+                    <a href="{{ url_for('products') }}"
+                       class="block text-center mt-5 text-gray-300 hover:text-[#d8b46c] transition">
+
+                        Tiếp tục mua sắm
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <!-- EMPTY CART -->
+        <div class="max-w-xl mx-auto bg-white rounded-[2rem] shadow-2xl p-12 text-center border border-[#eadcc3]">
+
+            <div class="w-24 h-24 mx-auto rounded-full bg-[#f8f5ef] flex items-center justify-center mb-6">
+
+                <i class="fas fa-shopping-bag text-4xl text-[#b08a3c]"></i>
+
+            </div>
+
+            <h2 class="text-3xl font-serif font-black text-black mb-4">
+                Giỏ hàng trống
+            </h2>
+
+            <p class="text-gray-500 mb-8 leading-8">
+                Hãy khám phá bộ sưu tập mới nhất và chọn sản phẩm yêu thích.
+            </p>
+
+            <a href="{{ url_for('products') }}"
+               class="inline-block bg-black text-white px-10 py-4 rounded-xl font-semibold hover:bg-[#1c1c1c] transition">
+
+                Mua sắm ngay
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+{% endblock %}

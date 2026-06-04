@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}Xác nhận đơn hàng - Fashion Store{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#f6f1ea] py-16 px-4">
+
+    <div class="max-w-3xl mx-auto">
+
+        <div class="bg-white rounded-[32px] shadow-2xl overflow-hidden border border-[#e8dcc7]">
+
+            <!-- TOP HEADER -->
+            <div class="bg-black text-white px-10 py-12 text-center relative overflow-hidden">
+
+                <div class="absolute inset-0 opacity-10">
+                    <div class="absolute w-72 h-72 border border-[#d8b46c] rounded-full -top-20 -left-20"></div>
+                    <div class="absolute w-96 h-96 border border-[#d8b46c] rounded-full -bottom-40 -right-20"></div>
+                </div>
+
+                <div class="relative z-10">
+
+                    <div class="w-24 h-24 mx-auto rounded-full bg-[#d8b46c]/10 border border-[#d8b46c]/30 flex items-center justify-center mb-6">
+                        <i class="fas fa-check text-4xl text-[#d8b46c]"></i>
+                    </div>
+
+                    <p class="uppercase tracking-[0.35em] text-sm text-[#d8b46c] mb-4">
+                        ORDER SUCCESS
+                    </p>
+
+                    <h1 class="text-4xl md:text-5xl font-serif font-black mb-4">
+                        Đặt hàng thành công
+                    </h1>
+
+                    <p class="text-gray-300 text-lg">
+                        Cảm ơn bạn đã mua sắm tại Fashion Store
+                    </p>
+
+                </div>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="p-8 md:p-10">
+
+                <!-- ORDER INFO -->
+                <div class="bg-[#faf7f2] border border-[#e8dcc7] rounded-2xl p-6 mb-8">
+
+                    <h3 class="text-2xl font-serif font-bold mb-6 text-black">
+                        Thông tin đơn hàng
+                    </h3>
+
+                    <div class="space-y-5">
+
+                        <div class="flex justify-between items-center border-b border-[#e5ded2] pb-4">
+                            <span class="text-gray-500">Mã đơn hàng</span>
+
+                            <span class="font-bold text-lg text-black">
+                                #{{ order.id[:8] }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between items-center border-b border-[#e5ded2] pb-4">
+                            <span class="text-gray-500">Tổng thanh toán</span>
+
+                            <span class="font-bold text-2xl text-[#b08a3c]">
+                                {{ format_price(order.total) }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between items-center border-b border-[#e5ded2] pb-4">
+                            <span class="text-gray-500">
+                                Phương thức thanh toán
+                            </span>
+
+                            <span class="font-semibold text-black">
+                                {% if order.payment_method == 'cod' %}
+                                <i class="fas fa-money-bill-wave text-green-600 mr-2"></i>
+                                Thanh toán khi nhận hàng
+                                {% else %}
+                                <i class="fas fa-university text-blue-600 mr-2"></i>
+                                Chuyển khoản ngân hàng
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between items-start">
+                            <span class="text-gray-500">
+                                Địa chỉ giao hàng
+                            </span>
+
+                            <div class="text-right">
+                                <p class="font-bold text-black">
+                                    {{ order.shipping_info.name }}
+                                </p>
+
+                                <p class="text-gray-600">
+                                    {{ order.shipping_info.phone }}
+                                </p>
+
+                                <p class="text-gray-600">
+                                    {{ order.shipping_info.address }}
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- PAYMENT NOTE -->
+                {% if order.payment_method == 'cod' %}
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 mb-8">
+
+                    <h3 class="font-bold text-xl mb-5 text-black flex items-center">
+                        <i class="fas fa-info-circle text-[#d8b46c] mr-3"></i>
+                        Lưu ý thanh toán
+                    </h3>
+
+                    <div class="space-y-4 text-gray-700">
+
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-600 mt-1 mr-3"></i>
+
+                            <p>
+                                Chuẩn bị
+                                <strong class="text-red-600">
+                                    {{ format_price(order.total) }}
+                                </strong>
+                                khi nhận hàng
+                            </p>
+                        </div>
+
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-600 mt-1 mr-3"></i>
+
+                            <p>
+                                Được kiểm tra hàng trước khi thanh toán
+                            </p>
+                        </div>
+
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-600 mt-1 mr-3"></i>
+
+                            <p>
+                                Giao hàng trong vòng 2-3 ngày làm việc
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+                <!-- BUTTONS -->
+                <div class="space-y-4">
+
+                    {% if order.payment_method != 'cod' %}
+                    <a href="{{ url_for('payment_page', order_id=order.id) }}"
+                       class="block w-full bg-[#b08a3c] hover:bg-[#96712f] text-white text-center py-4 rounded-2xl transition font-bold tracking-wide">
+
+                        <i class="fas fa-credit-card mr-2"></i>
+                        Tiếp tục thanh toán
+                    </a>
+                    {% endif %}
+
+                    <a href="{{ url_for('order_detail', order_id=order.id) }}"
+                       class="block w-full bg-black hover:bg-[#1a1a1a] text-white text-center py-4 rounded-2xl transition font-bold tracking-wide">
+
+                        <i class="fas fa-receipt mr-2"></i>
+                        Xem chi tiết đơn hàng
+                    </a>
+
+                    <a href="{{ url_for('my_orders') }}"
+                       class="block w-full border border-black text-black text-center py-4 rounded-2xl hover:bg-black hover:text-white transition font-semibold">
+
+                        <i class="fas fa-list mr-2"></i>
+                        Xem tất cả đơn hàng
+                    </a>
+
+                    <a href="{{ url_for('products') }}"
+                       class="block w-full bg-[#f5efe6] hover:bg-[#ede4d6] text-black text-center py-4 rounded-2xl transition font-semibold border border-[#e5d7c0]">
+
+                        <i class="fas fa-shopping-bag mr-2"></i>
+                        Tiếp tục mua sắm
+                    </a>
+
+                </div>
+
+                <!-- CONTACT -->
+                <div class="mt-10 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+
+                    <p class="mb-2">
+                        <i class="fas fa-headset mr-2"></i>
+                        Hỗ trợ:
+                        <span class="font-semibold text-[#b08a3c]">
+                            1900.xxxx
+                        </span>
+                    </p>
+
+                    <p>
+                        <i class="fas fa-envelope mr-2"></i>
+                        support@fashionstore.com
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
