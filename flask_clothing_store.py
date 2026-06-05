@@ -14,6 +14,7 @@ from collections import Counter
 import json
 import matplotlib.pyplot as plt
 import os
+import csv
 import unicodedata
 import pandas as pd
 import unicodedata
@@ -390,12 +391,16 @@ def cart():
 
     if session['user']['role'] in ['admin', 'staff']:
         return redirect(url_for('admin_dashboard'))
-
+    
     cart_items = session.get('cart', [])
-
+    subtotal, shipping, voucher_discount, total = calculate_cart_totals()
     return render_template(
         'cart.html',
-        cart_items=cart_items
+        cart=cart_items,
+        subtotal=subtotal,
+        shipping=shipping,
+        voucher_discount=voucher_discount,
+        total=total
     )
 @app.route('/apply-voucher', methods=['POST'])
 @login_required
@@ -997,7 +1002,10 @@ def admin_create_order():
         
         db.session.add(order)
         db.session.commit()
-        
+        save_order_to_apriori_csv(
+            order.id,
+            cart
+        )
         flash(f'Đã tạo đơn hàng #{order.id[:8]} thành công', 'success')
         return redirect('/admin/orders')
     
@@ -1271,8 +1279,8 @@ def add_to_cart():
             'size': size,
             'qty': qty
         })
-    
     session['cart'] = cart
+
     flash('Đã thêm vào giỏ hàng', 'success')
     
     if request.referrer:
@@ -1983,7 +1991,40 @@ def admin_statistics():
     products = [p.to_dict() for p in Product.query.all()]
     return render_template('admin/edit_order.html', order=order_dict, products=products)
 
+def save_order_to_apriori_csv(order_id, cart):
+    csv_file = 'data/du_lieu_apriori.csv'
 
+    os.makedirs('data', exist_ok=True)
+
+    file_exists = os.path.isfile(csv_file)
+
+    with open(
+        csv_file,
+        mode='a',
+        newline='',
+        encoding='utf-8'
+    ) as f:
+
+        writer = csv.writer(f)
+
+        if not file_exists:
+            writer.writerow([
+                'InvoiceID',
+                'Category'
+            ])
+
+        for item in cart:
+
+            product = Product.query.get(
+                item['id']
+            )
+
+            if product:
+
+                writer.writerow([
+                    order_id,
+                    product.category
+                ])
 
 if __name__ == '__main__':
     print("=" * 50)
