@@ -1,132 +1,153 @@
-```html
-{% extends "admin/base_admin.html" %}
-
-{% block title %}Apriori Analytics{% endblock %}
-{% block page_title %}Apriori Analytics{% endblock %}
-
-{% block content %}
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+```html {% extends "admin/base_admin.html" %} {% block title %}Apriori
+Analytics{% endblock %} {% block page_title %}Apriori Analytics{% endblock %} {%
+block content %}
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese"
+  rel="stylesheet"
+/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="space-y-8">
+  <!-- CHART -->
+  <div class="bg-white rounded-3xl shadow-xl p-8">
+    <div class="grid grid-cols-4 gap-6 mb-8">
+      <div class="bg-white rounded-2xl p-6 shadow">
+        <div class="text-gray-500">Tổng hóa đơn</div>
+        <div class="text-4xl font-bold">{{ total_invoices }}</div>
+      </div>
 
-    <!-- CHART -->
-    <div class="bg-white rounded-3xl shadow-xl p-8">
+      <div class="bg-white rounded-2xl p-6 shadow">
+        <div class="text-gray-500">Danh mục</div>
+        <div class="text-4xl font-bold">{{ total_products }}</div>
+      </div>
 
-        <h2 class="text-3xl font-black mb-6">
-            Biểu đồ sản phẩm mua kèm
-        </h2>
+      <div class="bg-white rounded-2xl p-6 shadow">
+        <div class="text-gray-500">Luật Apriori</div>
+        <div class="text-4xl font-bold">{{ total_rules }}</div>
+      </div>
 
-        <canvas id="aprioriChart" height="120"></canvas>
-
-        {% if not chart_labels %}
-        <div class="text-center text-gray-500 py-8">
-            Chưa có dữ liệu biểu đồ
+      <div class="bg-white rounded-2xl p-6 shadow">
+        <div class="text-gray-500">Confidence Max</div>
+        <div class="text-4xl font-bold text-green-600">
+          {{ max_confidence }}%
         </div>
-        {% endif %}
-
+      </div>
     </div>
 
-    <!-- TABLE -->
-    <div class="bg-white rounded-3xl shadow-xl p-8">
+    <h2 class="text-3xl font-black mb-6">Biểu đồ sản phẩm mua kèm</h2>
 
-        <h1 class="text-3xl font-black mb-8">
-            Thống kê mua kèm sản phẩm
-        </h1>
+    <canvas id="aprioriChart" height="120"></canvas>
 
-        <div class="overflow-x-auto">
+    {% if not chart_labels %}
+    <div class="text-center text-gray-500 py-8">Chưa có dữ liệu biểu đồ</div>
+    {% endif %}
+  </div>
 
-            <table class="w-full">
+  <!-- TABLE -->
+  <div class="bg-white rounded-3xl shadow-xl p-8">
+    <h1 class="text-3xl font-black mb-8">Thống kê mua kèm sản phẩm</h1>
 
-                <thead class="bg-[#f8f5ef]">
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-[#f8f5ef]">
+          <tr>
+            <th class="text-left p-4">Nếu mua</th>
+            <th class="text-left p-4">Thì mua thêm</th>
+            <th class="text-left p-4">Support</th>
+            <th class="text-left p-4">Confidence</th>
+            <th class="text-left p-4">Lift</th>
+          </tr>
+        </thead>
 
-                    <tr>
-                        <th class="text-left p-4">Nếu mua</th>
-                        <th class="text-left p-4">Thì mua thêm</th>
-                        <th class="text-left p-4">Support</th>
-                        <th class="text-left p-4">Confidence</th>
-                        <th class="text-left p-4">Lift</th>
-                    </tr>
+        <tbody>
+          {% for rule in apriori_rules %}
 
-                </thead>
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-4 font-semibold">{{ rule.from_items }}</td>
 
-                <tbody>
+            <td class="p-4 font-bold text-[#9a742d]">{{ rule.to_items }}</td>
 
-                    {% for rule in apriori_rules %}
+            <td class="p-4">{{ rule.support }}%</td>
 
-                    <tr class="border-b hover:bg-gray-50">
+            <td class="p-4 text-green-700 font-bold">{{ rule.confidence }}%</td>
 
-                        <td class="p-4 font-semibold">
-                            {{ rule.from_items }}
-                        </td>
+            <td class="p-4 font-bold">{{ rule.lift }}</td>
+          </tr>
 
-                        <td class="p-4 font-bold text-[#9a742d]">
-                            {{ rule.to_items }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ rule.support }}%
-                        </td>
-
-                        <td class="p-4 text-green-700 font-bold">
-                            {{ rule.confidence }}%
-                        </td>
-
-                        <td class="p-4 font-bold">
-                            {{ rule.lift }}
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-        {% if not apriori_rules %}
-        <div class="text-center py-10 text-gray-500">
-            Chưa đủ dữ liệu đơn hàng để phân tích Apriori
-        </div>
-        {% endif %}
-
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
+    {% if not apriori_rules %}
+    <div class="text-center py-10 text-gray-500">
+      Chưa đủ dữ liệu đơn hàng để phân tích Apriori
+    </div>
+    {% endif %}
+  </div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const labels = JSON.parse('{{ chart_labels | default([]) | tojson | safe }}');
-    const values = JSON.parse('{{ chart_values | default([]) | tojson | safe }}');
 
-    if (labels.length > 0) {
-        new Chart(document.getElementById("aprioriChart"), {
-            type: "bar",
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: "Confidence (%)",
-                    data: values,
-                    backgroundColor: "#d8b46c",
-                    borderColor: "#9a742d",
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const chartData = {
+            labels: {{ chart_labels|tojson|safe }},
+            values: {{ chart_values|tojson|safe }}
+        };
+
+  console.log(chartData);
+
+        if(chartData.labels.length > 0){
+
+            const ctx =
+            document.getElementById("aprioriChart");
+
+            new Chart(ctx, {
+
+                type: "bar",
+
+                data: {
+
+                    labels: chartData.labels,
+
+                    datasets: [{
+
+                        label: "Confidence (%)",
+
+                        data: chartData.values,
+
+                        backgroundColor: "#d8b46c",
+
+                        borderColor: "#9a742d",
+
+                        borderWidth: 1
+
+                    }]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            max: 100
+
+                        }
+
                     }
-                }
-            }
-        });
-    }
-});
-</script>
 
+                }
+
+            });
+
+        }
+
+    });
+</script>
 {% endblock %}
-```

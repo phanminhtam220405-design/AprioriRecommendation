@@ -1,141 +1,154 @@
-{% extends "base.html" %}
-
-{% block content %}
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+{% extends "base.html" %} {% block content %}
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese"
+  rel="stylesheet"
+/>
 <!-- HERO SECTION -->
 <section class="relative h-[560px] overflow-hidden bg-black">
+  <div class="container mx-auto px-6 h-full">
+    <div class="grid lg:grid-cols-2 h-full items-center">
+      <!-- LEFT CONTENT -->
+      <div class="text-white z-10">
+        <p class="uppercase tracking-[0.4em] text-sm text-[#d8b46c] mb-6">
+          Winter Collection 2026
+        </p>
 
-    <div class="container mx-auto px-6 h-full">
+        <h1 class="text-5xl md:text-7xl font-black leading-tight mb-8">
+          Luxury Fashion
+        </h1>
 
-        <div class="grid lg:grid-cols-2 h-full items-center">
+        <p class="text-xl text-gray-300 leading-9 mb-10 max-w-xl">
+          Khám phá hơn 30 sản phẩm thời trang nam nữ với phong cách hiện đại,
+          trẻ trung và sang trọng.
+        </p>
 
-            <!-- LEFT CONTENT -->
-            <div class="text-white z-10">
+        <div class="flex flex-wrap gap-5">
+          <a
+            href="{{ url_for('products') }}"
+            class="bg-[#d8b46c] hover:bg-[#c8a25c] text-black px-10 py-4 rounded-xl font-bold tracking-wide transition shadow-2xl"
+          >
+            Mua sắm ngay
+          </a>
 
-                <p class="uppercase tracking-[0.4em] text-sm text-[#d8b46c] mb-6">
-                    Winter Collection 2026
-                </p>
-
-                <h1 class="text-4xl md:text-5xl font-serif font-black leading-tight mb-8">
-                    Luxury Fashion
-                </h1>
-
-                <p class="text-xl text-gray-300 leading-9 mb-10 max-w-xl">
-                    Khám phá bộ sưu tập thời trang cao cấp với phong cách hiện đại, sang trọng và tinh tế.
-                </p>
-
-                <div class="flex flex-wrap gap-5">
-
-                    <a href="{{ url_for('products') }}"
-                       class="bg-[#d8b46c] hover:bg-[#c8a25c] text-black px-10 py-4 rounded-xl font-bold tracking-wide transition shadow-2xl">
-                        Mua sắm ngay
-                    </a>
-
-                    <a href="/sale"
-                       class="border border-white/30 hover:bg-white/10 text-white px-10 py-4 rounded-xl font-semibold transition">
-                        Xem khuyến mãi
-                    </a>
-
-                </div>
-
-            </div>
-
-            <!-- RIGHT IMAGE -->
-            <div class="relative hidden lg:flex justify-end h-full items-end">
-
-                <!-- glow -->
-                <div class="absolute right-10 bottom-20 w-72 h-72 bg-[#d8b46c]/20 blur-3xl rounded-full"></div>
-
-                <img src="{{ url_for('uploaded_file', filename='fashion.png') }}"
-                     class="relative z-10 h-[520px] object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
-                     alt="Fashion">
-
-            </div>
-
+          <a
+            href="/sale"
+            class="border border-white/30 hover:bg-white/10 text-white px-10 py-4 rounded-xl font-semibold transition"
+          >
+            Xem khuyến mãi
+          </a>
         </div>
+      </div>
 
+      <!-- RIGHT IMAGE -->
+      <div class="relative hidden lg:flex justify-end h-full items-end">
+        <!-- glow -->
+        <div
+          class="absolute right-10 bottom-20 w-72 h-72 bg-[#d8b46c]/20 blur-3xl rounded-full"
+        ></div>
+
+        <img
+          src="{{ url_for('uploaded_file', filename='fashion.png') }}"
+          class="relative z-10 h-[520px] object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
+          alt="Fashion"
+        />
+      </div>
     </div>
-
+  </div>
 </section>
-
 
 <!-- FEATURED PRODUCTS -->
 <section class="py-20 bg-[#f6f1ea]">
-    <div class="container mx-auto px-6">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-14">
+      <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
+        Featured Products
+      </p>
 
-        <div class="text-center mb-14">
-            <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
-                Featured Products
-            </p>
+      <h2 class="text-5xl font-serif font-black text-gray-900">
+        Sản phẩm nổi bật
+      </h2>
 
-            <h2 class="text-5xl font-serif font-black text-gray-900">
-                Sản phẩm nổi bật
-            </h2>
-
-            <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {% for product in featured_products %}
-
-            <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
-
-                <a href="/product/{{ product.id }}" class="block relative overflow-hidden">
-                    {% if product.old_price > product.price %}
-                    <span class="absolute top-4 left-4 z-10 bg-black text-[#d8b46c] px-4 py-1 rounded-full text-xs font-bold uppercase">
-                        Sale
-                    </span>
-                    {% endif %}
-
-                    <img src="{{ product.image }}"
-                         alt="{{ product.name }}"
-                         class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
-                </a>
-
-                <div class="p-6">
-                    <p class="text-xs uppercase tracking-[0.2em] text-[#b08a3c] font-bold mb-3">
-                        {{ product.category }}
-                    </p>
-
-                    <h3 class="text-xl font-serif font-bold text-gray-900 mb-4 line-clamp-2">
-                        {{ product.name }}
-                    </h3>
-
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="text-2xl font-bold text-black">
-                            {{ format_price(product.price) }}
-                        </span>
-
-                        {% if product.old_price > product.price %}
-                        <span class="line-through text-gray-400 text-sm">
-                            {{ format_price(product.old_price) }}
-                        </span>
-                        {% endif %}
-                    </div>
-
-                    <div class="flex items-center justify-between text-sm text-gray-500 mb-5">
-                        <span>Đã bán: {{ product.sold }}</span>
-                        <span>⭐ {{ product.rating }}</span>
-                    </div>
-
-                    <a href="/product/{{ product.id }}"
-                       class="block w-full bg-black text-white text-center py-3 rounded-xl tracking-wide uppercase text-sm hover:bg-[#1c1c1c] transition">
-                        Xem chi tiết
-                    </a>
-                </div>
-            </div>
-
-            {% endfor %}
-        </div>
-
-        <div class="text-center mt-14">
-            <a href="{{ url_for('products') }}"
-               class="inline-block border border-black px-10 py-4 rounded-xl font-semibold hover:bg-black hover:text-white transition">
-                Xem tất cả sản phẩm
-            </a>
-        </div>
-
+      <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
     </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for product in featured_products %}
+
+      <div
+        class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300"
+      >
+        <a
+          href="/product/{{ product.id }}"
+          class="block relative overflow-hidden"
+        >
+          {% if product.old_price > product.price %}
+          <span
+            class="absolute top-4 left-4 z-10 bg-black text-[#d8b46c] px-4 py-1 rounded-full text-xs font-bold uppercase"
+          >
+            Sale
+          </span>
+          {% endif %}
+
+          <img
+            src="{{ product.image }}"
+            alt="{{ product.name }}"
+            class="w-full h-80 object-cover group-hover:scale-110 transition duration-500"
+          />
+        </a>
+
+        <div class="p-6">
+          <p
+            class="text-xs uppercase tracking-[0.2em] text-[#b08a3c] font-bold mb-3"
+          >
+            {{ product.category }}
+          </p>
+
+          <h3
+            class="text-xl font-serif font-bold text-gray-900 mb-4 line-clamp-2"
+          >
+            {{ product.name }}
+          </h3>
+
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-2xl font-bold text-black">
+              {{ format_price(product.price) }}
+            </span>
+
+            {% if product.old_price > product.price %}
+            <span class="line-through text-gray-400 text-sm">
+              {{ format_price(product.old_price) }}
+            </span>
+            {% endif %}
+          </div>
+
+          <div
+            class="flex items-center justify-between text-sm text-gray-500 mb-5"
+          >
+            <span>Đã bán: {{ product.sold }}</span>
+            <span>⭐ {{ product.rating }}</span>
+          </div>
+
+          <a
+            href="/product/{{ product.id }}"
+            class="block w-full bg-black text-white text-center py-3 rounded-xl tracking-wide uppercase text-sm hover:bg-[#1c1c1c] transition"
+          >
+            Xem chi tiết
+          </a>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-14">
+      <a
+        href="{{ url_for('products') }}"
+        class="inline-block border border-black px-10 py-4 rounded-xl font-semibold hover:bg-black hover:text-white transition"
+      >
+        Xem tất cả sản phẩm
+      </a>
+    </div>
+  </div>
 </section>
 
 {% endblock %}

@@ -1,166 +1,188 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <section class="min-h-screen bg-[#f6f1ea] py-16 px-6">
-    <div class="container mx-auto">
+  <div class="container mx-auto">
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white rounded-[2rem] shadow-2xl border border-[#eadcc3] p-8 lg:p-12"
+    >
+      <!-- IMAGE -->
+      <div>
+        <div
+          class="bg-[#faf7f2] rounded-[2rem] overflow-hidden border border-[#eadcc3]"
+        >
+          <img
+            src="{{ product.image }}"
+            alt="{{ product.name }}"
+            class="w-full h-[560px] object-cover"
+          />
+        </div>
+      </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white rounded-[2rem] shadow-2xl border border-[#eadcc3] p-8 lg:p-12">
+      <!-- INFO -->
+      <div>
+        <p class="uppercase tracking-[0.3em] text-sm text-[#b08a3c] mb-4">
+          {{ product.category }}
+        </p>
 
-            <!-- IMAGE -->
-            <div>
-                <div class="bg-[#faf7f2] rounded-[2rem] overflow-hidden border border-[#eadcc3]">
-                    <img src="{{ product.image }}"
-                         alt="{{ product.name }}"
-                         class="w-full h-[560px] object-cover">
-                </div>
-            </div>
+        <h1 class="text-5xl font-black text-black leading-tight mb-6">
+          {{ product.name }}
+        </h1>
 
-            <!-- INFO -->
-            <div>
-                <p class="uppercase tracking-[0.3em] text-sm text-[#b08a3c] mb-4">
-                    {{ product.category }}
-                </p>
+        <div class="flex items-center gap-4 mb-6">
+          <span class="text-4xl font-black text-[#9a742d]">
+            {{ format_price(product.price) }}
+          </span>
 
-                <h1 class="text-5xl font-serif font-black text-black leading-tight mb-6">
-                    {{ product.name }}
-                </h1>
-
-                <div class="flex items-center gap-4 mb-6">
-                    <span class="text-4xl font-black text-[#9a742d]">
-                        {{ format_price(product.price) }}
-                    </span>
-
-                    {% if product.old_price > product.price %}
-                    <span class="text-xl text-gray-400 line-through">
-                        {{ format_price(product.old_price) }}
-                    </span>
-                    {% endif %}
-                </div>
-
-                <p class="text-gray-600 text-lg leading-8 mb-8">
-                    {{ product.description }}
-                </p>
-
-                <form method="post"
-                      action="{{ url_for('add_to_cart') }}"
-                      class="space-y-6">
-
-                    <input type="hidden" name="pid" value="{{ product.id }}">
-
-                    <div>
-                        <label class="block mb-3 font-semibold text-gray-800">
-                            Màu sắc
-                        </label>
-
-                        <select name="color"
-                                class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
-                            {% for color in product.colors %}
-                            <option>{{ color }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block mb-3 font-semibold text-gray-800">
-                            Kích thước
-                        </label>
-
-                        <select name="size"
-                                class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]">
-                            {% for size in product.sizes %}
-                            <option>{{ size }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block mb-3 font-semibold text-gray-800">
-                            Số lượng
-                        </label>
-
-                        <div class="flex items-center gap-4">
-                            <input type="number"
-                                   name="qty"
-                                   value="1"
-                                   min="1"
-                                   max="{{ product.stock }}"
-                                   class="border border-gray-200 rounded-2xl px-5 py-4 w-32 focus:outline-none focus:border-[#d8b46c]">
-
-                            <span class="text-gray-500">
-                                Còn {{ product.stock }} sản phẩm
-                            </span>
-                        </div>
-                    </div>
-
-                    <button type="submit"
-                            class="w-full bg-black text-white py-5 rounded-2xl text-lg font-bold hover:bg-[#1c1c1c] transition shadow-xl">
-                        <i class="fas fa-cart-plus mr-2"></i>
-                        Thêm vào giỏ hàng
-                    </button>
-                </form>
-            </div>
+          {% if product.old_price > product.price %}
+          <span class="text-xl text-gray-400 line-through">
+            {{ format_price(product.old_price) }}
+          </span>
+          {% endif %}
         </div>
 
-        {% if recommended_products %}
-        <div class="mt-20">
-            <div class="text-center mb-12">
-                <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
-                    Recommended
-                </p>
+        <p class="text-gray-600 text-lg leading-8 mb-8">
+          {{ product.description }}
+        </p>
 
-                <h2 class="text-5xl font-serif font-black text-black">
-                    Sản phẩm mua kèm
-                </h2>
+        <form
+          method="post"
+          action="{{ url_for('add_to_cart') }}"
+          class="space-y-6"
+        >
+          <input type="hidden" name="pid" value="{{ product.id }}" />
 
-                <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
+          <div>
+            <label class="block mb-3 font-semibold text-gray-800">
+              Màu sắc
+            </label>
+
+            <select
+              name="color"
+              class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]"
+            >
+              {% for color in product.colors %}
+              <option>{{ color }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div>
+            <label class="block mb-3 font-semibold text-gray-800">
+              Kích thước
+            </label>
+
+            <select
+              name="size"
+              class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]"
+            >
+              {% for size in product.sizes %}
+              <option>{{ size }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div>
+            <label class="block mb-3 font-semibold text-gray-800">
+              Số lượng
+            </label>
+
+            <div class="flex items-center gap-4">
+              <input
+                type="number"
+                name="qty"
+                value="1"
+                min="1"
+                max="{{ product.stock }}"
+                class="border border-gray-200 rounded-2xl px-5 py-4 w-32 focus:outline-none focus:border-[#d8b46c]"
+              />
+
+              <span class="text-gray-500">
+                Còn {{ product.stock }} sản phẩm
+              </span>
             </div>
+          </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {% for item in recommended_products %}
-                <div class="group bg-white rounded-3xl shadow-lg overflow-hidden border border-[#eadcc3] hover:shadow-2xl transition">
-
-                    <a href="{{ url_for('product_detail', pid=item.id) }}" class="block overflow-hidden">
-                        <img src="{{ item.image }}"
-                             alt="{{ item.name }}"
-                             class="w-full h-72 object-cover group-hover:scale-110 transition duration-500">
-                    </a>
-
-                    <div class="p-6">
-                        <p class="text-xs uppercase tracking-[0.2em] text-[#b08a3c] font-bold mb-3">
-                            {{ item.category }}
-                        </p>
-
-                        <h3 class="text-xl font-serif font-bold text-black mb-4">
-                            {{ item.name }}
-                        </h3>
-
-                        <div class="mb-4">
-                            <span class="text-2xl font-bold text-[#9a742d]">
-                                {{ format_price(item.price) }}
-                            </span>
-
-                            {% if item.old_price > item.price %}
-                            <span class="text-sm line-through text-gray-400 ml-2">
-                                {{ format_price(item.old_price) }}
-                            </span>
-                            {% endif %}
-                        </div>
-
-                        <div class="text-sm text-gray-500 mb-5">
-                            Đã bán: {{ item.sold }}
-                        </div>
-
-                        <a href="{{ url_for('product_detail', pid=item.id) }}"
-                           class="block w-full bg-black text-white text-center py-3 rounded-xl hover:bg-[#1c1c1c] transition">
-                            Xem sản phẩm
-                        </a>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
-
+          <button
+            type="submit"
+            class="w-full bg-black text-white py-5 rounded-2xl text-lg font-bold hover:bg-[#1c1c1c] transition shadow-xl"
+          >
+            <i class="fas fa-cart-plus mr-2"></i>
+            Thêm vào giỏ hàng
+          </button>
+        </form>
+      </div>
     </div>
+
+    {% if recommended_products %}
+    <div class="mt-20">
+      <div class="text-center mb-12">
+        <p class="uppercase tracking-[0.35em] text-sm text-[#b08a3c] mb-4">
+          Recommended
+        </p>
+
+        <h2 class="text-5xl font-serif font-black text-black">
+          Sản phẩm mua kèm
+        </h2>
+
+        <div class="w-28 h-[2px] bg-[#d8b46c] mx-auto mt-5"></div>
+      </div>
+
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      >
+        {% for item in recommended_products %}
+        <div
+          class="group bg-white rounded-3xl shadow-lg overflow-hidden border border-[#eadcc3] hover:shadow-2xl transition"
+        >
+          <a
+            href="{{ url_for('product_detail', pid=item.id) }}"
+            class="block overflow-hidden"
+          >
+            <img
+              src="{{ item.image }}"
+              alt="{{ item.name }}"
+              class="w-full h-72 object-cover group-hover:scale-110 transition duration-500"
+            />
+          </a>
+
+          <div class="p-6">
+            <p
+              class="text-xs uppercase tracking-[0.2em] text-[#b08a3c] font-bold mb-3"
+            >
+              {{ item.category }}
+            </p>
+
+            <h3 class="product-name text-xl text-black mb-4">
+              {{ item.name }}
+            </h3>
+
+            <div class="mb-4">
+              <span class="text-2xl font-bold text-[#9a742d]">
+                {{ format_price(item.price) }}
+              </span>
+
+              {% if item.old_price > item.price %}
+              <span class="text-sm line-through text-gray-400 ml-2">
+                {{ format_price(item.old_price) }}
+              </span>
+              {% endif %}
+            </div>
+
+            <div class="text-sm text-gray-500 mb-5">
+              Đã bán: {{ item.sold }}
+            </div>
+
+            <a
+              href="{{ url_for('product_detail', pid=item.id) }}"
+              class="block w-full bg-black text-white text-center py-3 rounded-xl hover:bg-[#1c1c1c] transition"
+            >
+              Xem sản phẩm
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
 </section>
 {% endblock %}

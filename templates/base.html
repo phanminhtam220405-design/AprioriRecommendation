@@ -1,194 +1,246 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Fashion Store{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap&subset=vietnamese"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
     <style>
-        .product-card { transition: all 0.3s ease; }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
+      .product-name {
+        height: 64px;
+        overflow: hidden;
+        line-height: 1.5;
+        font-weight: 700;
+      }
+      .product-card {
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-card img {
+        transition: 0.5s;
+      }
+
+      .product-card:hover img {
+        transform: scale(1.08);
+      }
     </style>
-</head>
+  </head>
 
-<body class="bg-gray-50">
-
-<nav class="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-    <div class="container mx-auto px-6">
+  <body class="bg-[#f6f1ea] font-['Be_Vietnam_Pro']">
+    <nav
+      class="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50"
+    >
+      <div class="container mx-auto px-6">
         <div class="flex justify-between items-center h-20">
+          <a
+            href="{{ url_for('home') }}"
+            class="text-3xl font-serif font-black tracking-tight text-black"
+          >
+            Fashion<span class="text-[#b08a3c]">Store</span>
+          </a>
 
-            <a href="{{ url_for('home') }}"
-               class="text-3xl font-serif font-black tracking-tight text-black">
-                Fashion<span class="text-[#b08a3c]">Store</span>
+          <div class="hidden md:flex flex-1 max-w-xl mx-12">
+            <form
+              action="{{ url_for('products') }}"
+              method="get"
+              class="w-full"
+            >
+              <div class="relative">
+                <input
+                  type="text"
+                  name="q"
+                  value="{{ request.args.get('q', '') }}"
+                  placeholder="Tìm kiếm sản phẩm..."
+                  class="w-full bg-[#f8f5ef] border border-gray-200 rounded-2xl px-6 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-[#d8b46c]/40 focus:border-[#d8b46c] transition"
+                />
+                <button
+                  type="submit"
+                  class="absolute right-4 top-3.5 text-gray-400 hover:text-[#b08a3c] transition"
+                >
+                  <i class="fas fa-search text-lg"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="flex items-center space-x-7">
+            <a
+              href="{{ url_for('products') }}"
+              class="text-gray-700 hover:text-[#b08a3c] font-medium transition"
+            >
+              Sản phẩm
             </a>
 
-            <div class="hidden md:flex flex-1 max-w-xl mx-12">
-                <form action="{{ url_for('products') }}" method="get" class="w-full">
-                    <div class="relative">
-                        <input type="text"
-                               name="q"
-                               value="{{ request.args.get('q', '') }}"
-                               placeholder="Tìm kiếm sản phẩm..."
-                               class="w-full bg-[#f8f5ef] border border-gray-200 rounded-2xl px-6 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-[#d8b46c]/40 focus:border-[#d8b46c] transition">
-                        <button type="submit"
-                                class="absolute right-4 top-3.5 text-gray-400 hover:text-[#b08a3c] transition">
-                            <i class="fas fa-search text-lg"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
+            {% if session.user %} {% if session.user.role == 'user' %}
+            <a href="{{ url_for('wishlist') }}" class="relative group">
+              <i
+                class="fas fa-heart text-xl text-gray-700 group-hover:text-[#b08a3c] transition"
+              ></i>
+              {% if wishlist_count() > 0 %}
+              <span
+                class="absolute -top-2 -right-2 bg-[#b08a3c] text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
+              >
+                {{ wishlist_count() }}
+              </span>
+              {% endif %}
+            </a>
 
-            <div class="flex items-center space-x-7">
-                <a href="{{ url_for('products') }}"
-                   class="text-gray-700 hover:text-[#b08a3c] font-medium transition">
-                    Sản phẩm
+            <a href="{{ url_for('cart') }}" class="relative group">
+              <i
+                class="fas fa-shopping-bag text-xl text-gray-700 group-hover:text-[#b08a3c] transition"
+              ></i>
+              {% if cart_count() > 0 %}
+              <span
+                class="absolute -top-2 -right-2 bg-black text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
+              >
+                {{ cart_count() }}
+              </span>
+              {% endif %}
+            </a>
+            {% endif %}
+
+            <div class="relative">
+              <button
+                id="userBtn"
+                type="button"
+                class="flex items-center gap-3 text-gray-700 hover:text-[#b08a3c] transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-full bg-[#f3ece0] flex items-center justify-center"
+                >
+                  <i class="fas fa-user text-sm"></i>
+                </div>
+
+                <span class="font-medium"> {{ session.user.name }} </span>
+
+                <i class="fas fa-chevron-down text-xs"></i>
+              </button>
+
+              <div
+                id="userMenu"
+                class="absolute hidden bg-white shadow-2xl border border-gray-100 rounded-2xl mt-4 right-0 w-56 py-3 overflow-hidden z-[9999]"
+              >
+                <a
+                  href="{{ url_for('profile') }}"
+                  class="block px-5 py-3 hover:bg-[#f8f5ef] transition"
+                >
+                  Tài khoản
                 </a>
 
-                {% if session.user %}
-
-                    {% if session.user.role == 'user' %}
-                    <a href="{{ url_for('wishlist') }}" class="relative group">
-                        <i class="fas fa-heart text-xl text-gray-700 group-hover:text-[#b08a3c] transition"></i>
-                        {% if wishlist_count() > 0 %}
-                        <span class="absolute -top-2 -right-2 bg-[#b08a3c] text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                            {{ wishlist_count() }}
-                        </span>
-                        {% endif %}
-                    </a>
-
-                    <a href="{{ url_for('cart') }}" class="relative group">
-                        <i class="fas fa-shopping-bag text-xl text-gray-700 group-hover:text-[#b08a3c] transition"></i>
-                        {% if cart_count() > 0 %}
-                        <span class="absolute -top-2 -right-2 bg-black text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                            {{ cart_count() }}
-                        </span>
-                        {% endif %}
-                    </a>
-                    {% endif %}
-
-                    <div class="relative">
-                        <button id="userBtn" type="button"
-                                class="flex items-center gap-3 text-gray-700 hover:text-[#b08a3c] transition">
-                            <div class="w-10 h-10 rounded-full bg-[#f3ece0] flex items-center justify-center">
-                                <i class="fas fa-user text-sm"></i>
-                            </div>
-
-                            <span class="font-medium">
-                                {{ session.user.name }}
-                            </span>
-
-                            <i class="fas fa-chevron-down text-xs"></i>
-                        </button>
-
-                        <div id="userMenu"
-                             class="absolute hidden bg-white shadow-2xl border border-gray-100 rounded-2xl mt-4 right-0 w-56 py-3 overflow-hidden z-[9999]">
-
-                            <a href="{{ url_for('profile') }}"
-                               class="block px-5 py-3 hover:bg-[#f8f5ef] transition">
-                                Tài khoản
-                            </a>
-
-                            {% if session.user.role == 'user' %}
-                            <a href="{{ url_for('my_orders') }}"
-                               class="block px-5 py-3 hover:bg-[#f8f5ef] transition">
-                                Đơn hàng
-                            </a>
-                            {% endif %}
-
-                            {% if session.user.role in ['admin', 'staff'] %}
-                            <a href="{{ url_for('admin_dashboard') }}"
-                               class="block px-5 py-3 hover:bg-[#f8f5ef] text-[#b08a3c] font-semibold transition">
-                                Quản trị
-                            </a>
-                            {% endif %}
-
-                            <hr class="my-2">
-
-                            <a href="{{ url_for('logout') }}"
-                               class="block px-5 py-3 hover:bg-red-50 text-red-600 transition">
-                                Đăng xuất
-                            </a>
-                        </div>
-                    </div>
-
-                {% else %}
-
-                    <a href="{{ url_for('login') }}"
-                       class="bg-black text-white px-7 py-3 rounded-xl hover:bg-[#1c1c1c] transition shadow-xl border border-[#d8b46c]/20">
-                        Đăng nhập
-                    </a>
-
+                {% if session.user.role == 'user' %}
+                <a
+                  href="{{ url_for('my_orders') }}"
+                  class="block px-5 py-3 hover:bg-[#f8f5ef] transition"
+                >
+                  Đơn hàng
+                </a>
+                {% endif %} {% if session.user.role in ['admin', 'staff'] %}
+                <a
+                  href="{{ url_for('admin_dashboard') }}"
+                  class="block px-5 py-3 hover:bg-[#f8f5ef] text-[#b08a3c] font-semibold transition"
+                >
+                  Quản trị
+                </a>
                 {% endif %}
+
+                <hr class="my-2" />
+
+                <a
+                  href="{{ url_for('logout') }}"
+                  class="block px-5 py-3 hover:bg-red-50 text-red-600 transition"
+                >
+                  Đăng xuất
+                </a>
+              </div>
             </div>
 
+            {% else %}
+
+            <a
+              href="{{ url_for('login') }}"
+              class="bg-black text-white px-7 py-3 rounded-xl hover:bg-[#1c1c1c] transition shadow-xl border border-[#d8b46c]/20"
+            >
+              Đăng nhập
+            </a>
+
+            {% endif %}
+          </div>
         </div>
+      </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div class="container mx-auto px-4 mt-4">
+      {% for category, message in messages %}
+      <div
+        class="p-4 rounded-lg {% if category == 'error' %}bg-red-100 text-red-800{% else %}bg-green-100 text-green-800{% endif %} mb-2"
+      >
+        {{ message }}
+      </div>
+      {% endfor %}
     </div>
-</nav>
+    {% endif %} {% endwith %}
 
+    <main>{% block content %}{% endblock %}</main>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <div class="container mx-auto px-4 mt-4">
-            {% for category, message in messages %}
-                <div class="p-4 rounded-lg {% if category == 'error' %}bg-red-100 text-red-800{% else %}bg-green-100 text-green-800{% endif %} mb-2">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
-
-<main>
-    {% block content %}{% endblock %}
-</main>
-
-<footer class="bg-gray-800 text-white mt-16 py-8">
-    <div class="container mx-auto px-4 text-center">
+    <footer class="bg-black text-white mt-16 py-12">
+      <div class="container mx-auto px-4 text-center">
         <p>&copy; 2024 Fashion Store. All rights reserved.</p>
-    </div>
-</footer>
+      </div>
+    </footer>
 
-<script>
-function addToWishlist(pid) {
-    fetch('/add-to-wishlist', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({pid: pid})
-    }).then(r => r.json()).then(data => {
-        if (data.success) {
-            alert('Đã thêm vào yêu thích');
-            location.reload();
-        } else {
-            alert(data.message || 'Có lỗi xảy ra');
-        }
-    });
-}
+    <script>
+      function addToWishlist(pid) {
+        fetch("/add-to-wishlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pid: pid }),
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.success) {
+              alert("Đã thêm vào yêu thích");
+              location.reload();
+            } else {
+              alert(data.message || "Có lỗi xảy ra");
+            }
+          });
+      }
 
-const userBtn = document.getElementById("userBtn");
-const userMenu = document.getElementById("userMenu");
+      const userBtn = document.getElementById("userBtn");
+      const userMenu = document.getElementById("userMenu");
 
-if (userBtn && userMenu) {
-    userBtn.addEventListener("click", function(e) {
-        e.stopPropagation();
-        userMenu.classList.toggle("hidden");
-    });
+      if (userBtn && userMenu) {
+        userBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          userMenu.classList.toggle("hidden");
+        });
 
-    userMenu.addEventListener("click", function(e) {
-        e.stopPropagation();
-    });
+        userMenu.addEventListener("click", function (e) {
+          e.stopPropagation();
+        });
 
-    document.addEventListener("click", function() {
-        userMenu.classList.add("hidden");
-    });
-}
-</script>
-
-</body>
+        document.addEventListener("click", function () {
+          userMenu.classList.add("hidden");
+        });
+      }
+    </script>
+  </body>
 </html>

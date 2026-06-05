@@ -437,8 +437,11 @@ def init_sample_data():
         "stock": 25,
         "sizes": ["M", "L", "XL"],
         "colors": ["Đen", "Nâu"],
-        "color_images": {"Nâu": "/Images/hoodie1.png"},
-        "color_images": {"Đen": "/Images/hoodie1den.png"},
+        "color_images": {
+            "Nâu": "/Images/hoodie1.png",
+            "Đen": "/Images/hoodie1den.png"
+            },
+
         "rating": 4.7,
         "reviews": 15,
         "sold": 120,
@@ -456,8 +459,9 @@ def init_sample_data():
         "stock": 50,
         "sizes": ["S", "M", "L"],
         "colors": ["Xám", "Trắng"],
-        "color_images": {"Xám": "/Images/aothun1.png"},
-        "color_images": {"Trắng": "/Images/aothun1trang.png"},
+        "color_images": {"Xám": "/Images/aothun1.png",
+                         "Trắng": "/Images/aothun1trang.png"
+                         },
         "rating": 4.5,
         "reviews": 18,
         "sold": 220,
@@ -493,8 +497,9 @@ def init_sample_data():
         "stock": 35,
         "sizes": ["M", "L", "XL"],
         "colors": ["Trắng", "Xanh"],
-        "color_images": {"Trắng": "/Images/somi1trang.png"},
-        "color_images": {"Xanh": "/Images/somi1.png"},
+        "color_images": {"Trắng": "/Images/somi1trang.png",
+                         "Xanh": "/Images/somi1.png"
+                         },
         "rating": 4.4,
         "reviews": 9,
         "sold": 60,
@@ -530,8 +535,9 @@ def init_sample_data():
         "stock": 18,
         "sizes": ["M", "L"],
         "colors": ["Trắng", "Đen"],
-        "color_images": {"Trắng": "/Images/cardigan1.png"},
-        "color_images": {"Đen": "/Images/cardigan1den.png"},
+        "color_images": {"Trắng": "/Images/cardigan1.png",
+                         "Đen": "/Images/cardigan1den.png"
+                         },
         "rating": 4.8,
         "reviews": 11,
         "sold": 70,
@@ -549,8 +555,9 @@ def init_sample_data():
         "stock": 12,
         "sizes": ["S", "M", "L"],
         "colors": ["Be", "Đen"],
-        "color_images": {"Be": "/Images/blazer1.png"},
-        "color_images": {"Đen": "/Images/blazer1den.png"},
+        "color_images": {"Be": "/Images/blazer1.png",
+                         "Đen": "/Images/blazer1den.png"
+                         },
         "rating": 4.6,
         "reviews": 10,
         "sold": 45,
@@ -568,8 +575,9 @@ def init_sample_data():
         "stock": 40,
         "sizes": ["FreeSize"],
         "colors": ["Đen", "Trắng"],
-        "color_images": {"Đen": "/Images/non1.png"},
-        "color_images": {"Trắng": "/Images/non1trang.png"},
+        "color_images": {"Đen": "/Images/non1.png",
+                         "Trắng": "/Images/non1trang.png"
+                         },
         "rating": 4.3,
         "reviews": 14,
         "sold": 150,
@@ -605,11 +613,290 @@ def init_sample_data():
         "stock": 28,
         "sizes": ["M", "L", "XL"],
         "colors": ["Đen", "Xám"],
-        "color_images": {"Đen": "/Images/jogger1.png"},
-        "color_images": {"Xám": "/Images/jogger1xam.png"},
+        "color_images": {"Đen": "/Images/jogger1.png", 
+                         "Xám": "/Images/jogger1xam.png"
+                         },
         "rating": 4.5,
         "reviews": 16,
         "sold": 130,
+        "featured": True
+    },
+    {
+    "name": "Áo thun Oversize Streetwear",
+    "price": 239000,
+    "old_price": 299000,
+    "category": "Áo thun",
+    "image": "/Images/Streetwear.png",
+    "images": ["/Images/Streetwear.png"],
+    "description": "Áo thun oversize phong cách streetwear trẻ trung.",
+    "stock": 40,
+    "sizes": ["M","L","XL"],
+    "colors": ["Đen","Trắng"],
+    "color_images": {
+        "Đen": "/Images/Streetwear.png",
+        "Trắng": "/Images/Streetweartrang.png"
+    },
+    "rating": 4.7,
+    "reviews": 12,
+    "sold": 165,
+    "featured": True
+    },
+
+    {
+        "name": "Áo thun Polo Basic",
+        "price": 279000,
+        "old_price": 349000,
+        "category": "Áo thun",
+        "image": "/Images/aothun3.png",
+        "images": ["/Images/aothun3.png"],
+        "description": "Áo polo lịch sự phù hợp đi làm.",
+        "stock": 35,
+        "sizes": ["S","M","L","XL"],
+        "colors": ["Xanh Navy","Trắng"],
+        "color_images": {
+            "Xanh Navy": "/Images/aothun3.png",
+            "Trắng": "/Images/aothun3trang.png"
+        },
+        "rating": 4.5,
+        "reviews": 18,
+        "sold": 180,
+        "featured": False
+    },
+
+    {
+        "name": "Áo thun Graphic Print",
+        "price": 259000,
+        "old_price": 319000,
+        "category": "Áo thun",
+        "image": "/Images/aothun4.png",
+        "images": ["/Images/aothun4.png"],
+        "description": "Áo thun in họa tiết phong cách trẻ.",
+        "stock": 50,
+        "sizes": ["M","L","XL"],
+        "colors": ["Xám","Đen"],
+        "color_images": {
+            "Xám": "/Images/aothun4.png",
+            "Đen": "/Images/aothun4den.png"
+        },
+        "rating": 4.6,
+        "reviews": 20,
+        "sold": 210,
+        "featured": False
+    },
+    {
+        "name": "Áo khoác Bomber",
+        "price": 499000,
+        "old_price": 599000,
+        "category": "Áo khoác",
+        "image": "/Images/bomber1.png",
+        "images": ["/Images/bomber1.png"],
+        "description": "Bomber cá tính phong cách Hàn Quốc.",
+        "stock": 20,
+        "sizes": ["M","L","XL"],
+        "colors": ["Đen"],
+        "color_images": {
+            "Đen": "/Images/bomber1.png"
+        },
+        "rating": 4.8,
+        "reviews": 9,
+        "sold": 95,
+        "featured": True
+    },
+
+    {
+        "name": "Áo khoác Denim",
+        "price": 559000,
+        "old_price": 690000,
+        "category": "Áo khoác",
+        "image": "/Images/denim1.png",
+        "images": ["/Images/denim1.png"],
+        "description": "Áo khoác jean denim thời trang.",
+        "stock": 18,
+        "sizes": ["M","L","XL"],
+        "colors": ["Xanh"],
+        "color_images": {
+            "Xanh": "/Images/denim1.png"
+        },
+        "rating": 4.6,
+        "reviews": 11,
+        "sold": 77,
+        "featured": False
+    },
+
+    {
+        "name": "Áo khoác Varsity",
+        "price": 639000,
+        "old_price": 799000,
+        "category": "Áo khoác",
+        "image": "/Images/varsity1.png",
+        "images": ["/Images/varsity1.png"],
+        "description": "Áo khoác varsity trẻ trung năng động.",
+        "stock": 22,
+        "sizes": ["M","L","XL"],
+        "colors": ["Đen Trắng"],
+        "color_images": {
+            "Đen Trắng": "/Images/varsity1.png"
+        },
+        "rating": 4.8,
+        "reviews": 13,
+        "sold": 104,
+        "featured": True
+    },
+    {
+        "name": "Quần Kaki Slimfit",
+        "price": 389000,
+        "old_price": 459000,
+        "category": "Quần",
+        "image": "/Images/kaki1.png",
+        "images": ["/Images/kaki1.png"],
+        "description": "Quần kaki slimfit lịch sự.",
+        "stock": 25,
+        "sizes": ["29","30","31","32"],
+        "colors": ["Kem"],
+        "color_images": {
+            "Kem": "/Images/kaki1.png"
+        },
+        "rating": 4.5,
+        "reviews": 10,
+        "sold": 120,
+        "featured": False
+    },
+    {
+        "name": "Áo sơ mi Oxford",
+        "price": 329000,
+        "old_price": 399000,
+        "category": "Áo sơ mi",
+        "image": "/Images/oxford1.png",
+        "images": ["/Images/oxford1.png"],
+        "description": "Sơ mi Oxford cao cấp.",
+        "stock": 30,
+        "sizes": ["M","L","XL"],
+        "colors": ["Trắng"],
+        "color_images": {
+            "Trắng": "/Images/oxford1.png"
+        },
+        "rating": 4.7,
+        "reviews": 12,
+        "sold": 130,
+        "featured": False
+    },
+
+    {
+        "name": "Áo sơ mi Caro",
+        "price": 299000,
+        "old_price": 379000,
+        "category": "Áo sơ mi",
+        "image": "/Images/caro1.png",
+        "images": ["/Images/caro1.png"],
+        "description": "Sơ mi caro phong cách trẻ.",
+        "stock": 28,
+        "sizes": ["M","L"],
+        "colors": ["Đỏ"],
+        "color_images": {
+            "Đỏ": "/Images/caro1.png"
+        },
+        "rating": 4.5,
+        "reviews": 9,
+        "sold": 88,
+        "featured": False
+    },
+
+    {
+        "name": "Áo sơ mi Linen",
+        "price": 359000,
+        "old_price": 449000,
+        "category": "Áo sơ mi",
+        "image": "/Images/linen1.png",
+        "images": ["/Images/linen1.png"],
+        "description": "Sơ mi linen thoáng mát.",
+        "stock": 25,
+        "sizes": ["S","M","L"],
+        "colors": ["Be"],
+        "color_images": {
+            "Be": "/Images/linen1.png"
+        },
+        "rating": 4.8,
+        "reviews": 11,
+        "sold": 92,
+        "featured": True
+    },
+    {
+        "name": "Giày Running Sport",
+        "price": 790000,
+        "old_price": 990000,
+        "category": "Giày",
+        "image": "/Images/giay2.png",
+        "images": ["/Images/giay2.png"],
+        "description": "Giày chạy bộ thể thao chuyên dụng.",
+        "stock": 20,
+        "sizes": ["39","40","41","42"],
+        "colors": ["Đen"],
+        "color_images": {
+            "Đen": "/Images/giay2.png"
+        },
+        "rating": 4.9,
+        "reviews": 22,
+        "sold": 170,
+        "featured": True
+    },
+
+    {
+        "name": "Giày Chunky Sneaker",
+        "price": 850000,
+        "old_price": 990000,
+        "category": "Giày",
+        "image": "/Images/giay3.png",
+        "images": ["/Images/giay3.png"],
+        "description": "Chunky sneaker phong cách Hàn Quốc.",
+        "stock": 18,
+        "sizes": ["38","39","40","41"],
+        "colors": ["Trắng"],
+        "color_images": {
+            "Trắng": "/Images/giay3.png"
+        },
+        "rating": 4.8,
+        "reviews": 17,
+        "sold": 132,
+        "featured": True
+    },
+
+    {
+        "name": "Giày Slip On",
+        "price": 499000,
+        "old_price": 599000,
+        "category": "Giày",
+        "image": "/Images/giay4.png",
+        "images": ["/Images/giay4.png"],
+        "description": "Giày slip on tiện lợi.",
+        "stock": 25,
+        "sizes": ["39","40","41"],
+        "colors": ["Đen"],
+        "color_images": {
+            "Đen": "/Images/giay4.png"
+        },
+        "rating": 4.4,
+        "reviews": 8,
+        "sold": 75,
+        "featured": False
+    },
+
+    {
+        "name": "Giày Thể Thao Nam",
+        "price": 720000,
+        "old_price": 850000,
+        "category": "Giày",
+        "image": "/Images/giay5.png",
+        "images": ["/Images/giay5.png"],
+        "description": "Giày thể thao nam cao cấp.",
+        "stock": 20,
+        "sizes": ["40","41","42"],
+        "colors": ["Xám"],
+        "color_images": {
+            "Xám": "/Images/giay5.png"
+        },
+        "rating": 4.8,
+        "reviews": 19,
+        "sold": 145,
         "featured": True
     }
     ]
