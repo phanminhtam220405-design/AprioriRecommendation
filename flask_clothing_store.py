@@ -1852,25 +1852,41 @@ def not_found(error):
 @app.route('/admin/users')
 @admin_required
 def admin_users():
+
     role_filter = request.args.get('role', 'all')
-    
+
     if role_filter == 'all':
         users = User.query.all()
     else:
         users = User.query.filter_by(role=role_filter).all()
-    
+
+    users_data = []
+
+    for u in users:
+
+        user_dict = u.to_dict()
+
+        user_dict['order_count'] = Order.query.filter_by(
+            user_email=u.email,
+            status='completed'
+        ).count()
+
+        users_data.append(user_dict)
+
     all_count = User.query.count()
     admin_count = User.query.filter_by(role='admin').count()
     staff_count = User.query.filter_by(role='staff').count()
     user_count = User.query.filter_by(role='user').count()
-    
-    return render_template('admin/users.html', 
-                         users=[u.to_dict() for u in users],
-                         role=role_filter,
-                         all_count=all_count,
-                         admin_count=admin_count,
-                         staff_count=staff_count,
-                         user_count=user_count)
+
+    return render_template(
+        'admin/users.html',
+        users=users_data,
+        role=role_filter,
+        all_count=all_count,
+        admin_count=admin_count,
+        staff_count=staff_count,
+        user_count=user_count
+    )
 
 
 @app.route('/admin/delete-product', methods=['POST'])
