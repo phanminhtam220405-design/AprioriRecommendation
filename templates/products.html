@@ -100,12 +100,25 @@
             </span>
           </div>
 
+          <div class="grid grid-cols-2 gap-2 mt-4">
+
           <a
-            href="{{ url_for('product_detail', pid=product.id) }}"
-            class="block w-full bg-black text-white text-center py-3 rounded-xl font-semibold hover:bg-[#1c1c1c] transition"
+            href="/product/{{ product.id }}"
+            class="text-center py-3 rounded-xl bg-black text-white text-sm font-semibold hover:bg-[#1c1c1c] transition"
           >
-            Xem chi tiết
+            Mua ngay
           </a>
+
+          <form action="{{ url_for('add_to_cart', pid=product.id) }}" method="POST">
+            <button
+              type="submit"
+              class="w-full py-3 rounded-xl border border-black text-black text-sm font-semibold hover:bg-gray-100 transition"
+            >
+              Thêm giỏ
+            </button>
+          </form>
+
+        </div>
         </div>
       </div>
 

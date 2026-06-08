@@ -6,6 +6,8 @@ Run:
   python flask_clothing_store.py
 Open http://127.0.0.1:5000
 """
+from itertools import product
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, send_from_directory
 from uuid import uuid4
 import datetime
@@ -18,6 +20,8 @@ import csv
 import unicodedata
 import pandas as pd
 import unicodedata
+from collections import Counter
+import json
 from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
 from werkzeug.utils import secure_filename
@@ -81,6 +85,30 @@ def normalize_text(text):
     text = unicodedata.normalize('NFD', text)
     text = ''.join(c for c in text if unicodedata.category(c) != 'Mn')
     return text
+def detect_product_gender(product):
+    text = normalize_text(
+        f"{product.name} {product.category} {product.description}"
+    )
+
+    female_keywords = [
+        'nu', 'vay', 'dam', 'chan vay', 'croptop',
+        'ao body', 'giay cao got', 'cardigan', 'legging','blazer'
+    ]
+
+    male_keywords = [
+        'vest nam', 'ao polo nam', 'ao ba lo nam',
+        'quan jean nam', 'quan short nam',
+        'quan kaki nam', 'ca vat'
+    ]
+
+    if any(keyword in text for keyword in female_keywords):
+        return 'female'
+
+    if any(keyword in text for keyword in male_keywords):
+        return 'male'
+
+    return 'all'
+
 def get_cart():
     return session.get('cart', [])
 
@@ -141,15 +169,166 @@ def home():
     categories = db.session.query(
         Product.category
     ).distinct().all()
+# =====================================================
+# PERSONALIZED RECOMMENDATION (TRANG CHỦ)
+# =====================================================
+# Mục đích:
+# - Gợi ý sản phẩm cho khách hàng dựa trên lịch sử mua hàng.
+#
+# Quy trình:
+# 1. Lấy toàn bộ đơn hàng của khách hàng.
+# 2. Xác định category được mua nhiều nhất.
+# 3. Xác định giới tính sản phẩm (Nam/Nữ/Unisex).
+# 4. Áp dụng thuật toán Apriori để tìm category liên quan.
+# 5. Chọn sản phẩm có lượt bán (sold) và đánh giá (rating) cao.
+# 6. Hiển thị tối đa 6 sản phẩm gợi ý.
+#
+# Công thức thực tế:
+# Apriori -> tìm category nên gợi ý
+# Sold + Rating -> chọn sản phẩm tốt nhất trong category đó
+# =====================================================
+    personalized_products = []
+
+    if 'user' in session and session['user']['role'] == 'user':
+        user_email = session['user']['email']
+
+        orders = Order.query.filter_by(
+            user_email=user_email
+        ).all()
+
+        bought_categories = []
+        bought_genders = []
+        bought_product_ids = []
+
+        for order in orders:
+            try:
+                items = json.loads(order.items) if order.items else []
+
+                for item in items:
+                    category = item.get('category')
+
+                    product_id = (
+                        item.get('product_id')
+                        or item.get('id')
+                        or item.get('pid')
+                    )
+
+                    product_obj = None
+
+                    if product_id:
+                        product_obj = Product.query.get(product_id)
+
+                    if not category and product_obj:
+                        category = product_obj.category
+
+                    if category:
+                        bought_categories.append(category)
+
+                    if product_obj:
+                        bought_genders.append(
+                            detect_product_gender(product_obj)
+                        )
+                        bought_product_ids.append(product_obj.id)
+
+            except Exception as e:
+                print("Read order items error:", e)
+
+        if bought_categories:
+            most_common_category = Counter(bought_categories).most_common(1)[0][0]
+
+            product_gender = None
+
+            if bought_genders:
+                product_gender = Counter(bought_genders).most_common(1)[0][0]
+# Gọi các luật kết hợp được sinh ra từ thuật toán Apriori.
+# most_common_category:
+#     nhóm sản phẩm khách hàng mua nhiều nhất.
+# product_gender:
+#     Nam / Nữ / Unisex.
+# Kết quả trả về:
+#     danh sách category thường được mua kèm.
+            try:
+                recommendations = get_recommendations(
+                    most_common_category,
+                    product_gender
+                )
+
+                added_ids = set()
+
+                for rec in recommendations:
+                    category = rec.get("category") if isinstance(rec, dict) else rec
+
+                    query = Product.query.filter_by(category=category)\
+                        .filter(Product.stock > 0)
+
+                    if bought_product_ids:
+                        query = query.filter(~Product.id.in_(bought_product_ids))
+
+                    products = query.order_by(
+                        Product.sold.desc(),
+                        Product.rating.desc()
+                    ).limit(6).all()
+
+                    for p in products:
+                        p_gender = detect_product_gender(p)
+
+                        if product_gender in ['male', 'female']:
+                            if p_gender not in [product_gender, 'all', 'unisex']:
+                                continue
+
+                        if p.id not in added_ids:
+                            personalized_products.append(p.to_dict())
+                            added_ids.add(p.id)
+
+                        if len(personalized_products) >= 6:
+                            break
+
+                    if len(personalized_products) >= 6:
+                        break
+
+            except Exception as e:
+                print("Home recommendation error:", e)
+
+        if bought_categories and not personalized_products:
+            query = Product.query.filter(Product.stock > 0)
+
+            if bought_product_ids:
+                query = query.filter(~Product.id.in_(bought_product_ids))
+
+            fallback_products = query.order_by(
+                Product.sold.desc(),
+                Product.rating.desc()
+            ).limit(20).all()
+
+            for p in fallback_products:
+                p_gender = detect_product_gender(p)
+
+                if bought_genders:
+                    product_gender = Counter(bought_genders).most_common(1)[0][0]
+
+                    if product_gender in ['male', 'female']:
+                        if p_gender not in [product_gender, 'all', 'unisex']:
+                            continue
+
+                personalized_products.append(p.to_dict())
+
+                if len(personalized_products) >= 6:
+                    break
+
+        print("HOME USER:", user_email)
+        print("HOME ORDERS:", len(orders))
+        print("HOME BOUGHT:", bought_categories)
+        print("HOME GENDERS:", bought_genders)
+        print("HOME RECOMMEND:", len(personalized_products))
 
     return render_template(
         'home.html',
         featured_products=[
             p.to_dict() for p in featured_products
         ],
+        personalized_products=personalized_products,
         categories=categories
     )
-
 @app.route('/products')
 def products():
     category = request.args.get('category', '')
@@ -240,23 +419,69 @@ def product_detail(pid):
     recommended_products = []
 
     try:
+        product_gender = detect_product_gender(product)
 
-        recommendations = get_recommendations(product.category)
+        recommendations = get_recommendations(product.category, product_gender)
+
+        if not recommendations:
+            recommendations = get_recommendations(product.category)
+
+        print("PRODUCT:", product.name)
         print("CATEGORY:", product.category)
+        print("GENDER:", product_gender)
         print("RECOMMEND:", recommendations)
-        for name in recommendations:
 
-            p = Product.query.filter_by(category=name).first()
+        cart_ids = [item['id'] for item in session.get('cart', [])]
+        added_ids = set()
 
-            if p and p.id != pid:
+        for rec in recommendations:
+            category = rec.get("category")
+            confidence = rec.get("confidence", 0)
 
-                recommended_products.append(
-                    p.to_dict()
-                )
+            query = Product.query.filter_by(category=category)\
+                .filter(Product.id != pid)\
+                .filter(Product.stock > 0)
+
+            if cart_ids:
+                query = query.filter(~Product.id.in_(cart_ids))
+
+            products = query.order_by(
+                Product.sold.desc(),
+                Product.rating.desc()
+            ).limit(3).all()
+
+            for p in products:
+                if p.id not in added_ids:
+                    item = p.to_dict()
+                    item["score"] = confidence
+                    recommended_products.append(item)
+                    added_ids.add(p.id)
+
+                if len(recommended_products) >= 6:
+                    break
+
+            if len(recommended_products) >= 6:
+                break
 
     except Exception as e:
         print("Apriori Error:", e)
+    # Nếu Apriori không có gợi ý thì lấy sản phẩm bán chạy
+    # =========================
+    if not recommended_products:
+        fallback_products = Product.query\
+            .filter(Product.id != pid)\
+            .filter(Product.stock > 0)\
+            .order_by(
+                Product.sold.desc(),
+                Product.rating.desc()
+            )\
+            .limit(6)\
+            .all()
 
+        recommended_products = [
+            p.to_dict()
+            for p in fallback_products
+        ]
     # =========================
     # REVIEW PAGINATION
     # =========================
@@ -1737,10 +1962,11 @@ def admin_edit_order(order_id):
     ]
 
     return render_template(
-        'admin/edit_order.html',
-        order=order_dict,
-        products=products
-    )
+    'admin/edit_order.html',
+    order=order_dict,
+    order_items=order_dict.get('order_items', []),
+    products=products
+)
 @app.route('/admin/statistics')
 @staff_required
 def admin_statistics():

@@ -39,20 +39,22 @@
 
                     <div class="space-y-5">
                         {% for item in order['items'] %}
-                        <div class="flex items-center gap-5 bg-[#faf7f2] border border-[#eadcc3] rounded-3xl p-5">
-                            <img src="{{ item.image }}" class="w-24 h-24 object-cover rounded-2xl" alt="{{ item.name }}">
+{% set qty = item.qty | default(item.quantity, true) %}
 
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-black">{{ item.name }}</h3>
-                                <p class="text-gray-500">{{ item.color }} / {{ item.size }}</p>
-                                <p class="text-gray-500">Số lượng: {{ item.qty }}</p>
-                            </div>
+<div class="flex items-center gap-5 bg-[#faf7f2] border border-[#eadcc3] rounded-3xl p-5">
+    <img src="{{ item.image }}" class="w-24 h-24 object-cover rounded-2xl" alt="{{ item.name }}">
 
-                            <p class="text-xl font-bold text-black">
-                                {{ format_price(item.price * item.qty) }}
-                            </p>
-                        </div>
-                        {% endfor %}
+    <div class="flex-1">
+        <h3 class="text-xl font-bold text-black">{{ item.name }}</h3>
+        <p class="text-gray-500">{{ item.color }} / {{ item.size }}</p>
+        <p class="text-gray-500">Số lượng: {{ qty }}</p>
+    </div>
+
+    <p class="text-xl font-bold text-black">
+        {{ format_price(item.price * qty) }}
+    </p>
+</div>
+{% endfor %}
                     </div>
                 </div>
 

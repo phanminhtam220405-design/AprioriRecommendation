@@ -10,10 +10,10 @@
           class="bg-[#faf7f2] rounded-[2rem] overflow-hidden border border-[#eadcc3]"
         >
           <img
-            src="{{ product.image }}"
-            alt="{{ product.name }}"
-            class="w-full h-[560px] object-cover"
-          />
+  src="{{ product.image }}"
+  alt="{{ product.name }}"
+  class="w-full h-[560px] object-cover"
+/>
         </div>
       </div>
 
@@ -56,6 +56,7 @@
             </label>
 
             <select
+              id="colorSelect"
               name="color"
               class="w-full border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d8b46c]"
             >
@@ -185,4 +186,5 @@
     {% endif %}
   </div>
 </section>
+
 {% endblock %}

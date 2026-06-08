@@ -1,21 +1,77 @@
 import pandas as pd
+import unicodedata
 from mlxtend.frequent_patterns import apriori, association_rules
 
-def get_recommendations(category_name):
 
+def normalize_text(text):
+    if not text:
+        return ''
+
+    text = str(text).lower()
+    text = unicodedata.normalize('NFD', text)
+    text = ''.join(
+        c for c in text
+        if unicodedata.category(c) != 'Mn'
+    )
+
+    return text
+
+
+def detect_gender_from_text(text):
+    text = normalize_text(text)
+
+    female_keywords = [
+        'nu', 'vay', 'dam', 'chan vay', 'croptop',
+        'ao body', 'giay cao got', 'cardigan', 'legging'
+    ]
+
+    male_keywords = [
+        'vest nam', 'ao polo nam', 'ao ba lo nam',
+        'quan jean nam', 'quan short nam',
+        'quan kaki nam', 'ca vat'
+    ]
+
+    if any(keyword in text for keyword in female_keywords):
+        return 'female'
+
+    if any(keyword in text for keyword in male_keywords):
+        return 'male'
+
+    return 'unisex'
+
+
+def get_recommendations(category_name, product_gender=None):
     try:
-
         df = pd.read_csv("data/du_lieu_apriori.csv")
 
-        # Tạo ma trận giao dịch
-        basket = df.groupby(
-            ['InvoiceID', 'Category']
-        )['Quantity'].sum().unstack().fillna(0)
+        df['ProductName'] = df['ProductName'].fillna('')
+        df['ProductGender'] = df['ProductName'].apply(detect_gender_from_text)
 
-        # Convert về 0/1
+        if product_gender == 'female':
+            df_filtered = df[
+                df['ProductGender'].isin(['female', 'unisex'])
+            ]
+
+            if not df_filtered.empty:
+                df = df_filtered
+
+        elif product_gender == 'male':
+            df_filtered = df[
+                df['ProductGender'].isin(['male', 'unisex'])
+            ]
+
+            if not df_filtered.empty:
+                df = df_filtered
+
+        # product_gender == 'all' thì không lọc, dùng toàn bộ dữ liệu
+
+        basket = df.groupby(['InvoiceID', 'Category'])['Quantity']\
+            .sum()\
+            .unstack()\
+            .fillna(0)
+
         basket = basket.astype(bool).astype(int)
 
-        # Apriori
         frequent_itemsets = apriori(
             basket,
             min_support=0.001,
@@ -25,32 +81,77 @@ def get_recommendations(category_name):
         if frequent_itemsets.empty:
             return []
 
-        # Association Rules
         rules = association_rules(
             frequent_itemsets,
             metric="confidence",
-            min_threshold=0.01
+            min_threshold=0.001
         )
 
-        print("\n========== RULES ==========")
-        print(rules[['antecedents', 'consequents', 'confidence']])
-        print("===========================\n")
+        category_mapping = {
+        # Database web -> CSV Apriori
+        'Áo sơ mi': 'Sơ mi',
+        'Sơ mi': 'Sơ mi',
 
+        'Áo khoác Hoodie': 'Áo khoác',
+        'Hoodie': 'Áo khoác',
+        'Sweater': 'Áo khoác',
+        'Áo khoác': 'Áo khoác',
+
+        'Quần Jeans Nam': 'Quần',
+        'Quần jean': 'Quần',
+        'Quần jogger': 'Quần',
+        'Jogger': 'Quần',
+        'Quần short': 'Quần',
+        'Quần kaki': 'Quần',
+        'Quần cargo': 'Quần',
+        'Quần tây': 'Quần',
+        'Quần baggy': 'Quần',
+        'Legging': 'Quần',
+        'Quần': 'Quần',
+
+        'Đầm': 'Đầm',
+        'Váy': 'Váy',
+        'Chân váy': 'Váy',
+
+        'Áo tank top': 'Áo tanktop',
+        'Áo tanktop': 'Áo tanktop',
+
+        'Áo thun': 'Áo thun',
+        'Áo polo': 'Áo polo',
+        'Croptop': 'Croptop',
+        'Áo body': 'Áo body',
+        'Áo len': 'Áo len',
+        'Cardigan': 'Cardigan',
+        'Blazer': 'Blazer',
+        'Vest': 'Vest',
+        'Áo giữ nhiệt': 'Áo giữ nhiệt',
+
+        'Nón': 'Nón',
+        'Giày': 'Giày',
+        'Phụ kiện': 'Phụ kiện'
+    }
+
+        category_name = category_mapping.get(category_name, category_name)
         recommendations = []
 
         for _, row in rules.iterrows():
-
             antecedents = list(row['antecedents'])
             consequents = list(row['consequents'])
 
             if category_name in antecedents:
+                for item in consequents:
+                    recommendations.append({
+                        "category": item,
+                        "confidence": float(row["confidence"])
+                    })
 
-                recommendations.extend(consequents)
+        recommendations.sort(
+            key=lambda x: x["confidence"],
+            reverse=True
+        )
 
-        return list(set(recommendations))
+        return recommendations
 
     except Exception as e:
-
         print("APRIORI ERROR:", e)
-
         return []
