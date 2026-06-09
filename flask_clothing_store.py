@@ -1,4 +1,4 @@
-﻿"""
+"""
 Flask E-commerce - Modern Clothing Store with Advanced Features
 Run:
   python -m venv venv
@@ -1778,7 +1778,7 @@ def admin_dashboard():
 
             frequent_itemsets = apriori(
                 df,
-                min_support=0.05,
+                min_support=0.005,
                 use_colnames=True
             )
 
@@ -1786,7 +1786,7 @@ def admin_dashboard():
                 rules = association_rules(
                     frequent_itemsets,
                     metric='confidence',
-                    min_threshold=0.3
+                    min_threshold=0.1
                 )
 
                 if not rules.empty:
@@ -2122,7 +2122,7 @@ def admin_statistics():
 
             frequent_itemsets = apriori(
                 basket,
-                min_support=0.05,
+                min_support=0.01,
                 use_colnames=True
             )
 
@@ -2131,7 +2131,7 @@ def admin_statistics():
                 rules = association_rules(
                     frequent_itemsets,
                     metric='confidence',
-                    min_threshold=0.3
+                    min_threshold=0.1
                 )
 
                 rules = rules.sort_values(
@@ -2251,9 +2251,11 @@ def save_order_to_apriori_csv(order_id, cart):
 
         if not file_exists:
             writer.writerow([
-                'InvoiceID',
-                'Category'
+                'InvoiceID', 'ProductID', 'ProductName', 'Category', 
+                'Size', 'Color', 'Quantity', 'Price', 'OrderDate'
             ])
+
+        order_date_str = datetime.datetime.now().strftime("%d/%m/%Y")
 
         for item in cart:
 
@@ -2265,7 +2267,14 @@ def save_order_to_apriori_csv(order_id, cart):
 
                 writer.writerow([
                     order_id,
-                    product.category
+                    product.id,
+                    product.name,
+                    product.category,
+                    item.get('size', 'M'),
+                    item.get('color', 'Đen'),
+                    item.get('qty', 1),
+                    product.price,
+                    order_date_str
                 ])
 
 if __name__ == '__main__':

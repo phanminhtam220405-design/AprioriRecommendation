@@ -70,11 +70,11 @@ def get_recommendations(category_name, product_gender=None):
             .unstack()\
             .fillna(0)
 
-        basket = basket.astype(bool).astype(int)
+        basket = basket.astype(bool)
 
         frequent_itemsets = apriori(
             basket,
-            min_support=0.001,
+            min_support=0.01,
             use_colnames=True
         )
 
@@ -84,52 +84,52 @@ def get_recommendations(category_name, product_gender=None):
         rules = association_rules(
             frequent_itemsets,
             metric="confidence",
-            min_threshold=0.001
+            min_threshold=0.1
         )
 
         category_mapping = {
-        # Database web -> CSV Apriori
-        'Áo sơ mi': 'Sơ mi',
-        'Sơ mi': 'Sơ mi',
+            # Database web -> CSV Apriori (now exactly matching database category names)
+            'Áo sơ mi': 'Áo sơ mi',
+            'Sơ mi': 'Áo sơ mi',
 
-        'Áo khoác Hoodie': 'Áo khoác',
-        'Hoodie': 'Áo khoác',
-        'Sweater': 'Áo khoác',
-        'Áo khoác': 'Áo khoác',
+            'Áo khoác Hoodie': 'Áo khoác',
+            'Hoodie': 'Áo khoác',
+            'Sweater': 'Áo khoác',
+            'Áo khoác': 'Áo khoác',
 
-        'Quần Jeans Nam': 'Quần',
-        'Quần jean': 'Quần',
-        'Quần jogger': 'Quần',
-        'Jogger': 'Quần',
-        'Quần short': 'Quần',
-        'Quần kaki': 'Quần',
-        'Quần cargo': 'Quần',
-        'Quần tây': 'Quần',
-        'Quần baggy': 'Quần',
-        'Legging': 'Quần',
-        'Quần': 'Quần',
+            'Quần Jeans Nam': 'Quần',
+            'Quần jean': 'Quần',
+            'Quần jogger': 'Quần',
+            'Jogger': 'Quần',
+            'Quần short': 'Quần',
+            'Quần kaki': 'Quần',
+            'Quần cargo': 'Quần',
+            'Quần tây': 'Quần',
+            'Quần baggy': 'Quần',
+            'Legging': 'Quần',
+            'Quần': 'Quần',
 
-        'Đầm': 'Đầm',
-        'Váy': 'Váy',
-        'Chân váy': 'Váy',
+            'Đầm': 'Váy',
+            'Váy': 'Váy',
+            'Chân váy': 'Váy',
 
-        'Áo tank top': 'Áo tanktop',
-        'Áo tanktop': 'Áo tanktop',
+            'Áo tank top': 'Áo thun',
+            'Áo tanktop': 'Áo thun',
 
-        'Áo thun': 'Áo thun',
-        'Áo polo': 'Áo polo',
-        'Croptop': 'Croptop',
-        'Áo body': 'Áo body',
-        'Áo len': 'Áo len',
-        'Cardigan': 'Cardigan',
-        'Blazer': 'Blazer',
-        'Vest': 'Vest',
-        'Áo giữ nhiệt': 'Áo giữ nhiệt',
+            'Áo thun': 'Áo thun',
+            'Áo polo': 'Áo thun',
+            'Croptop': 'Áo thun',
+            'Áo body': 'Áo body',
+            'Áo len': 'Áo len',
+            'Cardigan': 'Cardigan',
+            'Blazer': 'Blazer',
+            'Vest': 'Blazer',
+            'Áo giữ nhiệt': 'Áo body',
 
-        'Nón': 'Nón',
-        'Giày': 'Giày',
-        'Phụ kiện': 'Phụ kiện'
-    }
+            'Nón': 'Nón',
+            'Giày': 'Giày',
+            'Phụ kiện': 'Nón'
+        }
 
         category_name = category_mapping.get(category_name, category_name)
         recommendations = []
