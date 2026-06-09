@@ -1595,6 +1595,14 @@ def checkout():
         db.session.add(order)
         db.session.commit()
         
+        # =====================================================
+        # LƯU THÔNG TIN ĐƠN HÀNG VÀO CSV APRIORI (REALTIME)
+        # =====================================================
+        try:
+            save_order_to_apriori_csv(order.id, cart)
+        except Exception as e:
+            print("APRIORI CSV SAVE ERROR:", e)
+        
         # Clear cart and voucher
         session.pop('cart', None)
         session.pop('voucher_code', None)
