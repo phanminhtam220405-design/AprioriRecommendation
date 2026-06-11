@@ -264,7 +264,7 @@ def init_sample_data():
     # Create sample products
     products_data = [
         {
-            "name": "Áo thun Basic",
+            "name": "Áo Thun Nam Basic",
             "price": 199000,
             "old_price": 299000,
             "category": "Áo thun",
@@ -285,7 +285,7 @@ def init_sample_data():
             "featured": True
         },
         {
-            "name": "Áo khoác Hoodie",
+            "name": "Áo Hoodie Unisex",
             "price": 399000,
             "old_price": 599000,
             "category": "Áo khoác",
@@ -327,7 +327,7 @@ def init_sample_data():
             "featured": True
         },
         {
-            "name": "Áo sơ mi Công sở",
+            "name": "Áo Sơ Mi Nữ Công Sở",
             "price": 279000,
             "old_price": 399000,
             "category": "Áo sơ mi",
@@ -348,13 +348,13 @@ def init_sample_data():
             "featured": True
         },
         {
-            "name": "Váy dài",
+            "name": "Váy Nữ Dài",
             "price": 459000,
             "old_price": 599000,
             "category": "Váy",
             "image": "/Images/vaybe.png",
             "images": ["/Images/vaybe.png", "/Images/vayxanh.png"],
-            "description": "Váy dài phong cách vintage, sang trọng.",
+            "description": "Váy Nữ Dài phong cách vintage, sang trọng.",
             "stock": 15,
             "sizes": ["S", "M", "L"],
             "colors": ["Be", "Xanh"],
@@ -409,13 +409,13 @@ def init_sample_data():
             "featured": False
         },
         {
-            "name": "Áo Body Giữ Nhiệt Bamboo Cổ Tròn",
+            "name": "Áo Body Nữ Giữ Nhiệt Bamboo Cổ Tròn",
             "price": 329000,
             "old_price": 429000,
             "category": "Áo body",
             "image": "/Images/bodytrang.png",
             "images": ["/Images/bodytrang.png", "/Images/bodyden.png"],
-            "description": "Áo Body Giữ Nhiệt Bamboo Cổ Tròn thanh lịch, dễ phối đồ.",
+            "description": "Áo Body Nữ Giữ Nhiệt Bamboo Cổ Tròn thanh lịch, dễ phối đồ.",
             "stock": 35,
             "sizes": ["S", "M", "L"],
             "colors": ["Trắng", "Đen"],
@@ -429,7 +429,7 @@ def init_sample_data():
             "featured": False
         },
         {
-        "name": "Áo Hoodie Basic",
+        "name": "Áo Hoodie Unisex Basic",
         "price": 399000,
         "old_price": 499000,
         "category": "Áo khoác",
@@ -451,7 +451,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo Thun Local Brand",
+        "name": "Áo Thun Nam Local Brand",
         "price": 199000,
         "old_price": 259000,
         "category": "Áo thun",
@@ -471,7 +471,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Quần Jeans Slimfit",
+        "name": "Quần Jeans Nam Slimfit",
         "price": 549000,
         "old_price": 650000,
         "category": "Quần",
@@ -489,7 +489,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo Sơ Mi Công Sở",
+        "name": "Áo Sơ Mi Nữ Công Sở",
         "price": 299000,
         "old_price": 399000,
         "category": "Áo sơ mi",
@@ -527,7 +527,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo Cardigan Hàn Quốc",
+        "name": "Cardigan Nữ Hàn Quốc",
         "price": 430000,
         "old_price": 520000,
         "category": "Cardigan",
@@ -547,7 +547,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo Blazer Nữ",
+        "name": "Blazer Nữ Basic",
         "price": 720000,
         "old_price": 850000,
         "category": "Blazer",
@@ -567,7 +567,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Nón Lưỡi Trai Basic",
+        "name": "Nón Lưỡi Trai Basic Unisex",
         "price": 120000,
         "old_price": 180000,
         "category": "Nón",
@@ -587,7 +587,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Giày Sneaker Trắng",
+        "name": "Giày Sneaker Trắng Unisex",
         "price": 650000,
         "old_price": 790000,
         "category": "Giày",
@@ -624,7 +624,7 @@ def init_sample_data():
         "featured": True
     },
     {
-    "name": "Áo thun Oversize Streetwear",
+    "name": "Áo Thun Nam Oversize Streetwear",
     "price": 239000,
     "old_price": 299000,
     "category": "Áo thun",
@@ -645,7 +645,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo thun Polo Basic",
+        "name": "Áo Polo Nam Basic",
         "price": 279000,
         "old_price": 349000,
         "category": "Áo thun",
@@ -666,7 +666,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo thun Graphic Print",
+        "name": "Áo Thun Nam Graphic Print",
         "price": 259000,
         "old_price": 319000,
         "category": "Áo thun",
@@ -686,7 +686,7 @@ def init_sample_data():
         "featured": False
     },
     {
-        "name": "Áo khoác Bomber",
+        "name": "Áo Khoác Nam Bomber",
         "price": 499000,
         "old_price": 599000,
         "category": "Áo khoác",
@@ -706,7 +706,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo khoác Denim",
+        "name": "Áo Khoác Nam Denim",
         "price": 559000,
         "old_price": 690000,
         "category": "Áo khoác",
@@ -726,7 +726,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo khoác Varsity",
+        "name": "Áo Khoác Nam Varsity",
         "price": 639000,
         "old_price": 799000,
         "category": "Áo khoác",
@@ -745,7 +745,7 @@ def init_sample_data():
         "featured": True
     },
     {
-        "name": "Quần Kaki Slimfit",
+        "name": "Quần Kaki Nam Slimfit",
         "price": 389000,
         "old_price": 459000,
         "category": "Quần",
@@ -764,7 +764,7 @@ def init_sample_data():
         "featured": False
     },
     {
-        "name": "Áo sơ mi Oxford",
+        "name": "Áo Sơ Mi Nữ Oxford",
         "price": 329000,
         "old_price": 399000,
         "category": "Áo sơ mi",
@@ -784,7 +784,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo sơ mi Caro",
+        "name": "Áo Sơ Mi Nam Caro",
         "price": 299000,
         "old_price": 379000,
         "category": "Áo sơ mi",
@@ -804,7 +804,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Áo sơ mi Linen",
+        "name": "Áo Sơ Mi Nữ Linen",
         "price": 359000,
         "old_price": 449000,
         "category": "Áo sơ mi",
@@ -823,7 +823,7 @@ def init_sample_data():
         "featured": True
     },
     {
-        "name": "Giày Running Sport",
+        "name": "Giày Running Sport Unisex",
         "price": 790000,
         "old_price": 990000,
         "category": "Giày",
@@ -843,7 +843,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Giày Chunky Sneaker",
+        "name": "Giày Chunky Sneaker Unisex",
         "price": 850000,
         "old_price": 990000,
         "category": "Giày",
@@ -863,7 +863,7 @@ def init_sample_data():
     },
 
     {
-        "name": "Giày Slip On",
+        "name": "Giày Slip On Unisex",
         "price": 499000,
         "old_price": 599000,
         "category": "Giày",
@@ -919,7 +919,7 @@ def init_sample_data():
     "featured": True,
     },
     {
-        "name": "Váy Hoa Vintage",
+        "name": "Váy Nữ Hoa Vintage",
         "price": 450000,
         "old_price": 580000,
         "category": "Váy",
@@ -936,7 +936,7 @@ def init_sample_data():
         "featured": True
     },
     {
-        "name": "Váy Dự Tiệc Cao Cấp",
+        "name": "Váy Nữ Dự Tiệc Cao Cấp",
         "price": 690000,
         "old_price": 850000,
         "category": "Váy",
@@ -953,7 +953,7 @@ def init_sample_data():
         "featured": True
     },
     {
-        "name": "Áo Len Cổ Lọ",
+        "name": "Áo Len Nam Cổ Lọ",
         "price": 520000,
         "old_price": 650000,
         "category": "Áo len",
@@ -970,7 +970,7 @@ def init_sample_data():
         "featured": True
     },
     {
-        "name": "Áo Len Hàn Quốc",
+        "name": "Áo Len Nam Hàn Quốc",
         "price": 499000,
         "old_price": 620000,
         "category": "Áo len",
@@ -987,7 +987,7 @@ def init_sample_data():
         "featured": True
     },
     {
-        "name": "Áo Len Dệt Kim",
+        "name": "Áo Len Nam Dệt Kim",
         "price": 469000,
         "old_price": 590000,
         "category": "Áo len",
@@ -1004,7 +1004,7 @@ def init_sample_data():
         "featured": False
     },
     {
-        "name": "Áo Len Form Rộng",
+        "name": "Áo Len Nam Form Rộng",
         "price": 559000,
         "old_price": 690000,
         "category": "Áo len",
@@ -1021,7 +1021,7 @@ def init_sample_data():
         "featured": True
     },
     {
-        "name": "Áo Body Tay Dài",
+        "name": "Áo Body Nữ Tay Dài",
         "price": 299000,
         "old_price": 380000,
         "category": "Áo body",
@@ -1055,7 +1055,7 @@ def init_sample_data():
         "featured": False
     },
     {
-        "name": "Áo Body Cổ Vuông",
+        "name": "Áo Body Nữ Cổ Vuông",
         "price": 329000,
         "old_price": 420000,
         "category": "Áo body",
@@ -1072,7 +1072,7 @@ def init_sample_data():
         "featured": True
     },
     {
-        "name": "Áo Body Croptop",
+        "name": "Áo Body Nữ Croptop",
         "price": 289000,
         "old_price": 350000,
         "category": "Áo body",
@@ -1089,7 +1089,7 @@ def init_sample_data():
         "featured": True
     },
     {
-    "name": "Cardigan Len Mỏng",
+    "name": "Cardigan Nữ Len Mỏng",
     "price": 399000,
     "old_price": 520000,
     "category": "Cardigan",
@@ -1106,7 +1106,7 @@ def init_sample_data():
     "featured": True
 },
 {
-    "name": "Cardigan Oversize",
+    "name": "Cardigan Nữ Oversize",
     "price": 459000,
     "old_price": 590000,
     "category": "Cardigan",
@@ -1123,7 +1123,7 @@ def init_sample_data():
     "featured": True
 },
 {
-    "name": "Cardigan Dệt Kim",
+    "name": "Cardigan Nữ Dệt Kim",
     "price": 499000,
     "old_price": 650000,
     "category": "Cardigan",
@@ -1157,7 +1157,7 @@ def init_sample_data():
     "featured": False
 },
 {
-    "name": "Blazer Hàn Quốc",
+    "name": "Blazer Nữ Hàn Quốc",
     "price": 790000,
     "old_price": 990000,
     "category": "Blazer",
@@ -1174,7 +1174,7 @@ def init_sample_data():
     "featured": True
 },
 {
-    "name": "Blazer Form Rộng",
+    "name": "Blazer Nữ Form Rộng",
     "price": 850000,
     "old_price": 1050000,
     "category": "Blazer",
@@ -1209,7 +1209,7 @@ def init_sample_data():
     "featured": True
 },
 {
-    "name": "Blazer Premium",
+    "name": "Blazer Nữ Premium",
     "price": 990000,
     "old_price": 1290000,
     "category": "Blazer",
@@ -1226,7 +1226,7 @@ def init_sample_data():
     "featured": True
 },
 {
-    "name": "Nón Bucket Basic",
+    "name": "Nón Bucket Basic Unisex",
     "price": 180000,
     "old_price": 250000,
     "category": "Nón",
@@ -1243,7 +1243,7 @@ def init_sample_data():
     "featured": False
 },
 {
-    "name": "Nón Snapback",
+    "name": "Nón Snapback Unisex",
     "price": 220000,
     "old_price": 290000,
     "category": "Nón",
@@ -1260,7 +1260,7 @@ def init_sample_data():
     "featured": True
 },
 {
-    "name": "Nón Thể Thao",
+    "name": "Nón Thể Thao Unisex",
     "price": 190000,
     "old_price": 250000,
     "category": "Nón",
@@ -1277,7 +1277,7 @@ def init_sample_data():
     "featured": True
 },
 {
-    "name": "Nón Lưỡi Trai Cao Cấp",
+    "name": "Nón Lưỡi Trai Cao Cấp Unisex",
     "price": 250000,
     "old_price": 320000,
     "category": "Nón",
@@ -1292,6 +1292,113 @@ def init_sample_data():
     "reviews": 22,
     "sold": 145,
     "featured": True
+},
+{
+    "name": "Quần Jeans Nữ Skinny",
+    "price": 489000,
+    "old_price": 599000,
+    "category": "Quần",
+    "image": "/Images/quan_nu_1.png",
+    "images": ["/Images/quan_nu_1.png"],
+    "description": "Quần jeans nữ skinny ôm dáng.",
+    "stock": 30,
+    "sizes": ["S","M","L"],
+    "colors": ["Xanh"],
+    "color_images": {"Xanh": "/Images/quan_nu_1.png"},
+    "rating": 4.8,
+    "reviews": 18,
+    "sold": 160,
+    "featured": True
+},
+
+{
+    "name": "Quần Baggy Nữ",
+    "price": 429000,
+    "old_price": 529000,
+    "category": "Quần",
+    "image": "/Images/quan_nu_2.png",
+    "images": ["/Images/quan_nu_2.png"],
+    "description": "Quần baggy nữ trẻ trung.",
+    "stock": 25,
+    "sizes": ["S","M","L"],
+    "colors": ["Đen"],
+    "color_images": {"Đen": "/Images/quan_nu_2.png"},
+    "rating": 4.7,
+    "reviews": 15,
+    "sold": 400,
+    "featured": True
+},
+
+{
+    "name": "Quần Tây Nữ Công Sở",
+    "price": 459000,
+    "old_price": 559000,
+    "category": "Quần",
+    "image": "/Images/quan_nu_3.png",
+    "images": ["/Images/quan_nu_3.png"],
+    "description": "Quần tây nữ công sở thanh lịch.",
+    "stock": 20,
+    "sizes": ["S","M","L"],
+    "colors": ["Đen"],
+    "color_images": {"Đen": "/Images/quan_nu_3.png"},
+    "rating": 4.9,
+    "reviews": 20,
+    "sold": 175,
+    "featured": True
+},
+
+{
+    "name": "Quần Ống Rộng Nữ",
+    "price": 399000,
+    "old_price": 499000,
+    "category": "Quần",
+    "image": "/Images/quan_nu_4.png",
+    "images": ["/Images/quan_nu_4.png"],
+    "description": "Quần ống rộng nữ thời trang.",
+    "stock": 28,
+    "sizes": ["S","M","L"],
+    "colors": ["Kem"],
+    "color_images": {"Kem": "/Images/quan_nu_4.png"},
+    "rating": 4.8,
+    "reviews": 17,
+    "sold": 350,
+    "featured": True
+},
+
+{
+    "name": "Quần Short Nữ",
+    "price": 259000,
+    "old_price": 329000,
+    "category": "Quần",
+    "image": "/Images/quan_nu_5.png",
+    "images": ["/Images/quan_nu_5.png"],
+    "description": "Quần short nữ năng động.",
+    "stock": 35,
+    "sizes": ["S","M","L"],
+    "colors": ["Xanh"],
+    "color_images": {"Xanh": "/Images/quan_nu_5.png"},
+    "rating": 4.6,
+    "reviews": 13,
+    "sold": 290,
+    "featured": True
+},
+
+{
+    "name": "Quần Culottes Nữ",
+    "price": 379000,
+    "old_price": 469000,
+    "category": "Quần",
+    "image": "/Images/quan_nu_6.png",
+    "images": ["/Images/quan_nu_6.png"],
+    "description": "Quần culottes nữ hiện đại.",
+    "stock": 18,
+    "sizes": ["S","M","L"],
+    "colors": ["Be"],
+    "color_images": {"Be": "/Images/quan_nu_6.png"},
+    "rating": 4.7,
+    "reviews": 11,
+    "sold": 110,
+    "featured": False
 },
     ]
     
@@ -1319,10 +1426,10 @@ def init_sample_data():
     db.session.commit()  # Commit products first to get IDs
     
     # Get product IDs for reviews
-    product_ao_thun = Product.query.filter_by(name="Áo thun Basic").first()
-    product_hoodie = Product.query.filter_by(name="Áo khoác Hoodie").first()
+    product_ao_thun = Product.query.filter_by(name="Áo Thun Nam Basic").first()
+    product_hoodie = Product.query.filter_by(name="Áo Hoodie Unisex").first()
     product_jeans = Product.query.filter_by(name="Quần Jeans Nam").first()
-    product_somi = Product.query.filter_by(name="Áo sơ mi Công sở").first()
+    product_somi = Product.query.filter_by(name="Áo Sơ Mi Nữ Công Sở").first()
     
     # Create sample users for reviews
     sample_users = [
@@ -1348,7 +1455,7 @@ def init_sample_data():
             id=str(uuid4()),
             user_email='nguyen.van.a@gmail.com',
             items=json.dumps([
-                {"product_id": product_ao_thun.id, "name": "Áo thun Basic", "price": 199000, "quantity": 2, "size": "M", "color": "Trắng", "image": "/Images/thuntrang.png"},
+                {"product_id": product_ao_thun.id, "name": "Áo Thun Nam Basic", "price": 199000, "quantity": 2, "size": "M", "color": "Trắng", "image": "/Images/thuntrang.png"},
                 {"product_id": product_jeans.id, "name": "Quần Jeans Nam", "price": 549000, "quantity": 1, "size": "30", "color": "Xanh đậm", "image": "/Images/jeanxanhdam.png"}
             ]),
             shipping_info=json.dumps({
@@ -1370,7 +1477,7 @@ def init_sample_data():
             id=str(uuid4()),
             user_email='tran.thi.b@gmail.com',
             items=json.dumps([
-                {"product_id": product_ao_thun.id, "name": "Áo thun Basic", "price": 199000, "quantity": 1, "size": "L", "color": "Đen", "image": "/Images/thunden.png"}
+                {"product_id": product_ao_thun.id, "name": "Áo Thun Nam Basic", "price": 199000, "quantity": 1, "size": "L", "color": "Đen", "image": "/Images/thunden.png"}
             ]),
             shipping_info=json.dumps({
                 "name": "Trần Thị B",
@@ -1391,7 +1498,7 @@ def init_sample_data():
             id=str(uuid4()),
             user_email='le.van.c@gmail.com',
             items=json.dumps([
-                {"product_id": product_ao_thun.id, "name": "Áo thun Basic", "price": 199000, "quantity": 1, "size": "XL", "color": "Nâu", "image": "/Images/thunau.png"},
+                {"product_id": product_ao_thun.id, "name": "Áo Thun Nam Basic", "price": 199000, "quantity": 1, "size": "XL", "color": "Nâu", "image": "/Images/thunau.png"},
                 {"product_id": product_jeans.id, "name": "Quần Jeans Nam", "price": 549000, "quantity": 1, "size": "31", "color": "Xanh đậm", "image": "/Images/jeanxanhdam.png"}
             ]),
             shipping_info=json.dumps({
@@ -1413,7 +1520,7 @@ def init_sample_data():
             id=str(uuid4()),
             user_email='pham.thi.d@gmail.com',
             items=json.dumps([
-                {"product_id": product_somi.id, "name": "Áo sơ mi Công sở", "price": 279000, "quantity": 2, "size": "M", "color": "Trắng", "image": "/Images/somitrang.png"}
+                {"product_id": product_somi.id, "name": "Áo Sơ Mi Nữ Công Sở", "price": 279000, "quantity": 2, "size": "M", "color": "Trắng", "image": "/Images/somitrang.png"}
             ]),
             shipping_info=json.dumps({
                 "name": "Phạm Thị D",
@@ -1434,7 +1541,7 @@ def init_sample_data():
             id=str(uuid4()),
             user_email='hoang.van.e@gmail.com',
             items=json.dumps([
-                {"product_id": product_hoodie.id, "name": "Áo khoác Hoodie", "price": 399000, "quantity": 1, "size": "L", "color": "Xám", "image": "/Images/hoodiexam.png"}
+                {"product_id": product_hoodie.id, "name": "Áo Hoodie Unisex", "price": 399000, "quantity": 1, "size": "L", "color": "Xám", "image": "/Images/hoodiexam.png"}
             ]),
             shipping_info=json.dumps({
                 "name": "Hoàng Văn E",

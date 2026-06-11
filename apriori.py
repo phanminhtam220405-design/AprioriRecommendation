@@ -21,14 +21,44 @@ def detect_gender_from_text(text):
     text = normalize_text(text)
 
     female_keywords = [
-        'nu', 'vay', 'dam', 'chan vay', 'croptop',
-        'ao body', 'giay cao got', 'cardigan', 'legging'
+        'nu',
+    'vay',
+    'dam',
+    'chan vay',
+    'croptop',
+    'ao body',
+    'cardigan',
+    'blazer nu',
+    'quan jeans nu',
+    'quan jean nu',
+    'quan tay nu',
+    'quan short nu',
+    'quan baggy nu',
+    'quan culottes nu'
     ]
 
     male_keywords = [
-        'vest nam', 'ao polo nam', 'ao ba lo nam',
-        'quan jean nam', 'quan short nam',
-        'quan kaki nam', 'ca vat'
+        'nam',
+        'ao polo nam',
+        'ao thun nam',
+        'ao so mi nam',
+        'quan jean nam',
+        'quan jeans nam',
+        'quan short nam',
+        'quan kaki nam',
+        'jogger nam',
+        'vest nam'
+    ]
+
+    unisex_keywords = [
+        'unisex',
+        'hoodie',
+        'sneaker',
+        'running sport',
+        'slip on',
+        'bucket',
+        'snapback',
+        'non'
     ]
 
     if any(keyword in text for keyword in female_keywords):
@@ -37,8 +67,10 @@ def detect_gender_from_text(text):
     if any(keyword in text for keyword in male_keywords):
         return 'male'
 
-    return 'unisex'
+    if any(keyword in text for keyword in unisex_keywords):
+        return 'unisex'
 
+    return 'unisex'
 
 def get_recommendations(category_name, product_gender=None):
     try:

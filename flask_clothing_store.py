@@ -451,6 +451,20 @@ def product_detail(pid):
             ).limit(3).all()
 
             for p in products:
+                p_gender = detect_product_gender(p)
+
+                if product_gender == 'female':
+                    if p_gender not in ['female', 'unisex', 'all']:
+                        continue
+
+                if product_gender == 'male':
+                    if p_gender not in ['male', 'unisex', 'all']:
+                        continue
+
+                if product_gender in ['unisex', 'all']:
+                    if p_gender not in ['unisex', 'all']:
+                        continue
+
                 if p.id not in added_ids:
                     item = p.to_dict()
                     item["score"] = confidence
@@ -465,6 +479,7 @@ def product_detail(pid):
 
     except Exception as e:
         print("Apriori Error:", e)
+
     # Nếu Apriori không có gợi ý thì lấy sản phẩm bán chạy
     # =========================
     if not recommended_products:
