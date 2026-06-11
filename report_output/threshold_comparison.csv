@@ -1,0 +1,6 @@
+min_support,so_frequent_itemsets,so_rules
+0.005,176,120
+0.01,73,120
+0.02,69,120
+0.03,69,120
+0.05,44,30

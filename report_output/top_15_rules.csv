@@ -1,0 +1,16 @@
+antecedents,consequents,support,confidence,lift
+Mũ Len Unisex Mùa Đông Ấm Áp,"Áo Khoác Nam Denim Classic, Áo Len Nam Cổ Lọ Ấm Áp",0.0327,0.5385,12.1457
+"Áo Khoác Nam Denim Classic, Áo Len Nam Cổ Lọ Ấm Áp",Mũ Len Unisex Mùa Đông Ấm Áp,0.0327,0.7368,12.1457
+Váy Nữ Dự Tiệc Trễ Vai Sang Chảnh,"Giày Cao Gót Nữ Đế Nhọn Công Sở, Áo Body Nữ Tay Dài Ôm Sát",0.0333,0.5051,11.8371
+"Giày Cao Gót Nữ Đế Nhọn Công Sở, Áo Body Nữ Tay Dài Ôm Sát",Váy Nữ Dự Tiệc Trễ Vai Sang Chảnh,0.0333,0.7812,11.8371
+Mũ Len Unisex Mùa Đông Ấm Áp,Áo Khoác Nam Denim Classic,0.0457,0.7527,11.8233
+Áo Khoác Nam Denim Classic,Mũ Len Unisex Mùa Đông Ấm Áp,0.0457,0.7173,11.8233
+Giày Cao Gót Nữ Đế Nhọn Công Sở,Váy Nữ Dự Tiệc Trễ Vai Sang Chảnh,0.0493,0.7708,11.6793
+Váy Nữ Dự Tiệc Trễ Vai Sang Chảnh,Giày Cao Gót Nữ Đế Nhọn Công Sở,0.0493,0.7475,11.6793
+"Giày Tây Nam Derby Lịch Lãm, Quần Tây Nam Lịch Lãm Công Sở",Áo Polo Nam Công Sở Premium,0.0363,0.7786,11.6786
+Áo Polo Nam Công Sở Premium,"Giày Tây Nam Derby Lịch Lãm, Quần Tây Nam Lịch Lãm Công Sở",0.0363,0.5450,11.6786
+"Cardigan Nữ Len Dệt Kim Kem, Áo Sơ Mi Nữ Linen Kem",Quần Baggy Nữ Hàn Quốc,0.0373,0.7724,11.6444
+Quần Baggy Nữ Hàn Quốc,"Cardigan Nữ Len Dệt Kim Kem, Áo Sơ Mi Nữ Linen Kem",0.0373,0.5628,11.6444
+Áo Khoác Nam Denim Classic,"Mũ Len Unisex Mùa Đông Ấm Áp, Áo Len Nam Cổ Lọ Ấm Áp",0.0327,0.5131,11.5734
+"Mũ Len Unisex Mùa Đông Ấm Áp, Áo Len Nam Cổ Lọ Ấm Áp",Áo Khoác Nam Denim Classic,0.0327,0.7368,11.5734
+Giày Tây Nam Derby Lịch Lãm,"Quần Tây Nam Lịch Lãm Công Sở, Áo Polo Nam Công Sở Premium",0.0363,0.5860,11.4160

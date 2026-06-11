@@ -1,0 +1,4 @@
+So luat sinh tu train: 120
+So luat kiem tra duoc tren test: 120
+So luat van dung tren test: 120
+Ty le luat song sot: 100.00%
