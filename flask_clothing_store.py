@@ -196,7 +196,7 @@ def home():
             user_email=user_email
         ).all()
 
-        bought_categories = []
+        bought_product_names = []
         bought_genders = []
         bought_product_ids = []
 
@@ -205,7 +205,7 @@ def home():
                 items = json.loads(order.items) if order.items else []
 
                 for item in items:
-                    category = item.get('category')
+                    name = item.get('name')
 
                     product_id = (
                         item.get('product_id')
@@ -218,11 +218,11 @@ def home():
                     if product_id:
                         product_obj = Product.query.get(product_id)
 
-                    if not category and product_obj:
-                        category = product_obj.category
+                    if not name and product_obj:
+                        name = product_obj.name
 
-                    if category:
-                        bought_categories.append(category)
+                    if name:
+                        bought_product_names.append(name)
 
                     if product_obj:
                         bought_genders.append(
@@ -233,32 +233,26 @@ def home():
             except Exception as e:
                 print("Read order items error:", e)
 
-        if bought_categories:
-            most_common_category = Counter(bought_categories).most_common(1)[0][0]
+        if bought_product_names:
+            most_common_product_name = Counter(bought_product_names).most_common(1)[0][0]
 
             product_gender = None
 
             if bought_genders:
                 product_gender = Counter(bought_genders).most_common(1)[0][0]
-# Gọi các luật kết hợp được sinh ra từ thuật toán Apriori.
-# most_common_category:
-#     nhóm sản phẩm khách hàng mua nhiều nhất.
-# product_gender:
-#     Nam / Nữ / Unisex.
-# Kết quả trả về:
-#     danh sách category thường được mua kèm.
+
             try:
                 recommendations = get_recommendations(
-                    most_common_category,
+                    most_common_product_name,
                     product_gender
                 )
 
                 added_ids = set()
 
                 for rec in recommendations:
-                    category = rec.get("category") if isinstance(rec, dict) else rec
+                    r_name = rec.get("product_name") if isinstance(rec, dict) else rec
 
-                    query = Product.query.filter_by(category=category)\
+                    query = Product.query.filter_by(name=r_name)\
                         .filter(Product.stock > 0)
 
                     if bought_product_ids:
@@ -289,7 +283,7 @@ def home():
             except Exception as e:
                 print("Home recommendation error:", e)
 
-        if bought_categories and not personalized_products:
+        if bought_product_names and not personalized_products:
             query = Product.query.filter(Product.stock > 0)
 
             if bought_product_ids:
@@ -317,7 +311,7 @@ def home():
 
         print("HOME USER:", user_email)
         print("HOME ORDERS:", len(orders))
-        print("HOME BOUGHT:", bought_categories)
+        print("HOME BOUGHT:", bought_product_names)
         print("HOME GENDERS:", bought_genders)
         print("HOME RECOMMEND:", len(personalized_products))
 
@@ -421,13 +415,12 @@ def product_detail(pid):
     try:
         product_gender = detect_product_gender(product)
 
-        recommendations = get_recommendations(product.category, product_gender)
+        recommendations = get_recommendations(product.name, product_gender)
 
         if not recommendations:
-            recommendations = get_recommendations(product.category)
+            recommendations = get_recommendations(product.name)
 
         print("PRODUCT:", product.name)
-        print("CATEGORY:", product.category)
         print("GENDER:", product_gender)
         print("RECOMMEND:", recommendations)
 
@@ -435,10 +428,10 @@ def product_detail(pid):
         added_ids = set()
 
         for rec in recommendations:
-            category = rec.get("category")
+            r_name = rec.get("product_name")
             confidence = rec.get("confidence", 0)
 
-            query = Product.query.filter_by(category=category)\
+            query = Product.query.filter_by(name=r_name)\
                 .filter(Product.id != pid)\
                 .filter(Product.stock > 0)
 
@@ -2036,7 +2029,7 @@ def admin_statistics():
 
         invoices = df.groupby(
             'InvoiceID'
-        )['Category'].apply(list)
+        )['ProductName'].apply(list)
 
         transactions = invoices.tolist()
 

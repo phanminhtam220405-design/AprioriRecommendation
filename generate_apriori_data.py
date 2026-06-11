@@ -63,76 +63,72 @@ def generate_data():
         csv_rows = []
         
         # Total orders to generate
-        total_orders = 4500
+        total_orders = 3000
         start_date = datetime(2025, 1, 1)
-        
-        # Define generation probabilities
-        categories = list(products_by_cat.keys())
-        
-        # High-probability combos to generate strong Apriori association rules
+
+        products_by_name = {p.name: p for p in products}
+
+        combos = [
+            ["Áo Sơ Mi Nữ Oxford Trắng", "Blazer Nữ Công Sở Premium", "Quần Tây Nữ Ống Suông"],
+            ["Áo Sơ Mi Nữ Linen Kem", "Quần Baggy Nữ Hàn Quốc", "Cardigan Nữ Len Dệt Kim Kem"],
+            ["Áo Body Nữ Tay Dài Ôm Sát", "Váy Nữ Dự Tiệc Trễ Vai Sang Chảnh", "Giày Cao Gót Nữ Đế Nhọn Công Sở"],
+            ["Áo Polo Nam Công Sở Premium", "Quần Tây Nam Lịch Lãm Công Sở", "Giày Tây Nam Derby Lịch Lãm"],
+            ["Áo Polo Nam Basic", "Quần Jeans Nam Slimfit Đen", "Giày Sneaker Trắng Unisex Streetwear"],
+            ["Áo Thun Nam Oversize Cực Chất", "Quần Jogger Nam Kaki Túi Hộp", "Nón Snapback Unisex Streetwear"],
+            ["Hoodie Unisex Local Brand Cực Chất", "Giày Sneaker Trắng Unisex Streetwear", "Nón Bucket Unisex Vải Kaki Trơn"],
+            ["Áo Sweater Unisex Trơn Basic", "Quần Jogger Unisex Nỉ Basic", "Balo Unisex Thời Trang Chống Nước"],
+            ["Giày Chạy Bộ Nam Running Sport", "Quần Jogger Nam Thể Thao Nỉ", "Nón Thể Thao Unisex"],
+            ["Áo Len Nam Cổ Lọ Ấm Áp", "Áo Khoác Nam Denim Classic", "Mũ Len Unisex Mùa Đông Ấm Áp"]
+        ]
+
         print(f"Generating {total_orders} mock orders...")
-        
+
         order_objects = []
         current_csv_line_count = 0
-        
+
         for idx in range(1, total_orders + 1):
             invoice_id = f"HD{idx:05d}"
             user_email = random.choice(mock_users)
             order_date = start_date + timedelta(seconds=random.randint(0, int(timedelta(days=500).total_seconds())))
             order_date_str = order_date.strftime("%d/%m/%Y")
-            
-            # Select items for this order
-            order_items = []
-            selected_categories = []
-            
-            # 1. Select the first category
-            first_cat = random.choice(categories)
-            selected_categories.append(first_cat)
-            
-            # 2. Check if we trigger any combo rules (using exact database category names)
-            if first_cat == "Áo thun" and random.random() < 0.80:
-                selected_categories.append("Quần")
-            elif first_cat == "Áo sơ mi" and random.random() < 0.75:
-                selected_categories.append("Quần")
-            elif first_cat == "Váy" and random.random() < 0.65:
-                selected_categories.append("Giày")
-            elif first_cat == "Áo khoác" and random.random() < 0.70:
-                selected_categories.append("Quần")
-            elif first_cat == "Cardigan" and random.random() < 0.60:
-                selected_categories.append("Váy")
-            elif first_cat == "Blazer" and random.random() < 0.55:
-                selected_categories.append("Áo sơ mi")
-            elif first_cat == "Áo body" and random.random() < 0.65:
-                selected_categories.append("Váy")
-            elif first_cat == "Áo len" and random.random() < 0.50:
-                selected_categories.append("Áo khoác")
-            elif first_cat == "Nón" and random.random() < 0.45:
-                selected_categories.append("Áo thun")
-            
-            # 3. Sometimes add a completely random extra item
-            if random.random() < 0.15:
-                extra_cat = random.choice(categories)
-                if extra_cat not in selected_categories:
-                    selected_categories.append(extra_cat)
-                    
-            # 4. Build product details for selected categories
+
+            selected_products = []
+
+            # 75% of orders use a combo for strong association rules
+            if random.random() < 0.75:
+                combo = random.choice(combos)
+                # Pick 2-3 items from the combo
+                k = min(len(combo), random.randint(2, 3))
+                combo_items = random.sample(combo, k=k)
+                for item_name in combo_items:
+                    if item_name in products_by_name:
+                        selected_products.append(products_by_name[item_name])
+
+                # 20% of the time, add a random extra product
+                if random.random() < 0.20:
+                    random_prod = random.choice(products)
+                    if random_prod not in selected_products:
+                        selected_products.append(random_prod)
+            else:
+                # 25% of the time, pick 2-5 completely random products
+                num_items = random.randint(2, 5)
+                selected_products = random.sample(products, k=min(len(products), num_items))
+
             subtotal = 0
             cart_json_items = []
-            
-            for cat in selected_categories:
-                prod = random.choice(products_by_cat[cat])
-                
+
+            for prod in selected_products:
                 sizes = json.loads(prod.sizes) if prod.sizes else ["M"]
                 colors = json.loads(prod.colors) if prod.colors else ["Đen"]
-                
+
                 size = random.choice(sizes)
                 color = random.choice(colors)
                 qty = random.randint(1, 2)
                 price = prod.price
-                
+
                 item_total = price * qty
                 subtotal += item_total
-                
+
                 cart_json_items.append({
                     "id": prod.id,
                     "name": prod.name,
@@ -142,7 +138,7 @@ def generate_data():
                     "size": size,
                     "color": color
                 })
-                
+
                 csv_rows.append([
                     invoice_id,
                     prod.id,
@@ -155,18 +151,18 @@ def generate_data():
                     order_date_str
                 ])
                 current_csv_line_count += 1
-                
-            # 5. Save order details
+
+            # Save order details
             shipping = 0 if subtotal >= 500000 else 30000
             total = subtotal + shipping
-            
+
             shipping_info = {
                 "name": f"Recipient for {invoice_id}",
                 "phone": "09" + str(random.randint(10000000, 99999999)),
                 "address": "Mock Delivery Address",
                 "notes": "Generated sample order"
             }
-            
+
             order = Order(
                 id=invoice_id,
                 user_email=user_email,
@@ -183,18 +179,18 @@ def generate_data():
                 created_at=order_date.isoformat()
             )
             order_objects.append(order)
-            
+
             if len(order_objects) >= 500:
                 db.session.bulk_save_objects(order_objects)
                 db.session.commit()
                 order_objects = []
                 print(f"Progress: Generated {idx} orders...")
-                
+
         # Final commit for database
         if order_objects:
             db.session.bulk_save_objects(order_objects)
             db.session.commit()
-            
+
         print(f"Saved {total_orders} orders to SQLite database.")
         
         # 5. Write all generated data to CSV

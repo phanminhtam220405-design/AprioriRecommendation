@@ -72,7 +72,7 @@ def detect_gender_from_text(text):
 
     return 'unisex'
 
-def get_recommendations(category_name, product_gender=None):
+def get_recommendations(product_name, product_gender=None):
     try:
         df = pd.read_csv("data/du_lieu_apriori.csv")
 
@@ -97,7 +97,7 @@ def get_recommendations(category_name, product_gender=None):
 
         # product_gender == 'all' thì không lọc, dùng toàn bộ dữ liệu
 
-        basket = df.groupby(['InvoiceID', 'Category'])['Quantity']\
+        basket = df.groupby(['InvoiceID', 'ProductName'])['Quantity']\
             .sum()\
             .unstack()\
             .fillna(0)
@@ -119,61 +119,17 @@ def get_recommendations(category_name, product_gender=None):
             min_threshold=0.1
         )
 
-        category_mapping = {
-            # Database web -> CSV Apriori (now exactly matching database category names)
-            'Áo sơ mi': 'Áo sơ mi',
-            'Sơ mi': 'Áo sơ mi',
-
-            'Áo khoác Hoodie': 'Áo khoác',
-            'Hoodie': 'Áo khoác',
-            'Sweater': 'Áo khoác',
-            'Áo khoác': 'Áo khoác',
-
-            'Quần Jeans Nam': 'Quần',
-            'Quần jean': 'Quần',
-            'Quần jogger': 'Quần',
-            'Jogger': 'Quần',
-            'Quần short': 'Quần',
-            'Quần kaki': 'Quần',
-            'Quần cargo': 'Quần',
-            'Quần tây': 'Quần',
-            'Quần baggy': 'Quần',
-            'Legging': 'Quần',
-            'Quần': 'Quần',
-
-            'Đầm': 'Váy',
-            'Váy': 'Váy',
-            'Chân váy': 'Váy',
-
-            'Áo tank top': 'Áo thun',
-            'Áo tanktop': 'Áo thun',
-
-            'Áo thun': 'Áo thun',
-            'Áo polo': 'Áo thun',
-            'Croptop': 'Áo thun',
-            'Áo body': 'Áo body',
-            'Áo len': 'Áo len',
-            'Cardigan': 'Cardigan',
-            'Blazer': 'Blazer',
-            'Vest': 'Blazer',
-            'Áo giữ nhiệt': 'Áo body',
-
-            'Nón': 'Nón',
-            'Giày': 'Giày',
-            'Phụ kiện': 'Nón'
-        }
-
-        category_name = category_mapping.get(category_name, category_name)
+        norm_product_name = normalize_text(product_name)
         recommendations = []
 
         for _, row in rules.iterrows():
-            antecedents = list(row['antecedents'])
+            antecedents = [normalize_text(x) for x in row['antecedents']]
             consequents = list(row['consequents'])
 
-            if category_name in antecedents:
+            if norm_product_name in antecedents:
                 for item in consequents:
                     recommendations.append({
-                        "category": item,
+                        "product_name": item,
                         "confidence": float(row["confidence"])
                     })
 
